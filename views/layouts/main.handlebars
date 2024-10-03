@@ -13,8 +13,13 @@
         </a>
         <ul>
             <li><a href="/">eventos</a></li>
-            <li><a href="/login">entra</a></li>
-            <li><a href="/register">registrar</a></li>
+             {{#if session.userid}}
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/logout">Sair</a></li>
+            {{else}}
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/register">Registrar</a></li>
+            {{/if}}
         </ul>
     </nav>
     <div class="container">

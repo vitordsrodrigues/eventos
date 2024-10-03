@@ -11,7 +11,6 @@ const Evento = db.define('Evento',{
     },
 })
 
-Evento.belongsTo(User)
-User.hasMany(Evento)
+
 
 module.exports = Evento
