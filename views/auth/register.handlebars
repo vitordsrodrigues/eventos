@@ -1,28 +1,29 @@
-<div class="auth-container"></div>
-    <h2>Registrar</h2>
-    <form action="/register" method="POST">
-        <div class="form-control">
+<div class="auth-container container">
+    <h2 class="text-center">Registrar</h2>
+    <form action="/register" method="POST" class="mx-auto mt-4" style="max-width: 400px;">
+        <div class="form-group mb-3">
             <label for="name">Nome:</label>
-            <input type="text" name="name" placeholder="digite seu nome" required>
+            <input type="text" class="form-control" name="name" placeholder="Digite seu nome" required>
         </div>
-        <div class="form-control">
-            <label for="email">email:</label>
-            <input type="email" name="email" placeholder="digite seu email" required>
+        <div class="form-group mb-3">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" name="email" placeholder="Digite seu email" required>
         </div>
-        <div class="form-control">
-            <label for="password">senha:</label>
-            <input type="password" name="password" placeholder="digite sua senha" required>
+        <div class="form-group mb-3">
+            <label for="password">Senha:</label>
+            <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
         </div>
-        <div class="form-control">
-            <label for="confirmpassword">confirme sua senha:</label>
-            <input type="password" name="confirmpassword" placeholder="confirme sua senha" required>
+        <div class="form-group mb-3">
+            <label for="confirmpassword">Confirme sua senha:</label>
+            <input type="password" class="form-control" name="confirmpassword" placeholder="Confirme sua senha" required>
         </div>
-        <div class="form-control">
-            <label for="matricula">digite sua matricula:</label>
-            <input type="text" name="matricula" placeholder="digite sua matricula">
+        <div class="form-group mb-4">
+            <label for="matricula">Matrícula:</label>
+            <input type="text" class="form-control" name="matricula" placeholder="Digite sua matrícula">
         </div>
-        <input type="submit" value="cadastrar">
-            <p>ja tem conta? 
-            <a href="/login">clique aqui</a></p>
+        <input type="submit" class="btn btn-primary w-100" value="Cadastrar">
+        <div class="form-footer mt-3 text-center">
+            <p>Já tem conta? <a href="/login">Clique aqui</a></p>
+        </div>
     </form>
 </div>
