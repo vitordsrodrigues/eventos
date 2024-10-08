@@ -29,7 +29,7 @@ module.exports = class AuthControllers{
 
         req.session.userid = user.id
 
-        req.flash('message', 'login realizado')
+        req.flash('message', 'login realizado com sucesso')
         req.session.save(()=>{
             res.redirect('/')
         })
