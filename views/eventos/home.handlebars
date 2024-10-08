@@ -1,1 +1,24 @@
-<h1>opa</h1>
+<div class="container text-center my-5">
+        <ul class="list-unstyled d-flex justify-content-center gap-4">
+            {{#if session.userid}}
+                <li>
+                    <a href="/eventos/dashboard" class="btn custom-link">Eventos</a>
+                </li>
+                <li>
+                    <a href="/logout" class="btn custom-link">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </a>
+                </li>
+            {{else}}
+                <li>
+                    <a href="/login" class="btn custom-link">Entrar</a>
+                </li>
+                <li>
+                    <a href="/register" class="btn custom-link">Registrar</a>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+
+    
+
