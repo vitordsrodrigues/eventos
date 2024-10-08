@@ -1,15 +1,17 @@
-<div class="auth-container"></div>
-    <h2>Login</h2>
-    <form action="/login" method="POST">
-        <div class="form-control">
-            <label for="email"></label>
-            <input type="email" name="email" placeholder="digite seu email">
+<div class="auth-container container">
+    <h2 class="text-center">Login</h2>
+    <form action="/login" method="POST" class="mx-auto mt-4" style="max-width: 400px;">
+        <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Digite seu email" required>
         </div>
-         <div class="form-control">
-            <label for="password"></label>
-            <input type="password" name="password" placeholder="digite sua senha">
+        <div class="form-group mb-4">
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
         </div>
-        <input type="submit" value="Entrar">
-        <p>Não tem uma conta? <a href="/register">clique aqui?</a></p>
+        <input type="submit" class="btn btn-primary w-100" value="Entrar">
+        <div class="form-footer mt-3 text-center">
+            <p>Não tem uma conta? <a href="/register">Clique aqui</a></p>
+        </div>
     </form>
 </div>

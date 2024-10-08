@@ -16,8 +16,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: #0000ff;
-    
-    border-bottom: 1px solid yellow;
+
 }
 #navbar ul{
     display: flex;
@@ -38,6 +37,7 @@
 #navbar ul li a:hover{
     color: yellow;
 }
+
 
 .container{
     min-height: 60vh;
@@ -61,11 +61,36 @@ footer{
     background-color: blue;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid yellow;
+    
 }
 
 
 footer span{
     font-weight: bold;
-    color: yellow;
+   
 }
+.header-content {
+    margin: 2em 0;
+    text-align: center;
+}
+
+.header-content h1,
+.header-content h2 {
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.header-content h1.show,
+.header-content h2.show {
+    opacity: 1; /* Torna visível */
+    transform: translateY(0); /* Retorna à posição original */
+}
+
+.header-content h1 {
+    font-size: 3em; 
+    font-weight: 700; 
+    color: #0000ff; 
+    text-decoration: underline blue;
+}
+
