@@ -12,12 +12,17 @@
 
 </head>
 <body>
-    <nav id="navbar">
-        <a href="" id="logo" id="logo">
-            <img src="/img/LogoCimolBranco.png" alt="cimol">
-        </a>
-        <ul>
-              
+   
+   <nav class="navbar navbar-light bg-primary">
+  <a href="" id="logo" class="mx-auto">
+    <img src="/img/LogoCimolBranco.png" alt="cimol">
+  </a>
+</nav>
+    </nav>
+
+
+
+     <ul>     
              {{#if session.userid}}
                 <li><a href="/eventos/dashboard">Dashboard</a></li>
                 <li><a href="/logout">Sair</a></li>
@@ -25,13 +30,8 @@
                 <li><a href="/login">Entrar</a></li>
                 <li><a href="/register">Registrar</a></li>
             {{/if}}
-        </ul>
-    </nav>
+    </ul>
     
-    <div class="header-content text-center">
-        <h1 id="title">Eventos Academicos</h1>
-    </div>
-
     
     
     <div class="container">
@@ -44,23 +44,8 @@
         {{{body}}}
     </div>
     
-    <footer>
-        <p><span>Eventos Academicos
-        </span>&copy;2024</p>
-    </footer>
+    
 
-    <script>
-        window.onload = function() {
-    const title = document.getElementById('title');
-
-
-
-    setTimeout(() => {
-        title.classList.add('show');
-        subtitle.classList.add('show');
-    }, 650);
-};
-
-    </script>
+   
 </body>
 </html>
