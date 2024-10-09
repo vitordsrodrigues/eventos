@@ -1,24 +1,60 @@
 <div class="container text-center my-5">
-        <ul class="list-unstyled d-flex justify-content-center gap-4">
-            {{#if session.userid}}
-                <li>
-                    <a href="/eventos/dashboard" class="btn custom-link">Eventos</a>
-                </li>
-                <li>
-                    <a href="/logout" class="btn custom-link">
-                        <i class="bi bi-box-arrow-right"></i> Sair
-                    </a>
-                </li>
-            {{else}}
-                <li>
-                    <a href="/login" class="btn custom-link">Entrar</a>
-                </li>
-                <li>
-                    <a href="/register" class="btn custom-link">Registrar</a>
-                </li>
-            {{/if}}
-        </ul>
-    </div>
+    <ul class="list-unstyled d-flex justify-content-center gap-4">
+        {{#if session.userid}}
+            <li>
+                <a href="/eventos/dashboard" class="btn custom-link">Eventos</a>
+            </li>
+            <li>
+                <a href="/logout" class="btn custom-link">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </a>
+            </li>
 
+  
+
+        {{else}}
+        <div>
+    <div class="text-start mb-3"> <!-- Adiciona alinhamento à direita e margem inferior -->
+        <h1>Site para Eventos do CIMOL</h1>
+        <h5>Venha conhecer os eventos atuais do CIMOL</h5>
     
 
+    <ul class="list-unstyled d-flex justify-content-between mb-3">
+        <li class="me-2">
+            <a href="/login" class="btn btn-primary">Entrar</a>
+        </li>
+        <li>
+            <a href="/register" class="btn btn-secondary">Registrar</a>
+        </li>
+    </ul>
+    </div>
+
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/img/Semanaeltro.png" class="d-block w-100" alt="Imagem 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/Semanainfo.png" class="d-block w-100" alt="Imagem 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/img/Semanamec.png" class="d-block w-100" alt="Imagem 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+        
+       
+
+        {{/if}}
+    </ul>
+</div>
