@@ -68,7 +68,7 @@ module.exports = class AuthControllers {
         const salt = bcrypt.genSaltSync(10)
         const hashedPassword = bcrypt.hashSync(password, salt)
 
-        const user={
+        const user = {
             name,
             email,
             matricula,
