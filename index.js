@@ -65,6 +65,7 @@ app.get('/',EventosControllers.showEventos)
 //.sync({force:true})
 conn
 .sync()
+//.sync({force:true})
 .then(()=>{
     app.listen(3000)
 })

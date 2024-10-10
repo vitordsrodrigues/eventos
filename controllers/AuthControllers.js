@@ -1,3 +1,4 @@
+const { UPDATE } = require('sequelize/lib/query-types')
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 
@@ -57,7 +58,9 @@ module.exports = class AuthControllers{
         }
         const salt = bcrypt.genSaltSync(10)
         const hashedPassword = bcrypt.hashSync(password, salt)
+        
 
+        
         const user={
             name,
             email,
