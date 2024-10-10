@@ -11,8 +11,8 @@ module.exports = class AuthControllers {
         const { email, password } = req.body
 
     
-        if (email === 'adminConta1@admin.com' && password === 'admin') {
-            req.session.userid = 'admin'; 
+        if (email === 'ContadeAdminCimol@admin.com' && password === 'admin') {
+            req.session.userid = 'buP8Xk4bwM3YK7KW9dbPy'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
             return req.session.save(() => {
                 res.redirect('event'); 
