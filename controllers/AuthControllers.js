@@ -13,10 +13,10 @@ module.exports = class AuthControllers {
 
     
         if (email === 'ContadeAdminCimol@admin.com' && password === 'admin') {
-            req.session.userid = 'buP8Xk4bwM3YK7KW9dbPy'; 
+            req.session.userid = 'admin'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
             return req.session.save(() => {
-                res.redirect('event'); 
+                res.redirect('eventos/dashboard'); 
             });
         }
 

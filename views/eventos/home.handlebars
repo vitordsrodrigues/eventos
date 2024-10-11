@@ -1,37 +1,56 @@
-<div class="container text-center my-5">
-    <ul class="list-unstyled d-flex justify-content-center gap-4">
 
 
 
-        
+
+
+         {{!--  aqui vai ser os eventos  --}}
         {{#if session.userid}}
-            <li>
-                <a href="/eventos/dashboard" class="btn custom-link">Eventos</a>
-            </li>
-            <li>
-                <a href="/logout" class="btn custom-link">
-                    <i class="bi bi-box-arrow-right"></i> Sair
-                </a>
-            </li>
+<div class="container text-center my-5">
+    <ul class="list-unstyled d-flex flex-column flex-md-row justify-content-center align-items-center gap-4">
+    
+        <li>
+            <a href="" class="btn custom-link">Eventos que já participei</a>
+        </li>
+        
+        <li>
+            <a href="" class="btn custom-link">Filtro eventos</a>
+        </li>
 
-  
+       
+        <div class="input-group mb-3" style="max-width: 300px;">
+            <input type="text" class="form-control" placeholder="Buscar eventos" aria-label="Buscar eventos" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                <i class="bi bi-search"></i> 
+            </button>
+        </div>
+
+
+        <li>
+            <a href="/logout" class="btn custom-link">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
+        </li>
+    </ul>
+</div>
+
+
 
         
+        {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
         {{else}}
-       <div>
-    <div class="text-start mb-3"> <!-- Adiciona alinhamento à direita e margem inferior -->
+<div>
+    <div class="text-start mb-3"> 
         <h1>Site para Eventos do CIMOL</h1>
         <h5>Venha conhecer os eventos atuais do CIMOL</h5>
 
-
-    <ul class="list-unstyled d-flex justify-content-between mb-3">
-        <li class="me-2">
-            <a href="/login" class="btn btn-primary">Entrar</a>
-        </li>
-        <li>
-            <a href="/register" class="btn btn-secondary">Registrar</a>
-        </li>
-    </ul>
+        <ul class="list-unstyled d-flex justify-content-start mb-3">
+            <li class="me-2">
+                <a href="/login" class="btn btn-primary">Entrar</a>
+            </li>
+            <li>
+                <a href="/register" class="btn btn-secondary">Registrar</a>
+            </li>
+        </ul>
     </div>
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -55,10 +74,7 @@
         </button>
     </div>
 </div>
-        
-        
-       
+
 
         {{/if}}
-    </ul>
-</div>
+  
