@@ -1,11 +1,41 @@
-<div class="evento-form-container">
-    <a href="/eventos/dashboard">Voltar</a>
-    <h1>Criando tarefa</h1>
-    <form action="/eventos/add" method="POST">
-        <div class="form-control">
-            <label for="title">Evento:</label>
-            <input type="text" name="title" placeholder="digite seu evento">
+<div class="container mt-0">
+    <a href="/eventos/dashboard" class="btn btn-primary mb-3">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+    <h1 class="text-center">Criando evento</h1>
+    <form action="/eventos/add" method="POST" enctype="multipart/form-data">
+        
+        <div class="mb-3">
+            <label for="title" class="form-label">Nome do evento:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Digite o nome do evento" required>
         </div>
-        <input type="submit" value="Criar Evento">
+
+       
+        <div class="mb-3">
+            <label for="date" class="form-label">Data e Hora:</label>
+            <input type="datetime-local" class="form-control" id="date" name="date" required>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Local do Evento:</label>
+            <input type="text" class="form-control" id="location" name="location" placeholder="Digite o local do evento" required>
+        </div>
+
+       
+        <div class="mb-3">
+            <label for="participants" class="form-label">Número de Participantes:</label>
+            <input type="number" class="form-control" id="participants" name="participants" placeholder="Limite de participantes" required min="1">
+        </div>
+
+        
+        
+        <div class="mb-3">
+            <label for="image" class="form-label">Capa do Evento (Imagem):</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+        </div>
+
+
+        <button type="submit" class="btn btn-success w-100">Criar Evento</button>
     </form>
 </div>
