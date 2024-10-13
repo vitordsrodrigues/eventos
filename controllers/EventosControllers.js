@@ -3,10 +3,17 @@ const User = require('../models/User')
 
 module.exports = class EventosControllers{
     static async showEventos(req,res){
-        res.render('eventos/home')
+
+        const eventosData = await Evento.findAll()
+        const eventos = eventosData.map((result)=>result.dataValues)
+        
+        res.render('eventos/home', { eventos })
     }
     static async dashboard(req,res){
-        res.render('eventos/dashboard')
+        const eventosData = await Evento.findAll()
+        const eventos = eventosData.map((result)=>result.dataValues)
+        
+        res.render('eventos/dashboard', {eventos})
     }
 
     static createEvento(req,res){
@@ -30,5 +37,16 @@ module.exports = class EventosControllers{
             console.log(error)
         }
          
+    }
+
+    static async removeEvento(req,res){
+        const id = req.body.id
+
+        await Evento.destroy({where:{id:id}})
+
+        req.flash('message','evento removido')
+        req.session.save(()=>{
+            res.redirect('/eventos/dashboard')
+        })
     }
 }

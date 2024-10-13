@@ -18,4 +18,19 @@
             <!-- Aqui você pode adicionar uma listagem dinâmica dos eventos -->
         </div>
     </div>
+
+    <ul>
+        {{#each eventos}}
+            <li>
+                <span class="label">{{this.title}}</span>
+                <span class="actions">
+                    <a href="/eventos/edit{{this.id}}" class="btn"></a>Editar
+                    <form action="/eventos/remove" method="POST"></form>
+                    <input type="hidden" name="id" value="{{this.id}}">
+                    <input type="submit" value="Excluir" class="btn">
+                    </form>
+                </span>
+            </li>
+        {{/each}}
+    </ul>
 </div>

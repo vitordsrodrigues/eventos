@@ -4,6 +4,18 @@
 
 
          {{!--  aqui vai ser os eventos  --}}
+         <div class="eventos-container">
+            {{#each eventos}}
+                
+                <figure>
+                    <blockquote>
+                        {{this.title}}
+                    </blockquote>
+                    <figcaption>por <span>{{this.name}}</span></figcaption>
+                </figure>
+
+            {{/each }}
+         </div>
         {{#if session.userid}}
 <div class="container text-center my-5">
     <ul class="list-unstyled d-flex flex-column flex-md-row justify-content-center align-items-center gap-4">
