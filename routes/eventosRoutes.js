@@ -10,4 +10,5 @@ router.get('/dashboard',checkAuth, EventosControllers.dashboard)
 router.post('/remove',checkAuth,EventosControllers.removeEvento)
 router.get('/', EventosControllers.showEventos)
 
+
 module.exports = router

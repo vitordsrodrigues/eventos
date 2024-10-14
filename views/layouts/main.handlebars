@@ -51,16 +51,31 @@
     </ul>
     
     
-    
-    <div class="container">
-          {{#if messages.message}}
-             <div class="message">
-                 {{messages.message}}
-             </div>
-    
-         {{/if}}
-        {{{body}}}
-    </div>
+  <div class="container">
+    {{#if messages.message}}
+        <div class="message" id="flash-message">
+            {{messages.message}}
+        </div>
+    {{/if}}
+
+    {{{body}}}
+</div>
+
+<script>
+ 
+    setTimeout(function() {
+        const flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            flashMessage.style.transition = 'opacity 0.5s ease-out';
+            flashMessage.style.opacity = '0';
+            setTimeout(() => {
+                flashMessage.remove();
+            }, 500);
+        }
+    }, 2500); 
+</script>
+
+
     
     
 

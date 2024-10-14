@@ -1,5 +1,4 @@
 <div class="container my-0">
-  
     <div class="card text-center mb-5">
         <div class="card-body">
             <h2 class="card-title">Olá, Administrador</h2>
@@ -8,29 +7,40 @@
         </div>
     </div>
 
-
     <h3 class="mb-3">Eventos no Ar</h3>
+    <p class="card-text">Aqui estão listados os eventos ativos atualmente.</p>
+       
+    
 
-   
-    <div class="card">
-        <div class="card-body">
-            <p class="card-text">Aqui estão listados os eventos ativos atualmente.</p>
-            
-        </div>
-    </div>
+    {{#if message}}
+        <div class="alert alert-success">{{message}}</div>
+    {{/if}}
 
-    <ul>
+<div class="container mt-5">
+    <div class="row">
         {{#each eventos}}
-            <li>
-                <span class="label">{{this.title}}</span>
-                <span class="actions">
-                    <a href="/eventos/edit{{this.id}}" class="btn"></a>Editar
-                    <form action="/eventos/remove" method="POST"></form>
-                    <input type="hidden" name="id" value="{{this.id}}">
-                    <input type="submit" value="Excluir" class="btn">
-                    </form>
-                </span>
-            </li>
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="card-title text-primary">{{this.title}}</h3>
+                        <p class="card-text"><strong>Local:</strong> {{this.local}}</p>
+                        <p class="card-text"><strong>Participantes:</strong> {{this.participantes}}</p>
+                        <p class="card-text"><strong>Data e Hora:</strong> {{this.dataFormatada}}</p>
+                    </div>
+                    <div class="card-body text-start">
+                       
+                        <form action="/eventos/remove" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="{{this.id}}">
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
+                        <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">Editar</a>
+                    </div>
+                </div>
+            </div>
         {{/each}}
-    </ul>
+    </div>
 </div>
+
+
+
+
