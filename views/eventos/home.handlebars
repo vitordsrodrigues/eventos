@@ -88,19 +88,20 @@
         {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
         {{else}}
 <div>
-    <div class="text-start mb-3"> 
-        <h1>Site para Eventos do CIMOL</h1>
-        <h5>Venha conhecer os eventos atuais do CIMOL</h5>
-
-        <ul class="list-unstyled d-flex justify-content-start mb-3">
+    <div class="text-space mb-3"> 
+        
+        <ul class="list-unstyled d-flex justify-content-between mb-3">
+            <li>
+                <h1>Site para Eventos do CIMOL</h1>
+                <h5>Venha conhecer os eventos atuais do CIMOL</h5>
+            </li>
             <li class="me-2">
                 <a href="/login" class="btn btn-primary">Entrar</a>
-            </li>
-            <li>
                 <a href="/register" class="btn btn-secondary">Registrar</a>
             </li>
         </ul>
     </div>
+
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -126,4 +127,4 @@
 
 
         {{/if}}
-  
+        
