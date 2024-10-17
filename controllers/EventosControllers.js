@@ -18,7 +18,6 @@ module.exports = class EventosControllers {
                 return evento;
             });
 
-            
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/home', { eventos, messages });
@@ -32,9 +31,19 @@ module.exports = class EventosControllers {
     static async dashboard(req, res) {
         try {
             const eventosData = await Evento.findAll();
-            const eventos = eventosData.map((result) => result.dataValues);
+            const eventos = eventosData.map((result) => {
+                const evento = result.dataValues;
+                const data = new Date(evento.data);
+                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                });
+                return evento;
+            });
 
-           
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/dashboard', { eventos, messages });
@@ -55,10 +64,15 @@ module.exports = class EventosControllers {
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
             data: req.body.data,
+            palestrantes: req.body.palestrantes, // Novos campos
+            duracao: parseInt(req.body.duracao, 10),
+            curso: req.body.curso,
+            descricao: req.body.descricao,
             UserId: req.session.userid,
         };
 
-        if (!evento.title || !evento.local || !evento.participantes || !evento.data) {
+        // Validações
+        if (!evento.title || !evento.local || !evento.participantes || !evento.data || !evento.duracao || !evento.curso) {
             req.flash('message', 'Por favor, preencha todos os campos obrigatórios.');
             return res.redirect('/eventos/create');
         }

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../db/conn'); 
+const db = require('../db/conn');
 
 const Evento = db.define('Evento', {
     title: {
@@ -31,10 +31,34 @@ const Evento = db.define('Evento', {
             isDate: true,
         },
     },
+    palestrantes: {
+        type: DataTypes.STRING,  // Nome do palestrante(s)
+        allowNull: true,
+    },
+    duracao: {
+        type: DataTypes.INTEGER,  
+        allowNull: false,
+        validate: {
+            isInt: true,
+            min: 1,  
+        },
+    },
+    curso: {
+        type: DataTypes.STRING,  
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    descricao: {
+        type: DataTypes.STRING,  
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
 }, {
-    timestamps: true, 
+    timestamps: true,
 });
-
-
 
 module.exports = Evento;

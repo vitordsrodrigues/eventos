@@ -45,28 +45,36 @@
     <div class="row">
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="/img/Semanaeltro.png" alt="Imagem de capa do evento">
+                <div class="card h-100 shadow-lg">
+                    
+                    {{!-- arruma a imagem banco VITOR GAMBAAAAAA --}}
+                    <img class="card-img-top rounded-top" src="/img/Semanaeltro.png" alt="Imagem de capa do evento">
+                    
+                    
                     <div class="card-body">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
-                        <p class="card-text">Descrição do evento</p>
+                        <p class="card-text">{{this.descricao}}</p>
                     </div>
+
+                    
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Participantes:</strong> {{this.participantes}}</li>
-                        <li class="list-group-item"><strong>Data e Hora:</strong>  {{this.dataFormatada}}  </li>
-
+                        <li class="list-group-item"><strong>Data e Hora:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
                     </ul>
-                    <div class="card-body text-start">
-                        <button class="btn btn-primary">Participar</button>
+
+                 
+                    <div class="card-body text-start">  
+                        <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
                     </div>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
-
-
 
 
 
