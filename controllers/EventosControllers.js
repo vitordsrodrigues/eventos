@@ -9,6 +9,7 @@ module.exports = class EventosControllers {
                 const evento = result.dataValues;
                 const data = new Date(evento.data);
                 evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',  // Adiciona o dia da semana
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
@@ -35,6 +36,7 @@ module.exports = class EventosControllers {
                 const evento = result.dataValues;
                 const data = new Date(evento.data);
                 evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',  // Adiciona o dia da semana
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',

@@ -57,6 +57,13 @@ const Evento = db.define('Evento', {
             notEmpty: true,
         },
     },
+    data_limite: {  
+        type: DataTypes.DATE,
+        allowNull: true,  
+        validate: {
+            isDate: true,
+        },
+    },
 }, {
     timestamps: true,
 });
