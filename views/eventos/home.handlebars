@@ -1,11 +1,6 @@
-
-
-
-
-
-         {{!--  aqui vai ser os eventos  --}}
+{{!--  aqui vai ser os eventos  --}}
         
-        {{#if session.userid}}
+{{#if session.userid}}
 <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -37,8 +32,6 @@
     </div>
 </nav>
 
-
-
 <div class="container mt-5">
     <div class="row">
         {{#each eventos}}
@@ -52,18 +45,16 @@
                         <p class="card-text">{{this.descricao}}</p>
                     </div>
 
-                   
                    <ul class="list-group list-group-flush">
-    <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-    <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
-    <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-    <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-    <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
-    <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-    <li class="list-group-item text-warning"><strong>Limite de Participantes:</strong> 0 / {{this.participantes}}</li>            
-</ul>
+                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
+                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
+                        <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
+                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                        <li class="list-group-item text-warning"><strong>Limite de Participantes:</strong> 0 / {{this.participantes}}</li>            
+                    </ul>
 
-                    
                     <div class="card-body">
                        {{!-- ARRUMA ESSA COISA  --}}
                        <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
@@ -74,29 +65,31 @@
     </div>
 </div>
 
+{{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
+{{else}}
 
+{{!-- Tela Login/Registrar Ajustada --}}
+<div>
+    <div class="text-space mb-3">
+        <ul class="list-unstyled d-flex justify-content-center mb-3">
+            <li>
+                <h1>Sistema de evento CIMOL</h1>
+                <h4>Venha Conhecer nossos eventos atuais</h4>
+            </li>
+        </ul>
+        <ul class="list-unstyled d-flex justify-content-center mb-3">
+            <a href="/login" class="btn btn-primary">Entrar</a>
+        </ul>
+        <ul class="list-unstyled d-flex justify-content-center mb-3">
+            <a href="/register" class="btn btn-secondary">Registrar</a>
+        </ul>
+    </div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
-        {{else}}
+{{!-- Tela Login/Registrar Antiga --}}
+<!--
 <div>
     <div class="text-space mb-3"> 
-        
         <ul class="list-unstyled d-flex justify-content-between mb-3">
             <li>
                 <h1>Site para Eventos do CIMOL</h1>
@@ -131,7 +124,7 @@
         </button>
     </div>
 </div>
+-->
 
-
-        {{/if}}
+{{/if}}
         

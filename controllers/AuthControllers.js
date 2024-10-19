@@ -11,7 +11,6 @@ module.exports = class AuthControllers {
     static async loginPost(req, res) {
         const { email, password } = req.body
 
-    
         if (email === 'ContadeAdminCimol@admin.com' && password === 'admin') {
             req.session.userid = 'admin'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
@@ -20,7 +19,6 @@ module.exports = class AuthControllers {
             });
         }
 
-       
         const user = await User.findOne({ where: { email: email } })
 
         if (!user) {

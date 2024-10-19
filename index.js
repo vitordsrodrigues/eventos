@@ -61,7 +61,6 @@ app.use('/eventos',eventosRoutes)
 app.use('/',authRoutes)
 app.get('/',EventosControllers.showEventos)
 
-
 //.sync({force:true})
 conn
 .sync()
