@@ -52,16 +52,17 @@
                         <p class="card-text">{{this.descricao}}</p>
                     </div>
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
-                        <li class="list-group-item"><strong>Participantes:</strong> {{this.participantes}}</li>
-                        <li class="list-group-item"><strong>Data inicio:</strong> {{this.dataFormatada}}.</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}.</li> 
-                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} horas</li>
-                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-                       
-                    </ul>
+                   
+                   <ul class="list-group list-group-flush">
+    <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+    <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
+    <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
+    <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
+    <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
+    <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+    <li class="list-group-item text-warning"><strong>Limite de Participantes:</strong> 0 / {{this.participantes}}</li>            
+</ul>
+
                     
                     <div class="card-body">
                        {{!-- ARRUMA ESSA COISA  --}}

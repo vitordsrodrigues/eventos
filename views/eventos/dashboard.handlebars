@@ -29,14 +29,15 @@
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
+                        <p class="card-text"><strong>Palestrantes:</strong> {{this.palestrantes}}</p>
                         <p class="card-text"><strong>Local:</strong> {{this.local}}</p>
+                        <p class="card-text"><strong>Curso:</strong> {{this.curso}}</p>
                         <p class="card-text"><strong>Participantes:</strong> {{this.participantes}}</p>
                         <p class="card-text"><strong>Data Inicio:</strong> {{this.dataFormatada}}</p>
                         <p class="card-text"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</p>
-                        <p class="card-text"><strong>Palestrantes:</strong> {{this.palestrantes}}</p>
-                        <p class="card-text"><strong>Duração:</strong> {{this.duracao}} horas</p>
-                        <p class="card-text"><strong>Curso:</strong> {{this.curso}}</p>
+                        <p class="card-text"><strong>Duração:</strong> {{this.duracao}} dias</p>
                         <p class="card-text"><strong>Descrição:</strong> {{this.descricao}}</p>
+                        
                     </div>
                     <div class="card-body text-start">
                         <form action="/eventos/remove" method="POST" style="display:inline;">
