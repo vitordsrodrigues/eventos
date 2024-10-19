@@ -1,18 +1,20 @@
 <div class="container my-0">
-    <a href="/logout" class="btn btn-outline-danger">
+   <div class="text-end mb-3">
+        <a href="/logout" class="btn btn-outline-danger">
             <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+        </a>
+    </div>
 
     <div class="card text-center mb-5">
         <div class="card-body">
             <h2 class="card-title">Olá, Administrador</h2>
-            <h5 class="card-subtitle mb-3">Aqui você pode criar seus eventos do CIMOL</h5>
-            <a href="/eventos/add" class="btn btn-primary">Criar Evento</a>
+            <h5 class="card-subtitle mb-3 text-muted">Aqui você pode criar seus eventos do CIMOL</h5>
+            <a href="/eventos/add" class="btn btn-primary btn-lg">Criar Evento</a>
         </div>
     </div>
 
-    <h3 class="mb-3">Eventos no Ar</h3>
-    <p class="card-text">Aqui estão listados os eventos ativos atualmente.</p>
+    <h3 class="mb-3 text-center">Eventos no Ar</h3>
+    <p class="card-text text-center">Aqui estão listados os eventos ativos atualmente.</p>
        
     
 
@@ -29,12 +31,12 @@
                         <h3 class="card-title text-primary">{{this.title}}</h3>
                         <p class="card-text"><strong>Local:</strong> {{this.local}}</p>
                         <p class="card-text"><strong>Participantes:</strong> {{this.participantes}}</p>
-                        <p class="card-text"><strong>Data do Evento:</strong> {{this.dataFormatada}}</p>
+                        <p class="card-text"><strong>Data Inicio:</strong> {{this.dataFormatada}}</p>
+                        <p class="card-text"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</p>
                         <p class="card-text"><strong>Palestrantes:</strong> {{this.palestrantes}}</p>
                         <p class="card-text"><strong>Duração:</strong> {{this.duracao}} horas</p>
                         <p class="card-text"><strong>Curso:</strong> {{this.curso}}</p>
                         <p class="card-text"><strong>Descrição:</strong> {{this.descricao}}</p>
-                        <p class="card-text"><strong>Até o Último Dia do Evento:</strong> {{this.data_limiteFormatada}}</p>
                     </div>
                     <div class="card-body text-start">
                         <form action="/eventos/remove" method="POST" style="display:inline;">

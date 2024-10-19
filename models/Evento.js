@@ -31,8 +31,15 @@ const Evento = db.define('Evento', {
             isDate: true,
         },
     },
+    datalimite: { 
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+            isDate: true,
+        },
+    },
     palestrantes: {
-        type: DataTypes.STRING,  // Nome do palestrante(s)
+        type: DataTypes.STRING, 
         allowNull: true,
     },
     duracao: {
@@ -55,13 +62,6 @@ const Evento = db.define('Evento', {
         allowNull: false,
         validate: {
             notEmpty: true,
-        },
-    },
-    data_limite: {  
-        type: DataTypes.DATE,
-        allowNull: true,  
-        validate: {
-            isDate: true,
         },
     },
 }, {

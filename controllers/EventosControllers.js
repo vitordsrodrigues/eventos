@@ -8,14 +8,19 @@ module.exports = class EventosControllers {
             const eventos = eventosData.map((result) => {
                 const evento = result.dataValues;
                 const data = new Date(evento.data);
+                const dataLimite = new Date(evento.datalimite); 
                 evento.dataFormatada = data.toLocaleDateString('pt-BR', {
-                    weekday: 'long',  // Adiciona o dia da semana
+                    weekday: 'long',  
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
                 });
+                evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                }); 
                 return evento;
             });
 
@@ -35,14 +40,19 @@ module.exports = class EventosControllers {
             const eventos = eventosData.map((result) => {
                 const evento = result.dataValues;
                 const data = new Date(evento.data);
+                const dataLimite = new Date(evento.datalimite); // Adicionando dataLimite
                 evento.dataFormatada = data.toLocaleDateString('pt-BR', {
-                    weekday: 'long',  // Adiciona o dia da semana
+                    weekday: 'long',
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
                 });
+                evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                }); // Formatação da dataLimite
                 return evento;
             });
 
@@ -66,6 +76,7 @@ module.exports = class EventosControllers {
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
             data: req.body.data,
+            datalimite: req.body.datalimite, // Adicionando datalimite
             palestrantes: req.body.palestrantes, // Novos campos
             duracao: parseInt(req.body.duracao, 10),
             curso: req.body.curso,
@@ -74,7 +85,7 @@ module.exports = class EventosControllers {
         };
 
         // Validações
-        if (!evento.title || !evento.local || !evento.participantes || !evento.data || !evento.duracao || !evento.curso) {
+        if (!evento.title || !evento.local || !evento.participantes || !evento.data || !evento.datalimite || !evento.duracao || !evento.curso) {
             req.flash('message', 'Por favor, preencha todos os campos obrigatórios.');
             return res.redirect('/eventos/create');
         }

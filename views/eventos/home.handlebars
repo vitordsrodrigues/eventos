@@ -46,7 +46,7 @@
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 shadow-lg">
-                    {{!-- Imagem do evento --}}
+                    {{!-- Imagem GAMBA --}}
                     <img class="card-img-top rounded-top" src="/img/Semanaeltro.png" alt="Imagem de capa do evento">
                     
                     <div class="card-body">
@@ -57,15 +57,17 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Participantes:</strong> {{this.participantes}}</li>
-                        <li class="list-group-item"><strong>Data e Hora:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Data inicio:</strong> {{this.dataFormatada}}.</li>
+                         <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}.</li> 
                         <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} horas</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.data_limiteFormatada}}</li> <!-- Exibindo a data final -->
+                       
                     </ul>
                     
                     <div class="card-body">
-                        <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
+                       {{!-- ARRUMA ESSA COISA  --}}
+                       <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
                     </div>
                 </div>
             </div>
