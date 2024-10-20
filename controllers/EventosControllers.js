@@ -70,7 +70,7 @@ module.exports = class EventosControllers {
         res.render('eventos/create');
     }
 
-    static async createEventoSave(req, res) {
+    static async createEventoSave (req, res) {
         const evento = {
             title: req.body.title,
             local: req.body.local,
@@ -103,7 +103,7 @@ module.exports = class EventosControllers {
         }
     }
 
-    static async removeEvento(req, res) {
+    static async removeEvento (req, res) {
         const id = req.body.id;
 
         try {
@@ -118,4 +118,63 @@ module.exports = class EventosControllers {
             res.redirect('/eventos/dashboard');
         }
     }
+
+    static async editEvento(req, res) {
+        const id = req.params.id;
+        console.log("ID recebido:", id);  // Log para verificar o ID recebido
+        
+        try {
+            // Verificar se o evento pertence ao usuário autenticado
+            const evento = await Evento.findOne({ where: { id: id, UserId: req.session.userid } });
+            if (!evento) {
+                console.log("Evento não encontrado ou não pertence ao usuário");
+                req.flash('message', 'Evento não encontrado ou você não tem permissão para editá-lo.');
+                return res.redirect('/eventos/dashboard');
+            }
+    
+            console.log("Evento encontrado:", evento);  // Log do evento encontrado
+            res.render('eventos/edit', { evento: evento.dataValues });
+        } catch (error) {
+            console.log("Erro ao carregar evento:", error);  // Log do erro
+            req.flash('message', 'Erro ao carregar evento: ' + error.message);
+            res.redirect('/eventos/dashboard');
+        }
+    }
+    
+
+    static async editEventoSave(req, res) {
+        const id = req.body.id;
+    
+        const eventoAtualizado = {
+            title: req.body.title,
+            local: req.body.local,
+            participantes: parseInt(req.body.participantes, 10),
+            data: req.body.data,
+            datalimite: req.body.datalimite,
+            palestrantes: req.body.palestrantes,
+            duracao: parseInt(req.body.duracao, 10),
+            curso: req.body.curso,
+            descricao: req.body.descricao,
+        };
+    
+        // Validações
+        if (!eventoAtualizado.title || !eventoAtualizado.local || !eventoAtualizado.participantes || !eventoAtualizado.data || !eventoAtualizado.datalimite || !eventoAtualizado.duracao || !eventoAtualizado.curso) {
+            req.flash('message', 'Por favor, preencha todos os campos obrigatórios.');
+            return res.redirect(`/eventos/edit/${id}`);
+        }
+    
+        try {
+            await Evento.update(eventoAtualizado, { where: { id: id, UserId: req.session.userid } });
+            req.flash('message', 'Evento atualizado com sucesso.');
+            req.session.save(() => {
+                //res.redirect('/eventos/dashboard');
+            });
+
+        } catch (error) {
+            console.log(error);
+            req.flash('message', 'Erro ao atualizar evento: ' + error.message);
+            res.redirect(`/eventos/edit/${id}`);
+        }
+    }    
+    
 }
