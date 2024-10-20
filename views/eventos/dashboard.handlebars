@@ -40,17 +40,16 @@
                     </div>
 
                     <div class="card-body text-start">
-                        <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
-
-
                         <form action="/eventos/remove" method="POST" style="display:inline;">
                             <input type="hidden" name="id" value="{{this.id}}">
                             <button type="submit" class="btn btn-danger">
                                 <i class="bi bi-trash"></i> Remover
                             </button>
                         </form>
+                        
+                         <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
                     </div>
                 </div>
             </div>

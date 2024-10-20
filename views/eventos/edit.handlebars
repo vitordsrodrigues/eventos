@@ -1,56 +1,67 @@
-<div class="container">
-    <!-- Verifique se a página edit.ejs está sendo renderizada corretamente -->
-    <h1>Editar Evento</h1>
-    <p>Evento ID: {{evento.id}}</p>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <a href="/eventos/dashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+    </div>
 
-    <form action="/eventos/edit" method="POST">
-        <input type="hidden" name="id" value="{{evento.id}}">
-
-        <div class="form-group">
-            <label for="title">Título:</label>
-            <input type="text" id="title" name="title" class="form-control" value="{{evento.title}}" required>
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Editando Evento</h2>
         </div>
+        <div class="card-body p-4">
+            <form action="/eventos/edit" method="POST">
+                <input type="hidden" name="id" value="{{evento.id}}">
 
-        <div class="form-group">
-            <label for="local">Local:</label>
-            <input type="text" id="local" name="local" class="form-control" value="{{evento.local}}" required>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Título:</label>
+                    <input type="text" id="title" name="title" class="form-control" value="{{evento.title}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="local" class="form-label">Local:</label>
+                    <input type="text" id="local" name="local" class="form-control" value="{{evento.local}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="participantes" class="form-label">Participantes:</label>
+                    <input type="number" id="participantes" name="participantes" class="form-control" value="{{evento.participantes}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="data" class="form-label">Data de Início:</label>
+                    <input type="date" id="data" name="data" class="form-control" value="{{evento.data}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="datalimite" class="form-label">Data Limite:</label>
+                    <input type="date" id="datalimite" name="datalimite" class="form-control" value="{{evento.datalimite}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="palestrantes" class="form-label">Palestrantes:</label>
+                    <input type="text" id="palestrantes" name="palestrantes" class="form-control" value="{{evento.palestrantes}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="duracao" class="form-label">Duração (dias):</label>
+                    <input type="number" id="duracao" name="duracao" class="form-control" value="{{evento.duracao}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="curso" class="form-label">Curso:</label>
+                    <input type="text" id="curso" name="curso" class="form-control" value="{{evento.curso}}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição:</label>
+                    <textarea id="descricao" name="descricao" class="form-control" rows="4">{{evento.descricao}}</textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary w-100">Salvar Alterações</button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="participantes">Participantes:</label>
-            <input type="number" id="participantes" name="participantes" class="form-control" value="{{evento.participantes}}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="data">Data de Início:</label>
-            <input type="date" id="data" name="data" class="form-control" value="{{evento.data}}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="datalimite">Data Limite:</label>
-            <input type="date" id="datalimite" name="datalimite" class="form-control" value="{{evento.datalimite}}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="palestrantes">Palestrantes:</label>
-            <input type="text" id="palestrantes" name="palestrantes" class="form-control" value="{{evento.palestrantes}}">
-        </div>
-
-        <div class="form-group">
-            <label for="duracao">Duração (dias):</label>
-            <input type="number" id="duracao" name="duracao" class="form-control" value="{{evento.duracao}}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="curso">Curso:</label>
-            <input type="text" id="curso" name="curso" class="form-control" value="{{evento.curso}}" required>
-        </div>
-
-        <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" class="form-control">{{evento.descricao}}</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-    </form>
+    </div>
 </div>
