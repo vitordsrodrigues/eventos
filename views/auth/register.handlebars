@@ -20,23 +20,37 @@
                 <form action="/register" method="POST">
                   <div class="form-outline mb-4">
                     <label class="form-label" for="name">Nome:</label>
-                    <input type="text" class="form-control" name="name" placeholder="Digite seu nome" required>
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="name" placeholder="Digite seu nome completo" required>
+                      <span class="input-group-text">Ex: João Silva</span>
+                    </div>
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="email">Email:</label>
-                    <input type="email" class="form-control" name="email" placeholder="Digite seu email" required>
+                    <div class="input-group">
+                      <input type="email" class="form-control" name="email" placeholder="Digite seu email" required>
+                      <span class="input-group-text">Ex: @email.com</span>
+                    </div>
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="password">Senha:</label>
-                    <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
+                    <div class="input-group">
+                      <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required>
+                      
+                    </div>
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="confirmpassword">Confirme sua senha:</label>
-                    <input type="password" class="form-control" name="confirmpassword" placeholder="Confirme sua senha" required>
+                    <div class="input-group">
+                      <input type="password" class="form-control" name="confirmpassword" placeholder="Confirme sua senha" required>
+                    </div>
                   </div>
                   <div class="form-outline mb-4">
                     <label class="form-label" for="matricula">Matrícula:</label>
-                    <input type="text" class="form-control" name="matricula" placeholder="Digite sua matrícula">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="matricula" placeholder="Digite sua matrícula (opcional)">
+                      <span class="input-group-text">Ex: 20231234</span>
+                    </div>
                   </div>
                   <div class="text-center pt-1 mb-5 pb-1">
                     <input type="submit" class="btn btn-primary btn-block mb-3" value="Cadastrar" style="background-color: #007bff; border-color: #007bff;">

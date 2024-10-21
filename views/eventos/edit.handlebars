@@ -28,14 +28,15 @@
                     <input type="number" id="participantes" name="participantes" class="form-control" value="{{evento.participantes}}" required>
                 </div>
 
-                <div class="mb-3">
-                    <label for="data" class="form-label">Data de Início:</label>
-                    <input type="date" id="data" name="data" class="form-control" value="{{evento.data}}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="datalimite" class="form-label">Data Limite:</label>
-                    <input type="date" id="datalimite" name="datalimite" class="form-control" value="{{evento.datalimite}}" required>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="data" class="form-label">Data de Início:</label>
+                        <input type="date" id="data" name="data" class="form-control" value="{{evento.data}}" required>
+                    </div>
+                    <div class="col">
+                        <label for="datalimite" class="form-label">Data Limite:</label>
+                        <input type="date" id="datalimite" name="datalimite" class="form-control" value="{{evento.datalimite}}" required>
+                    </div>
                 </div>
 
                 <div class="mb-3">
