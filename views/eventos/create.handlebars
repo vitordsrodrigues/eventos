@@ -66,13 +66,13 @@
 </div>
 
 <script>
-    // Definindo a data mínima para o campo de data do evento
+    /
     document.getElementById('data').min = new Date().toISOString().split('T')[0];
 
-    // Função para definir a data mínima do limite em relação à data do evento
+    
     function setMinDateLimite() {
         const dataEvento = new Date(document.getElementById('data').value);
-        dataEvento.setDate(dataEvento.getDate() + 1); // Adiciona um dia à data do evento
-        document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0]; // Define como mínimo o dia seguinte
+        dataEvento.setDate(dataEvento.getDate() + 1); 
+        document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
     }
 </script>
