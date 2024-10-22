@@ -9,7 +9,9 @@
         <div class="card-body">
             <h2 class="card-title">Olá, Administrador</h2>
             <h5 class="card-subtitle mb-3 text-muted">Aqui você pode criar seus eventos do CIMOL</h5>
-            <a href="/eventos/add" class="btn btn-primary btn-lg">Criar Evento</a>
+            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#eventoModal">
+                Criar Evento
+            </button>
         </div>
     </div>
 
@@ -28,7 +30,6 @@
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
-                        <img src="{{this.imagePath}}" alt="">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
                         <p class="card-text"><strong>Palestrantes:</strong> {{this.palestrantes}}</p>
                         <p class="card-text"><strong>Local:</strong> {{this.local}}</p>
@@ -40,20 +41,274 @@
                         <p class="card-text"><strong>Descrição:</strong> {{this.descricao}}</p>
                     </div>
 
-                    <div class="card-body text-start">
-                        <form action="/eventos/remove" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="{{this.id}}">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Remover
-                            </button>
-                        </form>
+                <div class="card-body text-start">
+                    <form action="/eventos/remove" method="POST" style="display:inline;">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal{{this.id}}">
+                        <i class="bi bi-trash"></i> Remover
+                        </button>
+                    </form>
+
+
+                    <div class="modal fade" id="confirmRemoveModal{{this.id}}" tabindex="-1" aria-labelledby="confirmRemoveModalLabel{{this.id}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmRemoveModalLabel{{this.id}}">Confirma Removendo Evento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Tem certeza que deseja remover o evento "<strong>{{this.title}}</strong>"?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="/eventos/remove" method="POST" style="display:inline;">
+                                        <input type="hidden" name="id" value="{{this.id}}">
+                                        <button type="submit" class="btn btn-danger">Remover</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                         
-                         <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        
+
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#eventoEditModal" data-id="{{this.id}}" data-title="{{this.title}}" data-local="{{this.local}}" data-participantes="{{this.participantes}}" data-data="{{this.data}}" data-datalimite="{{this.datalimite}}" data-palestrantes="{{this.palestrantes}}" data-duracao="{{this.duracao}}" data-curso="{{this.curso}}" data-descricao="{{this.descricao}}">
+                        <i class="bi bi-pencil"></i> Editar
+                    </button>
+
                     </div>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
+
+
+
+{{!-- crinado --}}
+<div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="container p-0">
+          <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+              <h2>Criando novo evento</h2>
+            </div>
+            <div class="card-body p-4">
+              <form action="/eventos/add" method="POST">
+
+                <div>
+                    <label for="imagePath">Escolha uma imagem:</label>
+                      <input type="file" name="imagePath" required accept="image/*"> <!-- Certifique-se de que o campo existe -->
+
+                 </div>
+
+                <div class="mb-3">
+                  <label for="title" class="form-label">Título:</label>
+                  <input type="text" id="title" name="title" class="form-control" placeholder="Digite o título do evento" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="local" class="form-label">Local:</label>
+                  <input type="text" id="local" name="local" class="form-control" placeholder="Digite o local do evento" required>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="data" class="form-label">Data do Evento:</label>
+                    <input type="date" id="data" name="data" class="form-control" required>
+                  </div>
+                  <div class="col">
+                    <label for="datalimite" class="form-label">Até o dia:</label>
+                    <input type="date" id="datalimite" name="datalimite" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="duracao" class="form-label">Duração (horas):</label>
+                  <input type="number" id="duracao" name="duracao" class="form-control" placeholder="Duração do evento em horas" min="1">
+                </div>
+
+                <div class="mb-3">
+                  <label for="curso" class="form-label">Curso Relacionado:</label>
+                  <select id="curso" name="curso" class="form-control">
+                    <option value="" disabled selected>Selecione o curso associado ao evento</option>
+                    <option value="nenhum">Nenhum curso relacionado</option>
+                    <option value="eletronica">Eletrônica</option>
+                    <option value="eletrotecnica">Eletrotécnica</option>
+                    <option value="moveis">Móveis</option>
+                    <option value="mecanica">Mecânica</option>
+                    <option value="quimica">Química</option>
+                    <option value="informatica">Informática</option>
+                    <option value="meio_ambiente">Meio Ambiente</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="participantes" class="form-label">Número de Participantes:</label>
+                  <input type="number" id="participantes" name="participantes" class="form-control" placeholder="Quantidade máxima de participantes" min="1" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="palestrantes" class="form-label">Palestrantes:</label>
+                  <input type="text" id="palestrantes" name="palestrantes" class="form-control" placeholder="Nomes dos palestrantes (separados por vírgula)">
+                </div>
+
+                <div class="mb-3">
+                  <label for="descricao" class="form-label">Descrição:</label>
+                  <textarea id="descricao" name="descricao" class="form-control" placeholder="Descreva o evento" rows="4" required></textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                  <input type="submit" value="Criar Evento" class="btn btn-primary w-100">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="eventoEditModal" tabindex="-1" aria-labelledby="eventoEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="container p-0">
+          <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+              <h2>Editando Evento</h2>
+            </div>
+            <div class="card-body p-4">
+              <form action="/eventos/edit" method="POST">
+                <input type="hidden" name="id" value="{{evento.id}}">
+
+                <div class="mb-3">
+                  <label for="title" class="form-label">Título:</label>
+                  <input type="text" id="title" name="title" class="form-control" value="{{evento.title}}" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="local" class="form-label">Local:</label>
+                  <input type="text" id="local" name="local" class="form-control" value="{{evento.local}}" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="participantes" class="form-label">Participantes:</label>
+                  <input type="number" id="participantes" name="participantes" class="form-control" value="{{evento.participantes}}" required>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="data" class="form-label">Data de Início:</label>
+                    <input type="date" id="data" name="data" class="form-control" value="{{evento.data}}" required>
+                  </div>
+                  <div class="col">
+                    <label for="datalimite" class="form-label">Data Limite:</label>
+                    <input type="date" id="datalimite" name="datalimite" class="form-control" value="{{evento.datalimite}}" required>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="palestrantes" class="form-label">Palestrantes:</label>
+                  <input type="text" id="palestrantes" name="palestrantes" class="form-control" value="{{evento.palestrantes}}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="duracao" class="form-label">Duração (dias):</label>
+                  <input type="number" id="duracao" name="duracao" class="form-control" value="{{evento.duracao}}" required>
+                </div>
+
+
+                <div class="mb-3">
+                  <label for="curso" class="form-label">Curso Relacionado:</label>
+                  <select id="curso" name="curso" class="form-control" value="{{evento.curso}}" required>
+                    <option value="" disabled selected>Selecione o curso associado ao evento</option>
+                    <option value="nenhum">Nenhum curso relacionado</option>
+                    <option value="eletronica">Eletrônica</option>
+                    <option value="eletrotecnica">Eletrotécnica</option>
+                    <option value="moveis">Móveis</option>
+                    <option value="mecanica">Mecânica</option>
+                    <option value="quimica">Química</option>
+                    <option value="informatica">Informática</option>
+                    <option value="meio_ambiente">Meio Ambiente</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="descricao" class="form-label">Descrição:</label>
+                  <textarea id="descricao" name="descricao" class="form-control" rows="4">{{evento.descricao}}</textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button type="submit" class="btn btn-primary w-100">Salvar Alterações</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+
+
+</style>
+
+
+{{!-- nao mexer, modal boostrap, gugu --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var eventoEditModal = document.getElementById('eventoEditModal');
+        eventoEditModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+
+            
+            var id = button.getAttribute('data-id');
+            var title = button.getAttribute('data-title');
+            var local = button.getAttribute('data-local');
+            var participantes = button.getAttribute('data-participantes');
+            var data = button.getAttribute('data-data');
+            var datalimite = button.getAttribute('data-datalimite');
+            var palestrantes = button.getAttribute('data-palestrantes');
+            var duracao = button.getAttribute('data-duracao');
+            var curso = button.getAttribute('data-curso');
+            var descricao = button.getAttribute('data-descricao');
+
+            
+            eventoEditModal.querySelector('input[name="id"]').value = id;
+            eventoEditModal.querySelector('input[name="title"]').value = title;
+            eventoEditModal.querySelector('input[name="local"]').value = local;
+            eventoEditModal.querySelector('input[name="participantes"]').value = participantes;
+            eventoEditModal.querySelector('input[name="data"]').value = data;
+            eventoEditModal.querySelector('input[name="datalimite"]').value = datalimite;
+            eventoEditModal.querySelector('input[name="palestrantes"]').value = palestrantes;
+            eventoEditModal.querySelector('input[name="duracao"]').value = duracao;
+            eventoEditModal.querySelector('input[name="curso"]').value = curso;
+            eventoEditModal.querySelector('textarea[name="descricao"]').value = descricao;
+        });
+    });
+
+    document.getElementById('data').min = new Date().toISOString().split('T')[0];
+
+    
+    function setMinDateLimite() {
+        const dataEvento = new Date(document.getElementById('data').value);
+        dataEvento.setDate(dataEvento.getDate() + 1); 
+        document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
+    }
+
+</script>
