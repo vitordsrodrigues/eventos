@@ -11,6 +11,12 @@
         </div>
         <div class="card-body p-4">
             <form action="/eventos/add" method="POST">
+
+                <div>
+                     <label for="image">Escolha uma imagem:</label>
+                     <input type="file" id="image" name="image">
+                 </div>
+
                 <div class="mb-3">
                     <label for="title" class="form-label">Título:</label>
                     <input type="text" id="title" name="title" class="form-control" placeholder="Digite o título do evento" required>
