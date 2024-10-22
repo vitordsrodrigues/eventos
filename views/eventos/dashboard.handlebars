@@ -38,8 +38,8 @@
                         <p class="card-text"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</p>
                         <p class="card-text"><strong>Duração:</strong> {{this.duracao}} dias</p>
                         <p class="card-text"><strong>Descrição:</strong> {{this.descricao}}</p>
-                        
                     </div>
+
                     <div class="card-body text-start">
                         <form action="/eventos/remove" method="POST" style="display:inline;">
                             <input type="hidden" name="id" value="{{this.id}}">
@@ -47,7 +47,8 @@
                                 <i class="bi bi-trash"></i> Remover
                             </button>
                         </form>
-                        <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">
+                        
+                         <a href="/eventos/edit/{{this.id}}" class="btn btn-warning">
                             <i class="bi bi-pencil"></i> Editar
                         </a>
                     </div>
