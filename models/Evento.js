@@ -3,10 +3,6 @@ const db = require('../db/conn');
 
 const Evento = db.define('Evento', {
     
-    imagePath: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
     title: {
         type: DataTypes.STRING,
         allowNull: false,

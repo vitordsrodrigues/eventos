@@ -73,7 +73,6 @@ module.exports = class EventosControllers {
 
     static async createEventoSave (req, res) {
         const evento = {
-            imagePath: req.file ? req.file.path:null,
             title: req.body.title,
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
