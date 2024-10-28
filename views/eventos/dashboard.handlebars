@@ -30,15 +30,20 @@
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
+                         <div class="card-body d-flex flex-column flex-grow-1">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
-                        <p class="card-text"><strong>Palestrantes:</strong> {{this.palestrantes}}</p>
-                        <p class="card-text"><strong>Local:</strong> {{this.local}}</p>
-                        <p class="card-text"><strong>Curso:</strong> {{this.curso}}</p>
-                        <p class="card-text"><strong>Participantes:</strong> {{this.participantes}}</p>
-                        <p class="card-text"><strong>Data Inicio:</strong> {{this.dataFormatada}}</p>
-                        <p class="card-text"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</p>
-                        <p class="card-text"><strong>Duração:</strong> {{this.duracao}} dias</p>
-                        <p class="card-text"><strong>Descrição:</strong> {{this.descricao}}</p>
+                        <p class="card-text mb-auto">{{this.descricao}}</p>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
+                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
+                        <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
+                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                        <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
+                    </ul>
                     </div>
 
                 <div class="card-body text-start">

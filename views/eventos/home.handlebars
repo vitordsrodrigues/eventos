@@ -1,6 +1,7 @@
 {{!--  aqui vai ser os eventos  --}}
         
 {{#if session.userid}}
+
 <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -45,17 +46,20 @@
                         <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
                         <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-                        <li class="list-group-item text-warning"><strong>Limite de Participantes:</strong> 0 / {{this.participantes}}</li>            
+                        <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
-
+                    
                     <div class="card-footer">
-                        <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
+                        <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
+        <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})" style="display: none;">Cancelar</button>
                     </div>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
+
+
 
 
 <style>

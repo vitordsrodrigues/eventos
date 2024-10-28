@@ -1,8 +1,11 @@
 const Evento = require('../models/Evento');
 const User = require('../models/User');
 const path = require('path')
+const Participacao = require('../models/Participacao');
 
 module.exports = class EventosControllers {
+    
+    
     static async showEventos(req, res) {
         try {
             const eventosData = await Evento.findAll();
@@ -183,6 +186,83 @@ module.exports = class EventosControllers {
             res.redirect(`/eventos/edit/${id}`);
         }
     }
+    
+  
+
+static async participarEvento(req, res) {
+    const { id } = req.body;
+    const userId = req.session.userid; 
+
+    try {
+        const evento = await Evento.findOne({ where: { id: id } });
+
+        if (!evento) {
+            return res.status(404).json({ message: 'Evento não encontrado.' });
+        }
+
+        
+        const participacaoExistente = await Participacao.findOne({
+            where: {
+                UserId: userId,
+                EventoId: id
+            }
+        });
+
+        if (participacaoExistente) {
+            return res.status(400).json({ message: 'Você já está inscrito neste evento.' });
+        }
+
+       
+        await Evento.update({ participantesAtuais: evento.participantesAtuais + 1 }, { where: { id: id } });
+        
+        
+        await Participacao.create({ UserId: userId, EventoId: id });
+
+        res.status(200).json({
+            message: 'Você se inscreveu com sucesso!',
+            participantesAtuais: evento.participantesAtuais + 1
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erro ao participar do evento.' });
+    }
+}
+
+
+static async cancelarParticipacao(req, res) {
+    const { id } = req.body;
+    const userId = req.session.userid;
+
+    try {
+       
+        const participacao = await Participacao.findOne({
+            where: {
+                UserId: userId,
+                EventoId: id
+            }
+        });
+
+        if (!participacao) {
+            return res.status(404).json({ message: 'Participação não encontrada.' });
+        }
+
+       
+        const evento = await Evento.findOne({ where: { id: id } });
+        await Evento.update({ participantesAtuais: evento.participantesAtuais - 1 }, { where: { id: id } });
+
+        
+        await participacao.destroy();
+
+        res.status(200).json({
+            message: 'Participação cancelada com sucesso!',
+            participantesAtuais: evento.participantesAtuais - 1
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erro ao cancelar a participação.' });
+    }
+}
+
     
     
     

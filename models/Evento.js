@@ -65,6 +65,17 @@ const Evento = db.define('Evento', {
             notEmpty: true,
         },
     },
+    
+    participantesAtuais: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0, 
+    allowNull: false,
+    validate: {
+        isInt: true,
+        min: 0,
+    },
+},
+
 }, {
     timestamps: true,
 });
