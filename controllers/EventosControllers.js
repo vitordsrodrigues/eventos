@@ -8,26 +8,22 @@ module.exports = class EventosControllers {
     
     static async showEventos(req, res) {
         try {
+            const userId = req.session.userid;
             const eventosData = await Evento.findAll();
-            const eventos = eventosData.map((result) => {
+    
+           
+            const eventos = await Promise.all(eventosData.map(async (result) => {
                 const evento = result.dataValues;
-                const data = new Date(evento.data);
-                const dataLimite = new Date(evento.datalimite); 
-                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
-                    weekday: 'long',  
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
+                const participacaoExistente = await Participacao.findOne({
+                    where: { UserId: userId, EventoId: evento.id }
                 });
-                evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', {
-                    weekday: 'long',
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                }); 
+    
+                evento.isParticipating = !!participacaoExistente; // Define se o usuário está participando
+                const data = new Date(evento.data);
+                evento.dataFormatada = data.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
                 return evento;
-            });
-
+            }));
+    
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/home', { eventos, messages });
@@ -37,6 +33,7 @@ module.exports = class EventosControllers {
             res.status(500).send('Erro ao carregar eventos');
         }
     }
+    
 
     static async dashboard(req, res) {
         try {
@@ -56,7 +53,7 @@ module.exports = class EventosControllers {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
-                }); // Formatação da dataLimite
+                }); 
                 return evento;
             });
 
@@ -80,8 +77,8 @@ module.exports = class EventosControllers {
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
             data: req.body.data,
-            datalimite: req.body.datalimite, // Adicionando datalimite
-            palestrantes: req.body.palestrantes, // Novos campos
+            datalimite: req.body.datalimite, 
+            palestrantes: req.body.palestrantes, 
             duracao: parseInt(req.body.duracao, 10),
             curso: req.body.curso,
             descricao: req.body.descricao,
@@ -161,7 +158,7 @@ module.exports = class EventosControllers {
     
         console.log('Dados recebidos:', eventoAtualizado);
     
-        // Validações
+        
         if (!eventoAtualizado.title || !eventoAtualizado.local || !eventoAtualizado.participantes || 
             !eventoAtualizado.data || !eventoAtualizado.datalimite || 
             !eventoAtualizado.duracao || !eventoAtualizado.curso) {
@@ -189,44 +186,48 @@ module.exports = class EventosControllers {
     
   
 
-static async participarEvento(req, res) {
-    const { id } = req.body;
-    const userId = req.session.userid; 
-
-    try {
-        const evento = await Evento.findOne({ where: { id: id } });
-
-        if (!evento) {
-            return res.status(404).json({ message: 'Evento não encontrado.' });
-        }
-
-        
-        const participacaoExistente = await Participacao.findOne({
-            where: {
-                UserId: userId,
-                EventoId: id
+    static async participarEvento(req, res) {
+        const { id } = req.body; 
+        const userId = req.session.userid;  
+    
+        try {
+            const evento = await Evento.findOne({ where: { id: id } });
+    
+            if (!evento) {
+                return res.status(404).json({ message: 'Evento não encontrado.' });
             }
-        });
-
-        if (participacaoExistente) {
-            return res.status(400).json({ message: 'Você já está inscrito neste evento.' });
+    
+           
+            if (evento.participantesAtuais >= evento.participantes) {
+                return res.status(400).json({ message: 'O evento já atingiu o número máximo de participantes.' });
+            }
+    
+            
+            const participacaoExistente = await Participacao.findOne({
+                where: {
+                    UserId: userId,
+                    EventoId: id
+                }
+            });
+    
+            if (participacaoExistente) {
+                return res.status(400).json({ message: 'Você já está inscrito neste evento.' });
+            }
+    
+            
+            await Evento.update({ participantesAtuais: evento.participantesAtuais + 1 }, { where: { id: id } });
+            await Participacao.create({ UserId: userId, EventoId: id });
+    
+            res.status(200).json({
+                message: 'Você se inscreveu com sucesso (atualize a página para cancelar a inscricão)!',
+                participantesAtuais: evento.participantesAtuais + 1
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Erro ao participar do evento.' });
         }
-
-       
-        await Evento.update({ participantesAtuais: evento.participantesAtuais + 1 }, { where: { id: id } });
-        
-        
-        await Participacao.create({ UserId: userId, EventoId: id });
-
-        res.status(200).json({
-            message: 'Você se inscreveu com sucesso!',
-            participantesAtuais: evento.participantesAtuais + 1
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erro ao participar do evento.' });
     }
-}
+    
 
 
 static async cancelarParticipacao(req, res) {

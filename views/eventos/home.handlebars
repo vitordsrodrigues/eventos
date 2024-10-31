@@ -44,20 +44,24 @@
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
                         <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
                         <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
                     
                     <div class="card-footer">
-                        <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
-        <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})" style="display: none;">Cancelar</button>
+                        {{#if this.isParticipating}}
+                            <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar</button>
+                        {{else}}
+                            <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
+                        {{/if}}
                     </div>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
+
 
 
 
