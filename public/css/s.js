@@ -1,3 +1,14 @@
+setTimeout(function() {
+    const flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+        flashMessage.style.transition = 'opacity 0.5s ease-out';
+        flashMessage.style.opacity = '0';
+        setTimeout(() => {
+            flashMessage.remove();
+        }, 500);
+    }
+}, 2500);
+
 const estiloFlashMessage = document.createElement('style');
 estiloFlashMessage.textContent = `
     .flash-message {
