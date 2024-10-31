@@ -41,7 +41,7 @@ module.exports = class EventosControllers {
             const eventos = eventosData.map((result) => {
                 const evento = result.dataValues;
                 const data = new Date(evento.data);
-                const dataLimite = new Date(evento.datalimite); // Adicionando dataLimite
+                const dataLimite = new Date(evento.datalimite);
                 evento.dataFormatada = data.toLocaleDateString('pt-BR', {
                     weekday: 'long',
                     day: '2-digit',
@@ -83,6 +83,7 @@ module.exports = class EventosControllers {
             curso: req.body.curso,
             descricao: req.body.descricao,
             UserId: req.session.userid,
+            imagem: req.file ? req.file.filename : null,
         };
 
         // Validações
@@ -264,8 +265,6 @@ static async cancelarParticipacao(req, res) {
     }
 }
 
-    
-    
     
     
     

@@ -14,7 +14,9 @@
     background: linear-gradient(90deg, #007bff, #6610f2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
+.edit{
+    border-radius: 15px 5px;
+}
 .nav-link {
     color: #fff !important;
     transition: color 0.3s;

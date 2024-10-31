@@ -36,6 +36,7 @@
                     </div>
 
                     <ul class="list-group list-group-flush">
+
                         <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
@@ -105,7 +106,14 @@
               <h2>Criando novo evento</h2>
             </div>
             <div class="card-body p-4">
-              <form action="/eventos/add" method="POST">
+              <form action="/eventos/add" method="POST" enctype="multipart/form-data">
+
+        
+               <div class="mb-3">
+        <label for="imagem" class="form-label">Imagem do Evento:</label>
+        <input type="file" id="imagem" name="imagem" class="form-control" accept="image/*">
+        <small class="text-muted">Selecione uma imagem para o card do evento (opcional)</small>
+    </div>
               
                 <div class="mb-3">
                   <label for="title" class="form-label">Título:</label>
@@ -163,10 +171,13 @@
                   <textarea id="descricao" name="descricao" class="form-control" placeholder="Descreva o evento" rows="4" required></textarea>
                 </div>
 
+                
+
                 <div class="text-center mt-4">
                   <input type="submit" value="Criar Evento" class="btn btn-primary w-100">
                 </div>
               </form>
+              
             </div>
           </div>
         </div>

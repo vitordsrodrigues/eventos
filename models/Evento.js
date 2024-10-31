@@ -76,6 +76,11 @@ const Evento = db.define('Evento', {
     },
 },
 
+    imagem: {
+        type: String,
+        required: false
+    },
+
 }, {
     timestamps: true,
 });
