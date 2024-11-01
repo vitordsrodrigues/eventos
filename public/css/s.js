@@ -121,3 +121,45 @@ function cancelarParticipacao(eventId) {
         mostrarMensagemFlash('Erro ao cancelar a participação.', 'danger');
     });
 }
+
+
+function filtrarEventos(curso) {
+    const cards = document.querySelectorAll('.col-12.col-md-6.col-lg-4');
+    
+    cards.forEach(card => {
+        const cursoEvento = card.querySelector('.list-group-item:nth-child(3)').textContent;
+        
+        if (curso === 'todos') {
+            card.style.display = 'block';
+        } else {
+            if (cursoEvento.includes(curso)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
+
+
+function filtrarEventos(curso) {
+    const cards = document.querySelectorAll('.evento-card');
+    const semEventos = document.getElementById('sem-eventos');
+    let eventosVisiveis = 0;
+
+    cards.forEach(card => {
+        const cursoCarta = card.getAttribute('data-curso').toLowerCase();
+        if (curso === 'todos' || cursoCarta === curso) {
+            card.style.display = 'block';
+            eventosVisiveis++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    if (eventosVisiveis === 0) {
+        semEventos.classList.remove('d-none');
+    } else {
+        semEventos.classList.add('d-none');
+    }
+}

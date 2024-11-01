@@ -9,8 +9,21 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link fw-bold"><i class="bi bi-calendar"></i> Eventos que já participei</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link fw-bold"><i class="bi bi-funnel"></i> Filtrar eventos</a>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link fw-bold dropdown-toggle" id="filterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-funnel"></i> Filtrar eventos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('todos')">Todos os cursos</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('nenhum')">Nenhum curso relacionado</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletronica')">Eletrônica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletrotecnica')">Eletrotécnica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Móveis</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('mecanica')">Mecânica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('quimica')">Química</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('informatica')">Informática</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('meio_ambiente')">Meio Ambiente</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="/logout" class="nav-link fw-bold"><i class="bi bi-box-arrow-right"></i> Sair</a>
@@ -28,15 +41,20 @@
 
 
 <div class="container mt-5">
-    <div class="row">
+    <div id="sem-eventos" class="alert text-center d-none">
+        <h4>Sem eventos para este curso</h4>
+        <p>No momento não há eventos cadastrados para o curso selecionado.</p>
+    </div>
+
+    <div class="row" id="eventos-container">
         {{#each eventos}}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
                 <div class="card h-100 shadow-lg d-flex flex-column">
                    <li class="list-group-item"></li>
                             {{#if this.imagem}}
                                 <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
                             {{else}}
-                                <img src="" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                                <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
                             {{/if}}
                         </li>
 
@@ -164,4 +182,6 @@
 -->
 
 {{/if}}
+        
+
         
