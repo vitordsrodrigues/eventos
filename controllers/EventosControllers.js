@@ -11,18 +11,41 @@ module.exports = class EventosControllers {
             const userId = req.session.userid;
             const eventosData = await Evento.findAll();
     
-           
-            const eventos = await Promise.all(eventosData.map(async (result) => {
-                const evento = result.dataValues;
-                const participacaoExistente = await Participacao.findOne({
-                    where: { UserId: userId, EventoId: evento.id }
-                });
+            let eventos;
+            
+            // Se o usuário estiver logado, verifica as participações
+            if (userId) {
+                eventos = await Promise.all(eventosData.map(async (result) => {
+                    const evento = result.dataValues;
+                    const participacaoExistente = await Participacao.findOne({
+                        where: { UserId: userId, EventoId: evento.id }
+                    });
     
-                evento.isParticipating = !!participacaoExistente; // Define se o usuário está participando
-                const data = new Date(evento.data);
-                evento.dataFormatada = data.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
-                return evento;
-            }));
+                    evento.isParticipating = !!participacaoExistente;
+                    const data = new Date(evento.data);
+                    evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                        weekday: 'long', 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    });
+                    return evento;
+                }));
+            } else {
+                // Se não estiver logado, apenas formata as datas
+                eventos = eventosData.map((result) => {
+                    const evento = result.dataValues;
+                    const data = new Date(evento.data);
+                    evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                        weekday: 'long', 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    });
+                    evento.isParticipating = false;
+                    return evento;
+                });
+            }
     
             const messages = req.flash();
             req.session.save(() => {
