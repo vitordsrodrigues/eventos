@@ -77,8 +77,8 @@ const Evento = db.define('Evento', {
 },
 
     imagem: {
-        type: String,
-        required: false
+        type: DataTypes.STRING,
+        allowNull: true
     },
 
 }, {
