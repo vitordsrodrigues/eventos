@@ -1,63 +1,86 @@
 {{!--  aqui vai ser os eventos  --}}
         
 {{#if session.userid}}
-<nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
+
+<nav class="edit navbar navbar-expand-md navbar-light bg-light shadow-sm">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto gap-4">
+            <ul class="navbar-nav me-auto gap-4"> 
                 <li class="nav-item">
-                    <a href="#" class="nav-link fw-bold">Eventos que já participei</a>
+                    <a href="#" class="nav-link fw-bold"><i class="bi bi-calendar"></i> Eventos que já participei</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link fw-bold">Filtrar eventos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/logout" class="nav-link fw-bold">
-                        <i class="bi bi-box-arrow-right"></i> Sair
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link fw-bold dropdown-toggle" id="filterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-funnel"></i> Filtrar eventos
                     </a>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Todos')">Todos os cursos</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Nenhum curso relacionado')">Nenhum curso relacionado</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Eletrônica')">Eletrônica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Eletrotécnica')">Eletrotécnica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Móveis')">Móveis</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Mecânica')">Mecânica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Química')">Química</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Informáticaa')">Informática</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Meio Ambiente')">Meio Ambiente</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link fw-bold"><i class="bi bi-box-arrow-right"></i> Sair</a>
                 </li>
             </ul>
         </div>
-
         <div class="input-group" style="max-width: 300px;">
             <input type="text" class="form-control" placeholder="Buscar eventos" aria-label="Buscar eventos" aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                <i class="bi bi-search"></i>
-            </button>
         </div>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </nav>
 
+
 <div class="container mt-5">
-    <div class="row">
+    <h3 id="cursoNome" class="text-center mb-4"></h3>
+    <div id="sem-eventos" class="alert text-center d-none">
+        <h4>Sem eventos para este curso</h4>
+        <p>No momento não há eventos cadastrados para o curso selecionado.</p>
+</div>
+
+    <div class="row" id="eventos-container">
         {{#each eventos}}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-lg">
-                    {{!-- Imagem GAMBA --}}
-                    <img class="card-img-top rounded-top" src="/img/Semanaeltro.png" alt="Imagem de capa do evento">
-                    
-                    <div class="card-body">
+            <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
+                <div class="card h-100 shadow-lg d-flex flex-column">
+                   <li class="list-group-item"></li>
+                            {{#if this.imagem}}
+                                <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            {{else}}
+                                <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            {{/if}}
+                        </li>
+
+                    <div class="card-body d-flex flex-column flex-grow-1">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
-                        <p class="card-text">{{this.descricao}}</p>
+                        <p class="card-text mb-auto">{{this.descricao}}</p>
                     </div>
 
-                   <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush">
+                        
                         <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
                         <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li> 
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-                        <li class="list-group-item text-warning"><strong>Limite de Participantes:</strong> 0 / {{this.participantes}}</li>            
+                        <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
-
-                    <div class="card-body">
-                       {{!-- ARRUMA ESSA COISA  --}}
-                       <button class="btn btn-primary w-100" onclick="participarEvento({{this.id}})">Participar</button>
+                    
+                    <div class="card-footer">
+                        {{#if this.isParticipating}}
+                            <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar</button>
+                        {{else}}
+                            <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -65,66 +88,135 @@
     </div>
 </div>
 
+
+
+
+
+<style>
+    .card {
+    border: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    margin-bottom: 20px; 
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
 {{else}}
 
-{{!-- Tela Login/Registrar Ajustada --}}
-<div>
-    <div class="text-space mb-3">
-        <ul class="list-unstyled d-flex justify-content-center mb-3">
-            <li>
-                <h1>Sistema de evento CIMOL</h1>
-                <h4>Venha Conhecer nossos eventos atuais</h4>
-            </li>
-        </ul>
-        <ul class="list-unstyled d-flex justify-content-center mb-3">
-            <a href="/login" class="btn btn-primary">Entrar</a>
-        </ul>
-        <ul class="list-unstyled d-flex justify-content-center mb-3">
-            <a href="/register" class="btn btn-secondary">Registrar</a>
-        </ul>
-    </div>
-</div>
 
-{{!-- Tela Login/Registrar Antiga --}}
-<!--
-<div>
-    <div class="text-space mb-3"> 
-        <ul class="list-unstyled d-flex justify-content-between mb-3">
-            <li>
-                <h1>Site para Eventos do CIMOL</h1>
-                <h5>Venha conhecer os eventos atuais do CIMOL</h5>
-            </li>
-            <li class="me-2">
-                <a href="/login" class="btn btn-primary">Entrar</a>
-                <a href="/register" class="btn btn-secondary">Registrar</a>
-            </li>
-        </ul>
-    </div>
+    
+    
+<div class="progress-bar"></div>
 
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/img/Semanaeltro.png" class="d-block w-100" alt="Imagem 1">
-            </div>
-            <div class="carousel-item">
-                <img src="/img/Semanainfo.png" class="d-block w-100" alt="Imagem 2">
-            </div>
-            <div class="carousel-item">
-                <img src="/img/Semanamec.png" class="d-block w-100" alt="Imagem 3">
+
+<div class="a container mt-0">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+           
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/img/Semanaeltro.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/img/Semanainfo.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/img/Semanamec.png" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+        <div class="col-md-6 text-center">
+            
+            <h1 class="display-4">Site para Eventos do CIMOL</h1>
+            <p class="lead">Venha conhecer os eventos atuais do CIMOL.</p>
+            
+       <div class="d-flex flex-column align-items-center mt-3">
+    <a href="/login" class="btn btn-primary btn-lg custom-btn mb-3">
+        <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+    </a>
+    <a href="/register" class="btn btn-secondary btn-lg custom-btn">
+        <i class="bi bi-person-plus me-2"></i> Registrar
+    </a>
 </div>
--->
+</div>
+<div class="progress-bar mt-4"></div>
+
+<style>
+    .progress-bar {
+        position: relative;
+        width: 100%;
+        height: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #6610f2);
+        animation: progressEffect 2s linear infinite;
+    }
+
+    @keyframes progressEffect {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+     .custom-btn {
+        font-size: 1.25em; 
+        padding: 10px 30px; 
+        border-radius: 15px; 
+        background: linear-gradient(90deg, #007bff, #6610f2);
+        border: none; 
+        transition: background-color 0.3s, transform 0.3s; 
+    }
+
+    .custom-btn:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        transform: translateY(-3px); /* Slight lift on hover */
+    }
+    .a {
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .carousel-item img {
+        max-height: 300px;
+        object-fit: cover;
+    }
+</style>
+
 
 {{/if}}
+        
+
         

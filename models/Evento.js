@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../db/conn');
 
 const Evento = db.define('Evento', {
+    
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -64,6 +65,22 @@ const Evento = db.define('Evento', {
             notEmpty: true,
         },
     },
+    
+    participantesAtuais: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0, 
+    allowNull: false,
+    validate: {
+        isInt: true,
+        min: 0,
+    },
+},
+
+    imagem: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
 }, {
     timestamps: true,
 });
