@@ -14,15 +14,15 @@
                         <i class="bi bi-funnel"></i> Filtrar eventos
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Todos')">Todos os cursos</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Nenhum curso relacionado')">Nenhum curso relacionado</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Eletrônica')">Eletrônica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Eletrotécnica')">Eletrotécnica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Móveis')">Móveis</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Mecânica')">Mecânica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Química')">Química</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Informáticaa')">Informática</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('Meio Ambiente')">Meio Ambiente</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('todos')">Todos os cursos</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('nenhum')">Nenhum curso relacionado</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletronica')">Eletrônica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletrotecnica')">Eletrotécnica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Móveis</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('mecanica')">Mecânica</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('quimica')">Química</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('informatica')">Informática</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('meio ambiente')">Meio Ambiente</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -30,8 +30,9 @@
                 </li>
             </ul>
         </div>
+        
         <div class="input-group" style="max-width: 300px;">
-            <input type="text" class="form-control" placeholder="Buscar eventos" aria-label="Buscar eventos" aria-describedby="button-addon2">
+            <input type="text" class="form-control" placeholder="Buscar eventos"  aria-label="Buscar eventos" aria-describedby="button-addon2" >
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -70,7 +71,7 @@
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
                         <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataFormatada}}</li>
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
                         <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
