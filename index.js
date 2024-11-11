@@ -18,7 +18,19 @@ const EventosControllers = require('./controllers/EventosControllers')
 const eventosRoutes = require('./routes/eventosRoutes')
 const authRoutes = require('./routes/authRoutes')
 
-app.engine('handlebars', exphbs.engine())
+// Configuração do Handlebars com o helper
+const hbs = exphbs.create({
+    helpers: {
+        dataISO: function(data) {
+            if (!data) return '';
+            const date = new Date(data);
+            return date.toISOString().split('T')[0];
+        }
+    }
+});
+
+// Usar a configuração personalizada
+app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 
 app.use(

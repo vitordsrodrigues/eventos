@@ -10,7 +10,16 @@ module.exports = class EventosControllers {
         try {
             const userId = req.session.userid;
             const eventosData = await Evento.findAll();
-    
+            let userName = null;
+            let layout = 'main';
+
+        
+            if (userId) {
+                const user = await User.findOne({ where: { id: userId } });
+                userName = user ? user.name : null;
+                layout = 'main-users';
+            }
+
             let eventos;
             
             // Se o usuário estiver logado, verifica as participações
@@ -49,7 +58,12 @@ module.exports = class EventosControllers {
     
             const messages = req.flash();
             req.session.save(() => {
-                res.render('eventos/home', { eventos, messages });
+                res.render('eventos/home', { 
+                    eventos, 
+                    messages, 
+                    userName,
+                    layout
+                });
             });
         } catch (error) {
             console.log(error);
@@ -60,6 +74,10 @@ module.exports = class EventosControllers {
 
     static async dashboard(req, res) {
         try {
+            const userId = req.session.userid;
+            const user = await User.findOne({ where: { id: userId } });
+            const userName = user ? user.name : null;
+            
             const eventosData = await Evento.findAll();
             const eventos = eventosData.map((result) => {
                 const evento = result.dataValues;
@@ -82,7 +100,12 @@ module.exports = class EventosControllers {
 
             const messages = req.flash();
             req.session.save(() => {
-                res.render('eventos/dashboard', { eventos, messages });
+                res.render('eventos/dashboard', { 
+                    eventos, 
+                    messages,
+                    userName,
+                    layout: 'main-users'
+                });
             });
         } catch (error) {
             console.log(error);
@@ -90,8 +113,15 @@ module.exports = class EventosControllers {
         }
     }
 
-    static createEvento(req, res) {
-        res.render('eventos/create');
+    static async createEvento(req, res) {
+        const userId = req.session.userid;
+        const user = await User.findOne({ where: { id: userId } });
+        const userName = user ? user.name : null;
+
+        res.render('eventos/create', {
+            layout: 'main-users',
+            userName
+        });
     }
 
     static async createEventoSave (req, res) {

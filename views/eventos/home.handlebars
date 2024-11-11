@@ -2,63 +2,34 @@
         
 {{#if session.userid}}
 
-<nav class="edit navbar navbar-expand-md navbar-light bg-light shadow-sm">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto gap-4"> 
-                <li class="nav-item">
-                    <a href="#" class="nav-link fw-bold"><i class="bi bi-calendar"></i> Eventos que já participei</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link fw-bold dropdown-toggle" id="filterDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-funnel"></i> Filtrar eventos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('todos')">Todos os cursos</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('nenhum')">Nenhum curso relacionado</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletronica')">Eletrônica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletrotecnica')">Eletrotécnica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Móveis</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('mecanica')">Mecânica</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('quimica')">Química</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('informatica')">Informática</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('meio ambiente')">Meio Ambiente</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="/logout" class="nav-link fw-bold"><i class="bi bi-box-arrow-right"></i> Sair</a>
-                </li>
-            </ul>
-        </div>
-        
-        <div class="input-group" style="max-width: 300px;">
-            <input type="text" class="form-control" placeholder="Buscar eventos"  aria-label="Buscar eventos" aria-describedby="button-addon2" >
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
 
 
 <div class="container mt-5">
+   
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-dark">Eventos Ativos</h2>
+        <p class="text-muted">Explore os melhores eventos disponíveis no momento para enriquecer seu conhecimento e desenvolver suas habilidades.</p>
+        <hr class="my-4 w-50 mx-auto">
+    </div>
+
+    
     <h3 id="cursoNome" class="text-center mb-4"></h3>
     <div id="sem-eventos" class="alert text-center d-none">
         <h4>Sem eventos para este curso</h4>
         <p>No momento não há eventos cadastrados para o curso selecionado.</p>
-</div>
+    </div>
 
     <div class="row" id="eventos-container">
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
                 <div class="card h-100 shadow-lg d-flex flex-column">
-                   <li class="list-group-item"></li>
-                            {{#if this.imagem}}
-                                <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                            {{else}}
-                                <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                            {{/if}}
-                        </li>
+                    <li class="list-group-item"></li>
+                    {{#if this.imagem}}
+                        <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    {{else}}
+                        <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    {{/if}}
+                    </li>
 
                     <div class="card-body d-flex flex-column flex-grow-1">
                         <h3 class="card-title text-primary">{{this.title}}</h3>
@@ -66,7 +37,6 @@
                     </div>
 
                     <ul class="list-group list-group-flush">
-                        
                         <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
@@ -75,7 +45,7 @@
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
                         <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
-                    
+
                     <div class="card-footer">
                         {{#if this.isParticipating}}
                             <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar</button>
@@ -88,6 +58,7 @@
         {{/each}}
     </div>
 </div>
+
 
 
 

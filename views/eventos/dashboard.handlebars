@@ -1,30 +1,36 @@
-<div class="container my-0">
-   <div class="text-end mb-3">
-        <a href="/logout" class="btn btn-outline-danger">
-            <i class="bi bi-box-arrow-right"></i> Sair
-        </a>
-    </div>
+<div class="container my-5">
 
-    <div class="card text-center mb-5">
-        <div class="card-body">
-            <h2 class="card-title">Olá, Administrador</h2>
-            <h5 class="card-subtitle mb-3 text-muted">Aqui você pode criar seus eventos do CIMOL</h5>
+   
+    <div class="card text-center shadow-lg mb-5 border-0">
+        <div class="card-body p-5">
+            <h2 class="card-title mb-3">Bem-vindo, Administrador!</h2>
+            <h5 class="card-subtitle text-muted mb-4">Gerencie e crie eventos do CIMOL aqui.</h5>
             <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#eventoModal">
-                Criar Evento
+                <i class="bi bi-plus-circle"></i> Criar Evento
             </button>
         </div>
     </div>
 
-    <h3 class="mb-3 text-center">Eventos no Ar</h3>
-    <p class="card-text text-center">Aqui estão listados os eventos ativos atualmente.</p>
-       
-    {{#if message}}
-        <div class="alert alert-success">{{message}}</div>
-    {{/if}}
+    
+    <div class="card mb-5 shadow-sm border-0">
+        <div class="card-header text-center bg-primary text-white">
+            <h3 class="m-0">Eventos no Ar</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-center text-muted">Confira a lista de eventos ativos atualmente.</p>
 
-</div>
+            
+            {{#if message}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill"></i> {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/if}}
 
-<div class="container mt-5">
+            
+            <div class="list-group">
+               
+                <div class="container mt-5"></div>
     <div class="row">
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -87,6 +93,15 @@
         {{/each}}
     </div>
 </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
 
 
 

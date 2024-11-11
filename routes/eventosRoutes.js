@@ -20,14 +20,16 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage,
     fileFilter: function (req, file, cb) {
-        const filetypes = /jpeg|jpg|png|gif/;
+        const filetypes = /jpeg|jpg|png|gif|webp|tiff|tif|bmp|svg|jfif/;
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = filetypes.test(file.mimetype);
 
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb('Erro: Apenas imagens são permitidas!');
+            const error = new Error('Apenas arquivos de imagem (JPG, JPEG, PNG, GIF, WebP, TIFF, BMP e SVG) são permitidos!');
+            error.code = 'INVALID_FILE_TYPE';
+            return cb(error, false);
         }
     }
 });
