@@ -33,76 +33,78 @@
                 <div class="container mt-5"></div>
     <div class="row">
         {{#each eventos}}
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-lg d-flex flex-column">
-                    {{#if this.imagem}}
-                        <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                    {{else}}
-                        <img src="" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                    {{/if}}
+            {{#if (isEventoAtivo this.datalimite)}}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-lg d-flex flex-column">
+                        {{#if this.imagem}}
+                            <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                        {{else}}
+                            <img src="" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                        {{/if}}
 
-                    <div class="card-body d-flex flex-column flex-grow-1">
-                        <h3 class="card-title text-primary">{{this.title}}</h3>
-                        <p class="card-text mb-auto">{{this.descricao}}</p>
-                    </div>
+                        <div class="card-body d-flex flex-column flex-grow-1">
+                            <h3 class="card-title text-primary">{{this.title}}</h3>
+                            <p class="card-text mb-auto">{{this.descricao}}</p>
+                        </div>
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
-                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-                        <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
-                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-                        <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
-                    </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                            <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
+                            <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
+                            <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
+                            <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
+                            <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                            <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
+                        </ul>
 
-                    <div class="card-body text-start">
-                        <form action="/eventos/remove" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="{{this.id}}">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal{{this.id}}">
-                                <i class="bi bi-trash"></i> Remover
-                            </button>
-                        </form>
+                        <div class="card-body text-start">
+                            <form action="/eventos/remove" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="{{this.id}}">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmRemoveModal{{this.id}}">
+                                    <i class="bi bi-trash"></i> Remover
+                                </button>
+                            </form>
 
-                        <div class="modal fade" id="confirmRemoveModal{{this.id}}" tabindex="-1" aria-labelledby="confirmRemoveModalLabel{{this.id}}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmRemoveModalLabel{{this.id}}">Confirma Removendo Evento</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Tem certeza que deseja remover o evento "<strong>{{this.title}}</strong>"?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form action="/eventos/remove" method="POST" style="display:inline;">
-                                            <input type="hidden" name="id" value="{{this.id}}">
-                                            <button type="submit" class="btn btn-danger">Remover</button>
-                                        </form>
+                            <div class="modal fade" id="confirmRemoveModal{{this.id}}" tabindex="-1" aria-labelledby="confirmRemoveModalLabel{{this.id}}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmRemoveModalLabel{{this.id}}">Confirma Removendo Evento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Tem certeza que deseja remover o evento "<strong>{{this.title}}</strong>"?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="/eventos/remove" method="POST" style="display:inline;">
+                                                <input type="hidden" name="id" value="{{this.id}}">
+                                                <button type="submit" class="btn btn-danger">Remover</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <button type="button" class="btn btn-warning" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#eventoEditModal" 
-                            data-id="{{this.id}}"
-                            data-title="{{this.title}}"
-                            data-local="{{this.local}}"
-                            data-participantes="{{this.participantes}}"
-                            data-data="{{this.data}}"
-                            data-datalimite="{{this.datalimite}}"
-                            data-palestrantes="{{this.palestrantes}}"
-                            data-duracao="{{this.duracao}}"
-                            data-curso="{{this.curso}}"
-                            data-descricao="{{this.descricao}}"
-                            onclick="console.log('Data:', this.getAttribute('data-data'))">
-                            <i class="bi bi-pencil"></i> Editar
-                        </button>
+                            <button type="button" class="btn btn-warning" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#eventoEditModal" 
+                                data-id="{{this.id}}"
+                                data-title="{{this.title}}"
+                                data-local="{{this.local}}"
+                                data-participantes="{{this.participantes}}"
+                                data-data="{{this.data}}"
+                                data-datalimite="{{this.datalimite}}"
+                                data-palestrantes="{{this.palestrantes}}"
+                                data-duracao="{{this.duracao}}"
+                                data-curso="{{this.curso}}"
+                                data-descricao="{{this.descricao}}"
+                                onclick="console.log('Data:', this.getAttribute('data-data'))">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {{/if}}
         {{/each}}
     </div>
 </div>
