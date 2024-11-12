@@ -4,8 +4,6 @@
     padding: 0;
     
 }
-
-
 #logo img {
     height: 100px;
 }
@@ -25,7 +23,6 @@
 .nav-link:hover {
     color: #ffd700; 
 }
-
 .modal-header{
     background: linear-gradient(90deg, #007bff, #6610f2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -33,7 +30,6 @@
 .container {
     margin-top: 30px;
 }
-
 .message {
     padding: 1em;
     color: #004085;
@@ -44,21 +40,30 @@
     margin: 0 auto 2em;
     max-width: 60%;
 }
-
+/*Altura mínima para evitar a subida do rodapé*/
+.containerUser{
+    min-height: 54vh;
+}
 
 .gradient-custom-2 {
     background: rgb(41, 9, 121);
     background: linear-gradient(90deg, rgba(41, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 61%);
 }
-
-  
-
 @media (min-width: 768px) {
     .gradient-form {
         height: 100vh !important;
     }
 }
-
+@media (max-width: 979px) and (min-width: 519px){ /*Qnd a largura da tela está entra 979 e 519*/
+    .containerUser{
+        min-height: 42.5vh;
+    }
+}
+@media (max-width: 518px){
+    .containerUser{
+        min-height: 28vh;
+    }
+}
 @media (min-width: 769px) {
     .gradient-custom-2 {
         border-top-right-radius: .3rem;
