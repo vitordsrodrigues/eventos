@@ -17,6 +17,7 @@ const EventosControllers = require('./controllers/EventosControllers')
 //import routes
 const eventosRoutes = require('./routes/eventosRoutes')
 const authRoutes = require('./routes/authRoutes')
+const sequelize = require('./db/conn')
 
 // Configuração do Handlebars com o helper
 const hbs = exphbs.create({
@@ -73,9 +74,8 @@ app.use('/eventos',eventosRoutes)
 app.use('/',authRoutes)
 app.get('/',EventosControllers.showEventos)
 
-//.sync({force:true})
-conn
-.sync()
+sequelize.sync({force:true})
+//conn.sync()
 //.sync({force:true})
 .then(()=>{
     app.listen(3000)

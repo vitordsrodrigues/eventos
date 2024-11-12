@@ -75,7 +75,6 @@ const Evento = db.define('Evento', {
         min: 0,
     },
 },
-
     imagem: {
         type: DataTypes.STRING,
         allowNull: true
