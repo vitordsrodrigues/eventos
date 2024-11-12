@@ -25,6 +25,16 @@ const hbs = exphbs.create({
             if (!data) return '';
             const date = new Date(data);
             return date.toISOString().split('T')[0];
+        },
+        isEventoAtivo: function(datalimite) {
+            const hoje = new Date();
+            const dataLimite = new Date(datalimite);
+            
+            // Reseta as horas para comparar apenas as datas
+            hoje.setHours(0, 0, 0, 0);
+            dataLimite.setHours(0, 0, 0, 0);
+            
+            return dataLimite >= hoje;
         }
     }
 });
