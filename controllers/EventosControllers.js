@@ -2,14 +2,25 @@ const Evento = require('../models/Evento');
 const User = require('../models/User');
 const path = require('path')
 const Participacao = require('../models/Participacao');
-
+const {Op} = require('sequelize')
 module.exports = class EventosControllers {
     
     
     static async showEventos(req, res) {
+
+
+        let search = ''
+
+        if(req.query.search){
+            search = req.query.search
+        }
         try {
             const userId = req.session.userid;
-            const eventosData = await Evento.findAll();
+            const eventosData = await Evento.findAll({
+                where:{
+                    title:{[Op.like]:`%${search}%`}
+                }
+            });
             let userName = null;
             let layout = 'main';
 
