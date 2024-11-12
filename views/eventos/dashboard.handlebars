@@ -84,7 +84,20 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#eventoEditModal" data-id="{{this.id}}" data-title="{{this.title}}" data-local="{{this.local}}" data-participantes="{{this.participantes}}" data-data="{{this.data}}" data-datalimite="{{this.datalimite}}" data-palestrantes="{{this.palestrantes}}" data-duracao="{{this.duracao}}" data-curso="{{this.curso}}" data-descricao="{{this.descricao}}">
+                        <button type="button" class="btn btn-warning" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#eventoEditModal" 
+                            data-id="{{this.id}}"
+                            data-title="{{this.title}}"
+                            data-local="{{this.local}}"
+                            data-participantes="{{this.participantes}}"
+                            data-data="{{this.data}}"
+                            data-datalimite="{{this.datalimite}}"
+                            data-palestrantes="{{this.palestrantes}}"
+                            data-duracao="{{this.duracao}}"
+                            data-curso="{{this.curso}}"
+                            data-descricao="{{this.descricao}}"
+                            onclick="console.log('Data:', this.getAttribute('data-data'))">
                             <i class="bi bi-pencil"></i> Editar
                         </button>
                     </div>
@@ -281,40 +294,57 @@
         var eventoEditModal = document.getElementById('eventoEditModal');
         eventoEditModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
-
             
-            var id = button.getAttribute('data-id');
-            var title = button.getAttribute('data-title');
-            var local = button.getAttribute('data-local');
-            var participantes = button.getAttribute('data-participantes');
-            var data = button.getAttribute('data-data');
-            var datalimite = button.getAttribute('data-datalimite');
-            var palestrantes = button.getAttribute('data-palestrantes');
-            var duracao = button.getAttribute('data-duracao');
-            var curso = button.getAttribute('data-curso');
-            var descricao = button.getAttribute('data-descricao');
+            // Função para formatar a data
+            function formatarData(dataString) {
+                if (!dataString) return '';
+                
+                // Log para debug
+                console.log('Data original:', dataString);
+                
+                // Remove qualquer hora/timezone da string
+                let data = dataString.split('T')[0];
+                if (!data) {
+                    data = dataString.split(' ')[0];
+                }
+                
+                // Log para debug
+                console.log('Data formatada:', data);
+                
+                return data;
+            }
 
+            // Captura e formata as datas
+            var data = formatarData(button.getAttribute('data-data'));
+            var datalimite = formatarData(button.getAttribute('data-datalimite'));
             
-            eventoEditModal.querySelector('input[name="id"]').value = id;
-            eventoEditModal.querySelector('input[name="title"]').value = title;
-            eventoEditModal.querySelector('input[name="local"]').value = local;
-            eventoEditModal.querySelector('input[name="participantes"]').value = participantes;
-            eventoEditModal.querySelector('input[name="data"]').value = data;
-            eventoEditModal.querySelector('input[name="datalimite"]').value = datalimite;
-            eventoEditModal.querySelector('input[name="palestrantes"]').value = palestrantes;
-            eventoEditModal.querySelector('input[name="duracao"]').value = duracao;
-            eventoEditModal.querySelector('input[name="curso"]').value = curso;
-            eventoEditModal.querySelector('textarea[name="descricao"]').value = descricao;
+            // Preenche os campos do modal
+            var modal = eventoEditModal;
+            modal.querySelector('input[name="id"]').value = button.getAttribute('data-id');
+            modal.querySelector('input[name="title"]').value = button.getAttribute('data-title');
+            modal.querySelector('input[name="local"]').value = button.getAttribute('data-local');
+            modal.querySelector('input[name="participantes"]').value = button.getAttribute('data-participantes');
+            modal.querySelector('input[name="data"]').value = data;
+            modal.querySelector('input[name="datalimite"]').value = datalimite;
+            modal.querySelector('input[name="palestrantes"]').value = button.getAttribute('data-palestrantes');
+            modal.querySelector('input[name="duracao"]').value = button.getAttribute('data-duracao');
+            modal.querySelector('select[name="curso"]').value = button.getAttribute('data-curso');
+            modal.querySelector('textarea[name="descricao"]').value = button.getAttribute('data-descricao');
+
+            // Log para debug
+            console.log('Valores preenchidos:', {
+                data: modal.querySelector('input[name="data"]').value,
+                datalimite: modal.querySelector('input[name="datalimite"]').value
+            });
         });
     });
 
+    // Configura data mínima inicial
     document.getElementById('data').min = new Date().toISOString().split('T')[0];
-
     
     function setMinDateLimite() {
         const dataEvento = new Date(document.getElementById('data').value);
-        dataEvento.setDate(dataEvento.getDate() + 1); 
+        dataEvento.setDate(dataEvento.getDate());
         document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
     }
-
 </script>
