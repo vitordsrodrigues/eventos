@@ -8,17 +8,18 @@ const app = express()
 
 const conn = require('./db/conn')
 
-//models
+
 
 const Evento = require('./models/Evento')
 const User = require('./models/User')
 const EventosControllers = require('./controllers/EventosControllers')
+const Participacao = require('./models/Participacao')
 
-//import routes
+
 const eventosRoutes = require('./routes/eventosRoutes')
 const authRoutes = require('./routes/authRoutes')
 
-// Configuração do Handlebars com o helper
+
 const hbs = exphbs.create({
     helpers: {
         dataISO: function(data) {
@@ -30,7 +31,7 @@ const hbs = exphbs.create({
             const hoje = new Date();
             const dataLimite = new Date(datalimite);
             
-            // Reseta as horas para comparar apenas as datas
+            
             hoje.setHours(0, 0, 0, 0);
             dataLimite.setHours(0, 0, 0, 0);
             
@@ -39,7 +40,7 @@ const hbs = exphbs.create({
     }
 });
 
-// Usar a configuração personalizada
+
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 
@@ -79,15 +80,25 @@ app.use((req,res,next)=>{
     next()
 })
 
+app.get('/eventos-participando', (req, res) => {
+    res.render('eventos-participando', { title: 'Eventos Participando' });
+});
+
 app.use('/eventos',eventosRoutes)
 app.use('/',authRoutes)
 app.get('/',EventosControllers.showEventos)
 
-//.sync({force:true})
+
+User.hasMany(Participacao);
+Participacao.belongsTo(User);
+
+Evento.hasMany(Participacao);
+Participacao.belongsTo(Evento);
+
 conn
-.sync()
-//.sync({force:true})
-.then(()=>{
-    app.listen(3000)
-})
-.catch((err)=> console.log(err))
+    .sync()
+    .then(() => {
+        console.log('Banco de dados sincronizado');
+        app.listen(3000);
+    })
+    .catch((err) => console.log(err));
