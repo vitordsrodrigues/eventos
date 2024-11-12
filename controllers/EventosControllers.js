@@ -22,7 +22,7 @@ module.exports = class EventosControllers {
 
             let eventos;
             
-            // Se o usuário estiver logado, verifica as participações
+            
             if (userId) {
                 eventos = await Promise.all(eventosData.map(async (result) => {
                     const evento = result.dataValues;
@@ -41,7 +41,7 @@ module.exports = class EventosControllers {
                     return evento;
                 }));
             } else {
-                // Se não estiver logado, apenas formata as datas
+                
                 eventos = eventosData.map((result) => {
                     const evento = result.dataValues;
                     const data = new Date(evento.data);
@@ -251,12 +251,12 @@ module.exports = class EventosControllers {
                 return res.status(404).json({ message: 'Evento não encontrado.' });
             }
     
-           
+            
             if (evento.participantesAtuais >= evento.participantes) {
                 return res.status(400).json({ message: 'O evento já atingiu o número máximo de participantes.' });
             }
     
-            
+           
             const participacaoExistente = await Participacao.findOne({
                 where: {
                     UserId: userId,
@@ -269,15 +269,23 @@ module.exports = class EventosControllers {
             }
     
             
-            await Evento.update({ participantesAtuais: evento.participantesAtuais + 1 }, { where: { id: id } });
-            await Participacao.create({ UserId: userId, EventoId: id });
+            await Participacao.create({ 
+                UserId: userId, 
+                EventoId: id 
+            });
+            console.log('Participação criada para usuário:', userId, 'evento:', id); // Debug
+    
+            await Evento.update(
+                { participantesAtuais: evento.participantesAtuais + 1 }, 
+                { where: { id: id } }
+            );
     
             res.status(200).json({
-                message: 'Você se inscreveu com sucesso (atualize a página para cancelar a inscricão)!',
+                message: 'Você se inscreveu com sucesso!',
                 participantesAtuais: evento.participantesAtuais + 1
             });
         } catch (error) {
-            console.error(error);
+            console.error('Erro ao participar:', error);
             res.status(500).json({ message: 'Erro ao participar do evento.' });
         }
     }
@@ -317,6 +325,58 @@ static async cancelarParticipacao(req, res) {
         res.status(500).json({ message: 'Erro ao cancelar a participação.' });
     }
 }
+
+    static async eventosParticipando(req, res) {
+        try {
+            const userId = req.session.userid;
+            console.log('UserID:', userId); // Debug
+
+           
+            const participacoes = await Participacao.findAll({
+                where: { UserId: userId },
+                include: [{
+                    model: Evento,
+                    required: true
+                }],
+                raw: true,
+                nest: true 
+            });
+            console.log('Participações encontradas:', participacoes); // Debug
+
+           
+            const eventos = participacoes.map(participacao => {
+                const evento = participacao.Evento;
+                const data = new Date(evento.data);
+                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                evento.isParticipating = true;
+                return evento;
+            });
+
+            console.log('Eventos processados:', eventos); // Debug
+
+           
+            const user = await User.findOne({ 
+                where: { id: userId },
+                raw: true 
+            });
+            const userName = user ? user.name : null;
+
+            res.render('eventos-participando', {
+                eventos,
+                userName,
+                layout: 'main-users'
+            });
+
+        } catch (error) {
+            console.log('Erro completo:', error);
+            res.status(500).send('Erro ao carregar eventos participando');
+        }
+    }
 
     
     

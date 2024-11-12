@@ -42,8 +42,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white hover-opacity">
-                            <i class="bi bi-calendar-check"></i> Eventos Ativos
+                        <a href="/eventos/eventos-participando" class="nav-link text-white hover-opacity">
+                            <i class="bi bi-calendar-check"></i> Eventos Participando
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -55,7 +55,7 @@
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('nenhum')">Nenhum curso relacionado</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletronica')">Eletrônica</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletrotecnica')">Eletrotécnica</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Móveis</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Moveis</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('mecanica')">Mecânica</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('quimica')">Química</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('informatica')">Informática</a></li>
@@ -98,6 +98,48 @@
         {{/if}}
         {{{body}}}
     </div>
+
+    
+    <footer class="bg-primary text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <img src="/img/LogoCimolBranco.png" alt="cimol" style="height: 60px;" class="mb-3">
+                    <p class="mb-0">Escola Técnica Estadual Monteiro Lobato</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Links Úteis</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="https://www.cimol.g12.br/" class="text-white text-decoration-none hover-opacity">Site Oficial</a></li>
+                        <li class="mb-2"><a href="https://www.cimol.g12.br/cursos.php" class="text-white text-decoration-none hover-opacity">Cursos</a></li>
+                        <li class="mb-2"><a href="https://www.cimol.g12.br/contato.php" class="text-white text-decoration-none hover-opacity">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Redes Sociais</h5>
+                    <div class="d-flex gap-3">
+                        <a href="https://www.facebook.com/CimolOficial" class="text-white fs-4 hover-opacity">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/cimol_monteirolobato/" class="text-white fs-4 hover-opacity">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://servicos.educacao.rs.gov.br/pse/srv/matricula.jsp?ACAO=acao5" class="text-white fs-4 hover-opacity">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-primary border-top py-3">
+            <div class="container text-center">
+                <small>&copy; 2024 Escola Técnica Estadual Monteiro Lobato. Todos os direitos reservados.</small>
+            </div>
+        </div>
+    </footer>
 
     <script src="/css/s.js"></script>
 </body>

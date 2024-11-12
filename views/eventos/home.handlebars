@@ -7,7 +7,7 @@
 <div class="container mt-5">
    
     <div class="text-center mb-4">
-        <h2 class="fw-bold text-dark">Eventos Ativos</h2>
+        <h2 class="fw-bold text-dark">Eventos Cimol</h2>
         <p class="text-muted">Explore os melhores eventos disponíveis no momento para enriquecer seu conhecimento e desenvolver suas habilidades.</p>
         <hr class="my-4 w-50 mx-auto">
     </div>
@@ -48,7 +48,7 @@
 
                     <div class="card-footer">
                         {{#if this.isParticipating}}
-                            <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar</button>
+                            <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar Participação</button>
                         {{else}}
                             <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
                         {{/if}}
@@ -65,22 +65,29 @@
 
 
 <style>
-    .card {
-    border: none;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border-radius: 10px;
-    margin-bottom: 20px; 
-}
+   .card {
+        border: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 10px;
+    }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
 
-.card-title {
-    font-size: 1.5em;
-    font-weight: bold;
-}
+    .card-title {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .btn-danger {
+        transition: all 0.3s;
+    }
+
+    .btn-danger:hover {
+        transform: scale(1.05);
+    }
 </style>
 
 
