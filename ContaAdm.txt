@@ -3,3 +3,11 @@ Essa é a conta para acesar a pagina do adm
 Email: ContadeAdminCimol@admin.com
 
 Codigo/senha: admin
+ <form class="d-flex me-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input class="form-control border-start-0 ps-0" type="search" placeholder="Buscar eventos">
+                    </div>
+                </form>
