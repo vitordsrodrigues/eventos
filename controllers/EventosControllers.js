@@ -389,6 +389,37 @@ static async cancelarParticipacao(req, res) {
         }
     }
 
+    static async showProfile(req, res) {
+        try {
+            const userId = req.session.userid;
+            
+           
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email'] 
+            });
+
+            
+            const participationCount = await Participacao.count({
+                where: { UserId: userId }
+            });
+
+            const messages = req.flash();
+            res.render('profile', {
+                user,
+                participationCount,
+                messages,
+                userName: user.name,
+                layout: 'main-users'
+            });
+
+        } catch (error) {
+            console.error('Erro ao carregar perfil:', error);
+            req.flash('message', 'Erro ao carregar perfil');
+            res.redirect('/');
+        }
+    }
+
     
     
     

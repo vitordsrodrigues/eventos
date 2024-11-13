@@ -91,12 +91,21 @@ app.use('/eventos',eventosRoutes)
 app.use('/',authRoutes)
 app.get('/',EventosControllers.showEventos)
 
+app.get('/profile', checkAuth, EventosControllers.showProfile);
 
 User.hasMany(Participacao);
 Participacao.belongsTo(User);
 
 Evento.hasMany(Participacao);
 Participacao.belongsTo(Evento);
+
+function checkAuth(req, res, next) {
+    if (!req.session.userid) {
+        req.flash('message', 'Por favor, faça login para acessar esta página');
+        return res.redirect('/login');
+    }
+    next();
+}
 
 conn
     .sync()
