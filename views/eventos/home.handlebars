@@ -6,11 +6,28 @@
 
 <div class="container mt-5">
    
-    <div class="text-center mb-4">
-        <h2 class="fw-bold text-dark">Eventos Cimol</h2>
-        <p class="text-muted">Explore os melhores eventos disponíveis no momento para enriquecer seu conhecimento e desenvolver suas habilidades.</p>
+    <div class="text-center mb-5">
+        <div class="position-relative d-inline-block">
+            <h2 class="display-4 fw-bold text-primary mb-3">Eventos Cimol</h2>
+            <div class="accent-line"></div>
+        </div>
+        <p class="lead text-muted mx-auto" style="max-width: 600px;">
+            Explore os melhores eventos disponíveis no momento para enriquecer 
+            seu conhecimento e desenvolver suas habilidades.
+        </p>
         <hr class="my-4 w-50 mx-auto">
     </div>
+    <div class="notice-banner">
+        <div class="notice-content">
+            <span class="pulse-dot"></span>
+            <strong>Pré-Matrícula 2025:</strong> 
+            <a href="https://servicos.educacao.rs.gov.br/pse/srv/matricula.jsp?ACAO=acao5&fbclid=PAZXh0bgNhZW0CMTEAAaY6eSStxdkxBlcx_zOikNLwFVVhyB5mkCDwOmHZn3XHN7h_Dtr9P_9sxRQ_aem_qmikmkr3t9vgcHbg6QakrA" target="_blank" class="notice-link">
+                Acesse aqui
+                <i class="bi bi-arrow-right-short"></i>
+            </a>
+        </div>
+    </div>
+
 
     
     <h3 id="cursoNome" class="text-center mb-4"></h3>
@@ -87,7 +104,72 @@
 
     .btn-danger:hover {
         transform: scale(1.05);
+    } 
+    .display-4 {
+    font-size: 2.8rem;
+    letter-spacing: -0.5px;
+}
+
+.lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+}
+.notice-banner {
+    position: fixed;
+    left: -140px;
+    top: 50%;
+    transform: rotate(-90deg);
+    background: linear-gradient(90deg, #007bff, #6610f2);
+    padding: 8px 20px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.notice-content {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notice-link {
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.notice-link:hover {
+    color: #f0f0f0;
+    text-decoration: underline;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
     }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
 </style>
 
 
