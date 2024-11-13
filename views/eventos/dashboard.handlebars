@@ -10,14 +10,13 @@
             </button>
         </div>
     </div>
-
+  
     
     <div class="card mb-5 shadow-sm border-0">
         <div class="card-header text-center bg-primary text-white">
             <h3 class="m-0">Eventos no Ar</h3>
         </div>
         <div class="card-body">
-            <p class="card-text text-center text-muted">Confira a lista de eventos ativos atualmente.</p>
 
             
             {{#if message}}
@@ -29,12 +28,16 @@
 
             
             <div class="list-group">
-               
+                <h3 id="cursoNome" class="text-center mb-4"></h3>
+    <div id="sem-eventos" class="alert text-center d-none">
+        <h4>Sem eventos para este curso</h4>
+        <p>No momento não há eventos cadastrados para o curso selecionado.</p>
+    </div>
                 <div class="container mt-5"></div>
     <div class="row">
         {{#each eventos}}
             {{#if (isEventoAtivo this.datalimite)}}
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
                     <div class="card h-100 shadow-lg d-flex flex-column">
                         {{#if this.imagem}}
                             <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
@@ -284,10 +287,6 @@
 
 
 
-<style>
-
-
-</style>
 
 
 {{!-- nao mexer, modal boostrap, gugu --}}
@@ -296,31 +295,27 @@
         var eventoEditModal = document.getElementById('eventoEditModal');
         eventoEditModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
-            
-            // Função para formatar a data
+
+           
             function formatarData(dataString) {
                 if (!dataString) return '';
                 
-                // Log para debug
+                
                 console.log('Data original:', dataString);
                 
-                // Remove qualquer hora/timezone da string
-                let data = dataString.split('T')[0];
-                if (!data) {
-                    data = dataString.split(' ')[0];
-                }
                 
-                // Log para debug
+                let data = new Date(dataString).toISOString().split('T')[0];
+                
+               
                 console.log('Data formatada:', data);
                 
                 return data;
             }
 
-            // Captura e formata as datas
+            
             var data = formatarData(button.getAttribute('data-data'));
             var datalimite = formatarData(button.getAttribute('data-datalimite'));
             
-            // Preenche os campos do modal
             var modal = eventoEditModal;
             modal.querySelector('input[name="id"]').value = button.getAttribute('data-id');
             modal.querySelector('input[name="title"]').value = button.getAttribute('data-title');
@@ -332,21 +327,15 @@
             modal.querySelector('input[name="duracao"]').value = button.getAttribute('data-duracao');
             modal.querySelector('select[name="curso"]').value = button.getAttribute('data-curso');
             modal.querySelector('textarea[name="descricao"]').value = button.getAttribute('data-descricao');
-
-            // Log para debug
-            console.log('Valores preenchidos:', {
-                data: modal.querySelector('input[name="data"]').value,
-                datalimite: modal.querySelector('input[name="datalimite"]').value
-            });
         });
     });
 
-    // Configura data mínima inicial
-    document.getElementById('data').min = new Date().toISOString().split('T')[0];
+   
+    document.getElementById('data').addEventListener('change', setMinDateLimite);
     
     function setMinDateLimite() {
         const dataEvento = new Date(document.getElementById('data').value);
-        dataEvento.setDate(dataEvento.getDate());
+        dataEvento.setDate(dataEvento.getDate() + 1); // Garante que a data limite seja pelo menos um dia após a data de início
         document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
     }
 </script>

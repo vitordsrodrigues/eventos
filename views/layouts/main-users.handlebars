@@ -27,7 +27,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
         <div class="container-fluid">
             <a href="/" id="logo" class="navbar-brand">
-                <img src="/img/LogoCimolBranco.png" alt="cimol" class="d-inline-block align-text-top" style="height: 40px;">
+                <img src="/img/LogoCimolBranco.png" alt="cimol" class="d-inline-block align-text-top" style="height: 60px;">
             </a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -65,10 +65,12 @@
                 </ul>
                 
                 <form action="/" method="GET" class="d-flex me-3">
-
-                    <input type="text" name="search" placeholder="buscar eventos">
-                    <input type="submit" value="buscar">
-                
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
+                        <button class="btn btn-light" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
                 </form>
                
                 
@@ -101,13 +103,13 @@
     
     <footer class="bg-primary text-white mt-5">
         <div class="container py-4">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col text-center text-md-start">
                     <img src="/img/LogoCimolBranco.png" alt="cimol" style="height: 60px;" class="mb-3">
                     <p class="mb-0">Escola Técnica Estadual Monteiro Lobato</p>
                 </div>
                 
-                <div class="col-lg-4 mb-4 mb-lg-0">
+                <div class="col text-center text-md-start">
                     <h5 class="mb-3">Links Úteis</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="https://www.cimol.g12.br/" class="text-white text-decoration-none hover-opacity">Site Oficial</a></li>
@@ -116,9 +118,9 @@
                     </ul>
                 </div>
                 
-                <div class="col-lg-4">
+                <div class="col text-center text-md-start">
                     <h5 class="mb-3">Redes Sociais</h5>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex gap-3 justify-content-center justify-content-md-start">
                         <a href="https://www.facebook.com/CimolOficial" class="text-white fs-4 hover-opacity">
                             <i class="bi bi-facebook"></i>
                         </a>
@@ -134,8 +136,8 @@
         </div>
         
         <div class="bg-primary border-top py-3">
-            <div class="container text-center">
-                <small>&copy; 2024 Escola Técnica Estadual Monteiro Lobato. Todos os direitos reservados.</small>
+            <div class="container">
+                <small class="d-block text-center">&copy; 2024 Escola Técnica Estadual Monteiro Lobato. Todos os direitos reservados.</small>
             </div>
         </div>
     </footer>
