@@ -43,7 +43,7 @@
 
                         <div class="card-footer">
                             <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">
-                                Cancelar Participação
+                                <span id="btnText_{{this.id}}">Cancelar Participação</span>
                             </button>
                         </div>
                     </div>
@@ -58,6 +58,9 @@
     {{/if}}
 </div>
 
+
+
+<script src="/css/participando.js"></script>
 <style>
     .card {
         border: none;

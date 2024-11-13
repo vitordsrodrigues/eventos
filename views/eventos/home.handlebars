@@ -67,7 +67,11 @@
                         {{#if this.isParticipating}}
                             <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">Cancelar Participação</button>
                         {{else}}
-                            <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
+                            {{#if (isEventoEsgotado this.participantesAtuais this.participantes)}}
+                                <h6 class="text-danger text-center mb-0" style="font-weight: bold;">VAGAS ESGOTADA</h6>
+                            {{else}}
+                                <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">Participar</button>
+                            {{/if}}
                         {{/if}}
                     </div>
                 </div>
@@ -80,7 +84,7 @@
 
 
 
-
+<script src="/css/s.js"></script>
 <style>
    .card {
         border: none;

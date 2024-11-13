@@ -36,6 +36,9 @@ const hbs = exphbs.create({
             dataLimite.setHours(0, 0, 0, 0);
             
             return dataLimite >= hoje;
+        },
+        isEventoEsgotado: function(participantesAtuais, participantesMax) {
+            return participantesAtuais >= participantesMax;
         }
     }
 });

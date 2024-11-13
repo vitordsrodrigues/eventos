@@ -335,7 +335,7 @@
     
     function setMinDateLimite() {
         const dataEvento = new Date(document.getElementById('data').value);
-        dataEvento.setDate(dataEvento.getDate() + 1); // Garante que a data limite seja pelo menos um dia após a data de início
+        dataEvento.setDate(dataEvento.getDate() + 1); 
         document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
     }
 </script>

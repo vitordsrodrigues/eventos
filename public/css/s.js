@@ -53,6 +53,8 @@ function mostrarMensagemFlash(mensagem, tipo = 'success') {
 
 function participarEvento(eventId) {
     const botao = document.getElementById(`participarBtn_${eventId}`);
+    const cancelarBotao = document.getElementById(`cancelarBtn_${eventId}`);
+    
     botao.classList.add('shake-animation');
     
     setTimeout(() => {
@@ -75,14 +77,25 @@ function participarEvento(eventId) {
     .then(data => {
         mostrarMensagemFlash(data.message);
 
-        
+        // Atualiza o contador de participantes
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
 
+        // Troca os botões
+        botao.style.display = 'none';
         
-        document.getElementById(`participarBtn_${eventId}`).style.display = 'none';
-        document.getElementById(`cancelarBtn_${eventId}`).style.display = 'block';
+        // Cria o botão de cancelar se não existir
+        if (!cancelarBotao) {
+            const novoBotaoCancelar = document.createElement('button');
+            novoBotaoCancelar.id = `cancelarBtn_${eventId}`;
+            novoBotaoCancelar.className = 'btn btn-danger w-100';
+            novoBotaoCancelar.onclick = () => cancelarParticipacao(eventId);
+            novoBotaoCancelar.textContent = 'Cancelar Participação';
+            botao.parentNode.appendChild(novoBotaoCancelar);
+        } else {
+            cancelarBotao.style.display = 'block';
+        }
     })
     .catch(error => {
         console.error('Erro:', error);
@@ -91,6 +104,16 @@ function participarEvento(eventId) {
 }
 
 function cancelarParticipacao(eventId) {
+    const botaoParticipar = document.getElementById(`participarBtn_${eventId}`);
+    const botaoCancelar = document.getElementById(`cancelarBtn_${eventId}`);
+    
+    // Adiciona animação de shake ao botão de cancelar
+    botaoCancelar.classList.add('shake-animation');
+    
+    setTimeout(() => {
+        botaoCancelar.classList.remove('shake-animation');
+    }, 500);
+
     fetch(`/eventos/cancelar`, {
         method: 'POST',
         headers: {
@@ -107,14 +130,25 @@ function cancelarParticipacao(eventId) {
     .then(data => {
         mostrarMensagemFlash(data.message);
 
-        
+        // Atualiza o contador de participantes
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
 
+        // Troca os botões
+        botaoCancelar.style.display = 'none';
         
-        document.getElementById(`cancelarBtn_${eventId}`).style.display = 'none';
-        document.getElementById(`participarBtn_${eventId}`).style.display = 'block';
+        // Configura o botão de participar
+        if (!botaoParticipar) {
+            const novoBotaoParticipar = document.createElement('button');
+            novoBotaoParticipar.id = `participarBtn_${eventId}`;
+            novoBotaoParticipar.className = 'btn btn-primary w-100';
+            novoBotaoParticipar.onclick = () => participarEvento(eventId);
+            novoBotaoParticipar.textContent = 'Participar';
+            botaoCancelar.parentNode.appendChild(novoBotaoParticipar);
+        } else {
+            botaoParticipar.style.display = 'block';
+        }
     })
     .catch(error => {
         console.error('Erro:', error);
