@@ -8,7 +8,7 @@ setTimeout(function() {
         }, 500);
     }
 }, 2500);
-
+document.querySelector('.curso-texto').textContent = nomeDoCurso;
 const estiloFlashMessage = document.createElement('style');
 estiloFlashMessage.textContent = `
     .flash-message {
@@ -162,8 +162,32 @@ function filtrarEventos(curso) {
     const cards = document.querySelectorAll('.evento-card');
     const semEventos = document.getElementById('sem-eventos');
     let eventosVisiveis = 0;
-    document.getElementById('cursoNome').textContent = curso.charAt(0).toUpperCase() + curso.slice(1);
+    
+  
+    const nomeCursos = {
+        'todos': 'Todos os Cursos',
+        'nenhum': 'Nenhum Curso Relacionado',
+        'eletronica': 'Eletrônica',
+        'eletrotecnica': 'Eletrotécnica',
+        'moveis': 'Móveis',
+        'mecanica': 'Mecânica',
+        'quimica': 'Química',
+        'informatica': 'Informática',
+        'meio ambiente': 'Meio Ambiente'
+    };
+    
+   
+    const cursoFormatado = nomeCursos[curso.toLowerCase()] || curso;
+    
+  
+    document.getElementById('cursoNome').innerHTML = `
+        <span class="curso-badge bg-primary text-white px-4 py-2 rounded-pill shadow-sm">
+            <i class="bi bi-mortarboard-fill me-2"></i>
+            <span class="curso-texto">${cursoFormatado}</span>
+        </span>
+    `;
 
+    
     cards.forEach(card => {
         const cursoCarta = card.getAttribute('data-curso').toLowerCase();
         if (curso === 'todos' || cursoCarta === curso) {
