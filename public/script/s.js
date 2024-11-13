@@ -77,15 +77,14 @@ function participarEvento(eventId) {
     .then(data => {
         mostrarMensagemFlash(data.message);
 
-        // Atualiza o contador de participantes
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
 
-        // Troca os botões
+       
         botao.style.display = 'none';
         
-        // Cria o botão de cancelar se não existir
+       
         if (!cancelarBotao) {
             const novoBotaoCancelar = document.createElement('button');
             novoBotaoCancelar.id = `cancelarBtn_${eventId}`;
@@ -107,7 +106,7 @@ function cancelarParticipacao(eventId) {
     const botaoParticipar = document.getElementById(`participarBtn_${eventId}`);
     const botaoCancelar = document.getElementById(`cancelarBtn_${eventId}`);
     
-    // Adiciona animação de shake ao botão de cancelar
+    
     botaoCancelar.classList.add('shake-animation');
     
     setTimeout(() => {
@@ -130,15 +129,15 @@ function cancelarParticipacao(eventId) {
     .then(data => {
         mostrarMensagemFlash(data.message);
 
-        // Atualiza o contador de participantes
+        
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
 
-        // Troca os botões
+        
         botaoCancelar.style.display = 'none';
         
-        // Configura o botão de participar
+        
         if (!botaoParticipar) {
             const novoBotaoParticipar = document.createElement('button');
             novoBotaoParticipar.id = `participarBtn_${eventId}`;
