@@ -26,10 +26,14 @@ function cancelarParticipacao(eventId) {
             if (eventosRestantes === 0) {
                 const container = document.querySelector('.container');
                 container.innerHTML = `
-                    <div class="alert alert-info text-center">
-                        <h4>Você ainda não está participando de nenhum evento</h4>
-                        <p>Explore a <a href="/eventos">página de eventos</a> para encontrar eventos interessantes!</p>
-                    </div>
+                    <div class="empty-state text-center py-5">
+            <h3 class="text-primary mb-3">Nenhum evento encontrado</h3>
+            <p class="text-muted mb-4">Você ainda não está participando de nenhum evento. Que tal começar agora?</p>
+            <a href="/eventos" class="btn btn-primary btn-lg">
+                <i class="bi bi-calendar-plus me-2"></i>
+                Explorar Eventos
+            </a>
+        </div>
                 `;
             }
         }, 500);

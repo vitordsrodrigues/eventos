@@ -75,16 +75,14 @@ function participarEvento(eventId) {
         throw new Error('Erro ao participar do evento.');
     })
     .then(data => {
-        mostrarMensagemFlash(data.message);
-
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
 
-       
+        
         botao.style.display = 'none';
         
-       
+        
         if (!cancelarBotao) {
             const novoBotaoCancelar = document.createElement('button');
             novoBotaoCancelar.id = `cancelarBtn_${eventId}`;
@@ -127,9 +125,6 @@ function cancelarParticipacao(eventId) {
         throw new Error('Erro ao cancelar a participação.');
     })
     .then(data => {
-        mostrarMensagemFlash(data.message);
-
-        
         const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
         const [_, max] = participantesElement.innerText.split('/');
         participantesElement.innerText = `${data.participantesAtuais}/${max}`;
