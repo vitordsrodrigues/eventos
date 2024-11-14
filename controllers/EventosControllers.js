@@ -377,7 +377,7 @@ static async cancelarParticipacao(req, res) {
             });
             const userName = user ? user.name : null;
 
-            res.render('eventos-participando', {
+            res.render('eventos/eventos-participando', {
                 eventos,
                 userName,
                 layout: 'main-users'
