@@ -225,97 +225,68 @@
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
 {{else}}
 
-
-    
-    
-<div class="progress-bar"></div>
-
-
-<div class="a container mt-0">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-           
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="/img/Semanaeltro.png" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/img/Semanainfo.png" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/img/Semanamec.png" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                
-            </div>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <div class="position-relative d-inline-block">
+            <h2 class="display-4 fw-bold text-primary mb-3">Bem-vindo ao Eventos Cimol</h2>
+            <div class="accent-line"></div>
         </div>
-        <div class="col-md-6 text-center">
-            
-            <h1 class="display-4">Site para Eventos do CIMOL</h1>
-            <p class="lead">Venha conhecer os eventos atuais do CIMOL.</p>
-            
-       <div class="d-flex flex-column align-items-center mt-3">
-    <a href="/login" class="btn btn-primary btn-lg custom-btn mb-3">
-        <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
-    </a>
-    <a href="/register" class="btn btn-secondary btn-lg custom-btn">
-        <i class="bi bi-person-plus me-2"></i> Registrar
-    </a>
+        <p class="lead text-muted mx-auto" style="max-width: 600px;">
+            Faça login ou registre-se para participar dos melhores eventos disponíveis no momento.
+        </p>
+        <div class="mt-4">
+            <a href="/login" class="btn btn-primary btn-lg mx-2">Login</a>
+            <a href="/register" class="btn btn-outline-primary btn-lg mx-2">Registrar</a>
+        </div>
+        <hr class="my-4 w-50 mx-auto">
+    </div>
+
+    <div class="row" id="eventos-container">
+        {{#each eventos}}
+            <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
+                <div class="card h-100 shadow-lg">
+                    {{#if this.imagem}}
+                        <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    {{else}}
+                        <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    {{/if}}
+
+                    <div class="card-body">
+                        <h3 class="card-title text-primary">{{this.title}}</h3>
+                        <p class="card-text">{{this.descricao}}</p>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
+                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
+                        <li class="list-group-item"><strong>Data:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
+                    </ul>
+
+                    <div class="card-footer text-center">
+                        <p class="text-muted mb-0">Faça login para participar deste evento</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 </div>
-</div>
-<div class="progress-bar mt-4"></div>
 
 <style>
-    .progress-bar {
-        position: relative;
-        width: 100%;
-        height: 4px;
-        overflow: hidden;
+    .btn-lg {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
     }
 
-    .progress-bar::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, #007bff, #6610f2);
-        animation: progressEffect 2s linear infinite;
+    .btn-lg:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
     }
 
-    @keyframes progressEffect {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-    }
-    
-     .custom-btn {
-        font-size: 1.25em; 
-        padding: 10px 30px; 
-        border-radius: 15px; 
-        background: linear-gradient(90deg, #007bff, #6610f2);
-        border: none; 
-        transition: background-color 0.3s, transform 0.3s; 
-    }
-
-    .custom-btn:hover {
-        background-color: #0056b3; /* Darker shade on hover */
-        transform: translateY(-3px); /* Slight lift on hover */
-    }
-    .a {
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .carousel-item img {
-        max-height: 300px;
-        object-fit: cover;
-    }
+    /
 </style>
-
 
 {{/if}}
         
