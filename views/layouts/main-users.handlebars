@@ -46,7 +46,8 @@
                             <i class="bi bi-calendar-check"></i> Eventos Participando
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- Versão Desktop do Filtro -->
+                    <li class="nav-item dropdown d-none d-lg-block">
                         <a href="#" class="nav-link text-white dropdown-toggle hover-opacity" id="filterDropdown" data-bs-toggle="dropdown">
                             <i class="bi bi-funnel"></i> Filtrar
                         </a>
@@ -64,8 +65,9 @@
                     </li>
                 </ul>
 
+                
                 {{#if (temPermissaoBusca session.userid)}}
-                <form action="/" method="GET" class="d-flex me-3">
+                <form action="/" method="GET" class="d-none d-lg-flex me-3">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
                         <button class="btn btn-light" type="submit">
@@ -73,8 +75,8 @@
                         </button>
                     </div>
                 </form>
-               {{/if}}
-                
+                {{/if}}
+
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link text-white dropdown-toggle d-flex align-items-center" id="userDropdown" data-bs-toggle="dropdown">
@@ -91,6 +93,44 @@
             </div>
         </div>
     </nav>
+
+    
+    <div class="bg-light py-2 d-lg-none">
+        <div class="container">
+            <div class="row g-2">
+                <div class="col-12">
+                    <div class="dropdown w-100">
+                        <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="filterDropdownMobile" data-bs-toggle="dropdown">
+                            <i class="bi bi-funnel"></i> Filtrar por Curso
+                        </button>
+                        <ul class="dropdown-menu w-100 shadow-sm border-0" aria-labelledby="filterDropdownMobile">
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('todos')">Todos os cursos</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('nenhum')">Nenhum curso relacionado</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletronica')">Eletrônica</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('eletrotecnica')">Eletrotécnica</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('moveis')">Moveis</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('mecanica')">Mecânica</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('quimica')">Química</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('informatica')">Informática</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="filtrarEventos('meio ambiente')">Meio Ambiente</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {{#if (temPermissaoBusca session.userid)}}
+                <div class="col-12">
+                    <form action="/" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
 
     <div class="container mt-4 containerUser">
         {{#if messages.message}}
