@@ -430,6 +430,54 @@ static async cancelarParticipacao(req, res) {
     }
 
     
+    static async meusEventos(req,res){
+        
+        try {
+            const userId = req.session.userid;
+
+            const participacoes = await Participacao.findAll({
+                where: { UserId: userId },
+                include: [{
+                    model: Evento,
+                    required: true
+                }],
+                raw: true,
+                nest: true 
+            });
+
+           
+            const eventos = participacoes.map(participacao => {
+                const evento = participacao.Evento;
+                const data = new Date(evento.data);
+                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                evento.isParticipating = true;
+                return evento;
+            });
+
+            const user = await User.findOne({ 
+                where: { id: userId },
+                raw: true 
+            });
+            const userName = user ? user.name : null;
+
+            res.render('eventos/meus-eventos', {
+                eventos,
+                userName,
+                layout: 'main-users'
+            });
+
+        } catch (error) {
+            console.log('Erro completo:', error);
+            res.status(500).send('Erro ao carregar eventos participando');
+        }
+    }
+    
+    
     
     
     

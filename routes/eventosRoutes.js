@@ -44,7 +44,7 @@ router.get('/', EventosControllers.showEventos);
 router.post('/participar', checkAuth, EventosControllers.participarEvento);
 router.post('/cancelar', checkAuth, EventosControllers.cancelarParticipacao);
 router.get('/eventos-participando', checkAuth, EventosControllers.eventosParticipando); 
-
+router.get('/meus-eventos',checkAuth,EventosControllers.meusEventos)
 
 
 
