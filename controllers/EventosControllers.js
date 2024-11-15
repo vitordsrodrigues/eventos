@@ -73,7 +73,9 @@ module.exports = class EventosControllers {
                     eventos, 
                     messages, 
                     userName,
-                    layout
+                    layout,
+                    search,
+                    hasSearch: !!search
                 });
             });
         } catch (error) {
