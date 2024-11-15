@@ -43,7 +43,14 @@ module.exports = class EventosControllers {
     
                     evento.isParticipating = !!participacaoExistente;
                     const data = new Date(evento.data);
+                    const dataLimite = new Date(evento.datalimite);
                     evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                        weekday: 'long', 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    });
+                    evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', { 
                         weekday: 'long', 
                         day: '2-digit', 
                         month: '2-digit', 

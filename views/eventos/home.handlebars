@@ -44,15 +44,22 @@
     </div>
 
     <div class="row" id="eventos-container">
-        {{#if hasSearch}}
-            <div class="alert mt-3">
-                <i class="bi bi-search me-2"></i>
-                Buscando por: "{{search}}"
-                <a href="/" class="btn btn-sm btn-outline-dark ms-2">
-                    <i class="bi bi-x-lg"></i> Limpar busca
-                </a>
-            </div>
-        {{/if}}
+         {{#if hasSearch}}
+    <div class="alert alert-light border rounded shadow-sm mt-3 d-flex align-items-center">
+      <i class="bi bi-search me-2 text-primary fs-5"></i>
+      <span class="fw-bold text-dark">Buscando por:</span> 
+      <span class="ms-1 fst-italic text-muted">"{{search}}"</span>
+      <a href="/" class="btn btn-sm btn-outline-danger ms-auto d-flex align-items-center">
+        <i class="bi bi-x-lg me-1"></i> Limpar busca
+      </a>
+    </div>
+    {{#unless eventos.length}}
+        <div class="alert  mt-3 text-center">
+            <i class="bi bi-emoji-frown text-warning fs-4 mb-2 d-block"></i>
+            <p class="mb-0">Nenhum resultado encontrado para "{{search}}"</p>
+        </div>
+    {{/unless}}
+  {{/if}}
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
                 <div class="card h-100 shadow-lg d-flex flex-column">
@@ -74,7 +81,7 @@
                         <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
                         <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
                         <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataFormatada}}</li>
+                        <li class="list-group-item"><strong>Data Final:</strong> {{this.dataLimiteFormatada}}</li>
                         <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
                         <li class="list-group-item"><strong>Participantes:</strong> <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span></li>
                     </ul>
@@ -101,116 +108,8 @@
 
 
 <script src="/script/s.js"></script>
-<style>
-    .curso-header {
-    text-align: center;
-    margin: 2rem 0;
-}
 
-.curso-badge {
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
 
-.curso-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2) !important;
-}
-
-.curso-texto {
-    letter-spacing: 0.5px;
-}
-   .card {
-        border: none;
-        transition: transform 0.3s, box-shadow 0.3s;
-        border-radius: 10px;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-title {
-        font-size: 1.5em;
-        font-weight: bold;
-    }
-
-    .btn-danger {
-        transition: all 0.3s;
-    }
-
-    .btn-danger:hover {
-        transform: scale(1.05);
-    } 
-    .display-4 {
-    font-size: 2.8rem;
-    letter-spacing: -0.5px;
-}
-
-.lead {
-    font-size: 1.15rem;
-    line-height: 1.6;
-}
-.notice-banner {
-    position: fixed;
-    left: -140px;
-    top: 50%;
-    transform: rotate(-90deg);
-    background: linear-gradient(90deg, #007bff, #6610f2);
-    padding: 8px 20px;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.notice-content {
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.notice-link {
-    color: white;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.notice-link:hover {
-    color: #f0f0f0;
-    text-decoration: underline;
-}
-
-.pulse-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: inline-block;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-    }
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-    }
-    100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
-}
-
-</style>
 
 
 
