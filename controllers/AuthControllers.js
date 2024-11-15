@@ -15,7 +15,7 @@ module.exports = class AuthControllers {
             req.session.userid = 'admin'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
             return req.session.save(() => {
-                res.redirect('eventos/dashboard'); 
+                res.redirect('eventos/dashboard',); 
             });
         }
 
@@ -39,7 +39,7 @@ module.exports = class AuthControllers {
 
         req.flash('message', 'Login realizado com sucesso')
         req.session.save(() => {
-            res.redirect('/')
+            res.redirect('/',)
         })
     }
 

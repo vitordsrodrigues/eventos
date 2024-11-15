@@ -39,6 +39,13 @@ const hbs = exphbs.create({
         },
         isEventoEsgotado: function(participantesAtuais, participantesMax) {
             return participantesAtuais >= participantesMax;
+        },
+        temPermissaoBusca: function(userid) {
+            // Se for admin, retorna falso (sem permissão)
+            if (userid === null||userid === 'admin') return false;
+
+            // Outros usuários têm permissão
+            return !!userid; // Verifica se o userid existe
         }
     }
 });
@@ -109,6 +116,7 @@ function checkAuth(req, res, next) {
 
 conn
     .sync()
+    //.sync({force:true})
     .then(() => {
         console.log('Banco de dados sincronizado');
         app.listen(3000);

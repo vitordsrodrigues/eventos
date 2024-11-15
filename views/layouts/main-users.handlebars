@@ -64,8 +64,7 @@
                     </li>
                 </ul>
 
-                {{#if this.name}}
-                
+                {{#if (temPermissaoBusca session.userid)}}
                 <form action="/" method="GET" class="d-flex me-3">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
