@@ -84,7 +84,8 @@ module.exports = class EventosControllers {
                     userName,
                     layout,
                     search,
-                    hasSearch: !!search
+                    hasSearch: !!search,
+                    user: req.session.user
                 });
             });
         } catch (error) {
@@ -99,28 +100,9 @@ module.exports = class EventosControllers {
             const userId = req.session.userid;
             const user = await User.findOne({ where: { id: userId } });
             const userName = user ? user.name : null;
-            
-            const eventosData = await Evento.findAll();
-            const eventos = eventosData.map((result) => {
-                const evento = result.dataValues;
-                const data = new Date(evento.data);
-                const dataLimite = new Date(evento.datalimite);
-                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
-                    weekday: 'long',
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                });
-                evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', {
-                    weekday: 'long',
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                }); 
-                return evento;
-            });
 
-            const sugestoes = await Sugestao.findAll({
+            // Buscar sugestões e converter para objetos planos
+            const sugestoesRaw = await Sugestao.findAll({
                 include: [{
                     model: User,
                     attributes: ['name']
@@ -128,10 +110,23 @@ module.exports = class EventosControllers {
                 order: [['createdAt', 'DESC']]
             });
 
+            // Converter para objetos planos
+            const sugestoes = sugestoesRaw.map(sugestao => ({
+                id: sugestao.id,
+                nome: sugestao.nome,
+                email: sugestao.email,
+                assunto: sugestao.assunto,
+                mensagem: sugestao.mensagem,
+                status: sugestao.status,
+                createdAt: sugestao.createdAt,
+                User: sugestao.User ? {
+                    name: sugestao.User.name
+                } : null
+            }));
+
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/dashboard', { 
-                    eventos, 
                     sugestoes,
                     messages,
                     userName,
@@ -544,5 +539,40 @@ static async cancelarParticipacao(req, res) {
     
     
     
-    
+    static async marcarSugestaoComoLida(req, res) {
+        const { id } = req.params;
+        
+        try {
+            const sugestao = await Sugestao.findByPk(id);
+            if (!sugestao) {
+                return res.status(404).json({ message: 'Sugestão não encontrada' });
+            }
+
+            await sugestao.update({ status: 'lida' });
+            res.status(200).json({ message: 'Sugestão marcada como lida' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Erro ao marcar sugestão como lida' });
+        }
+    }
+
+    static async excluirSugestao(req, res) {
+        const { id } = req.params;
+        
+        try {
+            const sugestao = await Sugestao.findByPk(id);
+            if (!sugestao) {
+                return res.status(404).json({ message: 'Sugestão não encontrada' });
+            }
+
+            await sugestao.destroy();
+            res.status(200).json({ message: 'Sugestão excluída com sucesso' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Erro ao excluir sugestão' });
+        }
+    }
 }
+
+
+

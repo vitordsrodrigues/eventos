@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars')
 const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
+const helpers = require('./helpers/handlebars')
 
 const app = express()
 
@@ -21,33 +22,8 @@ const authRoutes = require('./routes/authRoutes')
 
 
 const hbs = exphbs.create({
-    helpers: {
-        dataISO: function(data) {
-            if (!data) return '';
-            const date = new Date(data);
-            return date.toISOString().split('T')[0];
-        },
-        isEventoAtivo: function(datalimite) {
-            const hoje = new Date();
-            const dataLimite = new Date(datalimite);
-            
-            
-            hoje.setHours(0, 0, 0, 0);
-            dataLimite.setHours(0, 0, 0, 0);
-            
-            return dataLimite >= hoje;
-        },
-        isEventoEsgotado: function(participantesAtuais, participantesMax) {
-            return participantesAtuais >= participantesMax;
-        },
-        temPermissaoBusca: function(userid) {
-            // Se for admin, retorna falso (sem permissão)
-            if (userid === null||userid === 'admin') return false;
-
-            // Outros usuários têm permissão
-            return !!userid; // Verifica se o userid existe
-        }
-    },
+    helpers: helpers,
+    defaultLayout: 'main',
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true

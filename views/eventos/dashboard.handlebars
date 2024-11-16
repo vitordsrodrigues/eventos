@@ -116,44 +116,66 @@
         </div>
     </div>
     {{#if sugestoes}}
-    <section class="alert">
-        <h4 class="alert-heading">Sugestões Recentes:</h4>
-        <ul class="list-group">
-            {{#each sugestoes}}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="mb-2"><strong>Nome:</strong> {{this.nome}}</div>
-                        <div class="mb-2"><strong>Email:</strong> {{this.email}}</div>
-                        <div class="mb-2"><strong>Assunto:</strong> {{this.assunto}}</div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#verMensagemModal" 
-                                data-id="{{this.id}}" data-mensagem="{{this.mensagem}}" data-assunto="{{this.assunto}}">
-                            Ver Mensagem
-                        </button>
-                        <button class="btn btn-success btn-sm marcar-lida" data-id="{{this.id}}">
-                            Marcar como Lida
-                        </button>
-                        <button class="btn btn-danger btn-sm excluir-sugestao" data-id="{{this.id}}">
-                            Excluir
-                        </button>
-                    </div>
-                </li>
-            {{/each}}
-        </ul>
+    <section class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Sugestões Recentes</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {{#each sugestoes}}
+                    <li class="list-group-item hover-shadow">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="me-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <strong class="me-2">Nome:</strong> 
+                                    {{this.nome}}
+                                    {{#if (eq this.status 'lida')}}
+                                        <span class="badge bg-success ms-2">Lida</span>
+                                    {{else}}
+                                        <span class="badge bg-warning ms-2">Pendente</span>
+                                    {{/if}}
+                                </div>
+                                <div class="mb-2"><strong>Email:</strong> {{this.email}}</div>
+                                <div class="mb-2"><strong>Assunto:</strong> {{this.assunto}}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm ver-mensagem" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#verMensagemModal"
+                                        data-id="{{this.id}}"
+                                        data-nome="{{this.nome}}"
+                                        data-mensagem="{{this.mensagem}}" 
+                                        data-assunto="{{this.assunto}}">
+                                    <i class="bi bi-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-success btn-sm marcar-lida" 
+                                        data-id="{{this.id}}"
+                                        {{#if (eq this.status 'lida')}}disabled{{/if}}>
+                                    <i class="bi bi-check-circle"></i> Lida
+                                </button>
+                                <button class="btn btn-danger btn-sm excluir-sugestao" 
+                                        data-id="{{this.id}}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
     </section>
 
-    <!-- Modal para exibir mensagem -->
-    <div class="modal fade" id="verMensagemModal" tabindex="-1" aria-labelledby="verMensagemModalLabel" aria-hidden="true">
+    
+    <div class="modal fade" id="verMensagemModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="verMensagemModalLabel">Mensagem</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Mensagem de <span id="modalNome"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Conteúdo da mensagem será inserido dinamicamente -->
-                    <p id="modalMensagem"></p>
+                    Assunto: <h6 class="fw-bold mb-3" id="modalAssunto"></h6>
+                    Mensagem: <p class="mb-0" id="modalMensagem"></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -387,4 +409,85 @@
         dataEvento.setDate(dataEvento.getDate() + 1); 
         document.getElementById('datalimite').min = dataEvento.toISOString().split('T')[0];
     }
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    const verMensagemBtns = document.querySelectorAll('.ver-mensagem');
+    verMensagemBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const nome = this.dataset.nome;
+            const assunto = this.dataset.assunto;
+            const mensagem = this.dataset.mensagem;
+            
+            document.getElementById('modalNome').textContent = nome;
+            document.getElementById('modalAssunto').textContent = assunto;
+            document.getElementById('modalMensagem').textContent = mensagem;
+        });
+    });
+
+    
+    const marcarLidaBtns = document.querySelectorAll('.marcar-lida');
+    marcarLidaBtns.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const id = this.dataset.id;
+            try {
+                const response = await fetch(`/eventos/sugestoes/${id}/marcar-lida`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    this.disabled = true;
+                    this.closest('li').querySelector('.badge').className = 'badge bg-success ms-2';
+                    this.closest('li').querySelector('.badge').textContent = 'Lida';
+                    showToast('Sugestão marcada como lida!', 'success');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao marcar sugestão como lida', 'error');
+            }
+        });
+    });
+
+    
+    const excluirBtns = document.querySelectorAll('.excluir-sugestao');
+    excluirBtns.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            if (confirm('Tem certeza que deseja excluir esta sugestão?')) {
+                const id = this.dataset.id;
+                try {
+                    const response = await fetch(`/eventos/sugestoes/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        this.closest('li').remove();
+                        showToast('Sugestão excluída com sucesso!', 'success');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    showToast('Erro ao excluir sugestão', 'error');
+                }
+            }
+        });
+    });
+
+    
+    function showToast(message, type) {
+        const toastDiv = document.createElement('div');
+        toastDiv.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 position-fixed bottom-0 end-0 m-3`;
+        toastDiv.setAttribute('role', 'alert');
+        toastDiv.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+        document.body.appendChild(toastDiv);
+        const toast = new bootstrap.Toast(toastDiv);
+        toast.show();
+        setTimeout(() => toastDiv.remove(), 3000);
+    }
+});
 </script>
