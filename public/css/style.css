@@ -8,7 +8,6 @@
     height: 100px;
 }
 
-
 .edit{
     border-radius: 15px 5px;
 }
@@ -51,7 +50,7 @@
         height: 100vh !important;
     }
 }
-@media (max-width: 979px) and (min-width: 519px){ /*Qnd a largura da tela está entra 979 e 519*/
+@media (max-width: 979px) and (min-width: 519px){ 
     .containerUser{
         min-height: 42.5vh;
     }
@@ -67,4 +66,3 @@
         border-bottom-right-radius: .3rem;
     }
 }
-
