@@ -3,6 +3,8 @@ const User = require('../models/User');
 const path = require('path')
 const Participacao = require('../models/Participacao');
 const {Op} = require('sequelize')
+const Sugestao = require('../models/Sugestao');
+
 module.exports = class EventosControllers {
     
     
@@ -118,10 +120,19 @@ module.exports = class EventosControllers {
                 return evento;
             });
 
+            const sugestoes = await Sugestao.findAll({
+                include: [{
+                    model: User,
+                    attributes: ['name']
+                }],
+                order: [['createdAt', 'DESC']]
+            });
+
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/dashboard', { 
                     eventos, 
+                    sugestoes,
                     messages,
                     userName,
                     layout: 'main-users'
@@ -474,6 +485,59 @@ static async cancelarParticipacao(req, res) {
         } catch (error) {
             console.log('Erro completo:', error);
             res.status(500).send('Erro ao carregar eventos participando');
+        }
+    }
+    
+    
+    static async showSugestoes(req, res) {
+        try {
+            const userId = req.session.userid;
+            const user = await User.findOne({ where: { id: userId } });
+            const userName = user ? user.name : null;
+            const userEmail = user ? user.email : null;
+
+            res.render('eventos/sugestoes', {
+                userName,
+                userEmail,
+                layout: 'main-users'
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Erro ao carregar página de sugestões');
+        }
+    }
+
+    static async enviarSugestao(req, res) {
+        const { nome, email, assunto, mensagem } = req.body;
+        const userId = req.session.userid;
+
+        try {
+            await Sugestao.create({
+                nome,
+                email,
+                assunto,
+                mensagem,
+                UserId: userId
+            });
+
+            // Passando as informações para o dashboard
+            const messages = req.flash();
+            req.session.save(() => {
+                res.render('eventos/dashboard', { 
+                    messages, 
+                    userName: req.session.userName, // Presumindo que você já tem o userName na sessão
+                    sugestoes: [Object.create(null, { // Criando um objeto sem protótipo
+                        nome: { value: nome },
+                        email: { value: email },
+                        assunto: { value: assunto },
+                        mensagem: { value: mensagem }
+                    })] // Passando a sugestão como um array
+                });
+            });
+        } catch (error) {
+            console.error(error);
+            req.flash('message', 'Erro ao enviar sugestão');
+            res.redirect('/eventos/sugestoes');
         }
     }
     

@@ -47,6 +47,10 @@ const hbs = exphbs.create({
             // Outros usuários têm permissão
             return !!userid; // Verifica se o userid existe
         }
+    },
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
     }
 });
 

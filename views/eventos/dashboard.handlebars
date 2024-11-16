@@ -115,6 +115,54 @@
 
         </div>
     </div>
+    {{#if sugestoes}}
+    <section class="alert">
+        <h4 class="alert-heading">Sugestões Recentes:</h4>
+        <ul class="list-group">
+            {{#each sugestoes}}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="mb-2"><strong>Nome:</strong> {{this.nome}}</div>
+                        <div class="mb-2"><strong>Email:</strong> {{this.email}}</div>
+                        <div class="mb-2"><strong>Assunto:</strong> {{this.assunto}}</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#verMensagemModal" 
+                                data-id="{{this.id}}" data-mensagem="{{this.mensagem}}" data-assunto="{{this.assunto}}">
+                            Ver Mensagem
+                        </button>
+                        <button class="btn btn-success btn-sm marcar-lida" data-id="{{this.id}}">
+                            Marcar como Lida
+                        </button>
+                        <button class="btn btn-danger btn-sm excluir-sugestao" data-id="{{this.id}}">
+                            Excluir
+                        </button>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </section>
+
+    <!-- Modal para exibir mensagem -->
+    <div class="modal fade" id="verMensagemModal" tabindex="-1" aria-labelledby="verMensagemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verMensagemModalLabel">Mensagem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Conteúdo da mensagem será inserido dinamicamente -->
+                    <p id="modalMensagem"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/if}}
+
 
 </div>
 
@@ -291,6 +339,7 @@
 <script src="/script/s.js"></script>
 {{!-- nao mexer, modal boostrap, gugu --}}
 <script>
+  
     document.addEventListener('DOMContentLoaded', function () {
         var eventoEditModal = document.getElementById('eventoEditModal');
         eventoEditModal.addEventListener('show.bs.modal', function (event) {

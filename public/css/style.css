@@ -20,7 +20,7 @@
     color: #ffd700; 
 }
 .modal-header{
-    background: linear-gradient(90deg, #007bff, #6610f2);
+    background:  #007bff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .container {
