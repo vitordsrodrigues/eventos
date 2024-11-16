@@ -1,11 +1,25 @@
 <div class="container py-4">
+    {{#if success}}
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Sua sugestão foi enviada com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow border-0 rounded-3">
                 <div class="card-body p-4">
-                    <h2 class="text-center mb-4">Envie sua Sugestão</h2>
+                    <h2 class="text-center mb-4">
+                        Envie sua Sugestão
+                    </h2>
                     
-                    <form action="/eventos/sugestoes" method="POST">
+                    <form action="/eventos/sugestoes" method="POST" class="needs-validation" novalidate>
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
                             <input type="text" class="form-control" id="nome" name="nome" value="{{userName}}" required>
@@ -26,8 +40,8 @@
                             <textarea class="form-control" id="mensagem" name="mensagem" rows="5" required></textarea>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
                                 <i class="bi bi-send me-2"></i>Enviar Sugestão
                             </button>
                         </div>
@@ -37,3 +51,19 @@
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>

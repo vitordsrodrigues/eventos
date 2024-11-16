@@ -4,7 +4,14 @@
 
 
 <div class="container mt-5">
-   
+    {{#if message}}
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/if}}
+    
     <div class="text-center mb-5">
         <div class="position-relative d-inline-block">
             <h2 class="display-4 fw-bold text-primary mb-3">Eventos Cimol</h2>
@@ -109,6 +116,7 @@
 <script src="/script/s.js"></script>
 
 <style>
+    
     .curso-header {
     text-align: center;
     margin: 2rem 0;

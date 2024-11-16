@@ -494,6 +494,8 @@ static async cancelarParticipacao(req, res) {
             res.render('eventos/sugestoes', {
                 userName,
                 userEmail,
+                success: req.flash('success'),
+                error: req.flash('error'),
                 layout: 'main-users'
             });
         } catch (error) {
@@ -507,6 +509,12 @@ static async cancelarParticipacao(req, res) {
         const userId = req.session.userid;
 
         try {
+            
+            if (!nome || !email || !assunto || !mensagem) {
+                req.flash('error', 'Por favor, preencha todos os campos');
+                return res.redirect('/eventos/sugestoes');
+            }
+
             await Sugestao.create({
                 nome,
                 email,
@@ -515,23 +523,14 @@ static async cancelarParticipacao(req, res) {
                 UserId: userId
             });
 
-            // Passando as informações para o dashboard
-            const messages = req.flash();
+           
+            req.flash('message', 'Sugestão enviada com sucesso!');
             req.session.save(() => {
-                res.render('eventos/dashboard', { 
-                    messages, 
-                    userName: req.session.userName, // Presumindo que você já tem o userName na sessão
-                    sugestoes: [Object.create(null, { // Criando um objeto sem protótipo
-                        nome: { value: nome },
-                        email: { value: email },
-                        assunto: { value: assunto },
-                        mensagem: { value: mensagem }
-                    })] // Passando a sugestão como um array
-                });
+                res.redirect('/');
             });
         } catch (error) {
             console.error(error);
-            req.flash('message', 'Erro ao enviar sugestão');
+            req.flash('error', 'Erro ao enviar sugestão');
             res.redirect('/eventos/sugestoes');
         }
     }
