@@ -101,7 +101,33 @@ module.exports = class EventosControllers {
             const user = await User.findOne({ where: { id: userId } });
             const userName = user ? user.name : null;
 
-            // Buscar sugestões e converter para objetos planos
+            
+            const eventosData = await Evento.findAll({
+                order: [['createdAt', 'DESC']]
+            });
+
+            
+            const eventos = eventosData.map(evento => {
+                const data = new Date(evento.data);
+                const dataLimite = new Date(evento.datalimite);
+                return {
+                    ...evento.dataValues,
+                    dataFormatada: data.toLocaleDateString('pt-BR', { 
+                        weekday: 'long', 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    }),
+                    dataLimiteFormatada: dataLimite.toLocaleDateString('pt-BR', { 
+                        weekday: 'long', 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: 'numeric' 
+                    })
+                };
+            });
+
+           
             const sugestoesRaw = await Sugestao.findAll({
                 include: [{
                     model: User,
@@ -110,7 +136,6 @@ module.exports = class EventosControllers {
                 order: [['createdAt', 'DESC']]
             });
 
-            // Converter para objetos planos
             const sugestoes = sugestoesRaw.map(sugestao => ({
                 id: sugestao.id,
                 nome: sugestao.nome,
@@ -127,6 +152,7 @@ module.exports = class EventosControllers {
             const messages = req.flash();
             req.session.save(() => {
                 res.render('eventos/dashboard', { 
+                    eventos,
                     sugestoes,
                     messages,
                     userName,

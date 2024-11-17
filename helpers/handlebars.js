@@ -26,5 +26,9 @@ module.exports = {
             default:
                 return false;
         }
+    },
+
+    isEventoEsgotado: function(evento) {
+        return evento.participantesAtuais >= evento.participantes;
     }
 }; 

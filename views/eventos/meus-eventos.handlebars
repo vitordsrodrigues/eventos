@@ -1,7 +1,7 @@
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <p class="text-muted lead">aqui estão todos os eventos que vc ja participou</p>
+        <p class="text-muted lead">Confira abaixo todos os eventos dos quais você já participou!</p>
         <hr class="my-4 w-50 mx-auto">
     </div>
     
@@ -14,38 +14,36 @@
         </a>
     </div>
      
-        <div class="row">
-            {{#each eventos}}
-                <div class="col-12 col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-lg d-flex flex-column position-relative">
-                        <div class="status-indicator active"></div>
-                        <li class="list-group-item"></li>
-                        {{#if this.imagem}}
-                            <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                        {{else}}
-                            <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                        {{/if}}
-                        </li>
+  <div class="row">
+    {{#each eventos}}
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-lg d-flex flex-column position-relative">
+                <div class="status-indicator active"></div>
+                <li class="list-group-item"></li>
+                {{#if this.imagem}}
+                    <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                {{else}}
+                    <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                {{/if}}
+                </li>
 
-                        <div class="card-body d-flex flex-column flex-grow-1">
-                            <h3 class="card-title text-primary">{{this.title}}</h3>
-                            <p class="card-text mb-auto">{{this.descricao}}</p>
-                        </div>
-
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-                            <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
-                            <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-                            <li class="list-group-item"><strong>Data Início:</strong> {{this.dataFormatada}}</li>
-                            <li class="list-group-item"><strong>Data Final:</strong> {{this.dataFormatada}}</li>
-                            <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-                            <li class="list-group-item"><strong>Participantes:</strong> {{this.participantesAtuais}}/{{this.participantes}}</li>
-                        </ul>
-                    </div>
+                <div class="card-body d-flex flex-column flex-grow-1">
+                    <h3 class="card-title text-primary">{{this.title}}</h3>
+                    <p class="card-text mb-auto">{{this.descricao}}</p>
                 </div>
 
-            {{/each}}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
+                </ul>
+
+                <div class="card-footer bg-success text-center">
+                    <small class="text-white">Você participou no dia {{this.dataFormatada}}</small>
+                </div>
+            </div>
         </div>
+    {{/each}}
+</div>
+
     {{else}}
         <div class="empty-state text-center py-5">
             <h3 class="text-primary mb-3">Nenhum evento encontrado</h3>
