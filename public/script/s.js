@@ -52,52 +52,20 @@ function mostrarMensagemFlash(mensagem, tipo = 'success') {
 
 
 function participarEvento(eventId) {
-    const botao = document.getElementById(`participarBtn_${eventId}`);
-    const cancelarBotao = document.getElementById(`cancelarBtn_${eventId}`);
-    
-    botao.classList.add('shake-animation');
-    
-    setTimeout(() => {
-        botao.classList.remove('shake-animation');
-    }, 500);
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/eventos/participar';
+    form.target = '_blank';
 
-    fetch(`/eventos/participar`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: eventId }),
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Erro ao participar do evento.');
-    })
-    .then(data => {
-        const participantesElement = document.getElementById(`participantesContagem_${eventId}`);
-        const [_, max] = participantesElement.innerText.split('/');
-        participantesElement.innerText = `${data.participantesAtuais}/${max}`;
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'id';
+    input.value = eventId;
 
-        
-        botao.style.display = 'none';
-        
-        
-        if (!cancelarBotao) {
-            const novoBotaoCancelar = document.createElement('button');
-            novoBotaoCancelar.id = `cancelarBtn_${eventId}`;
-            novoBotaoCancelar.className = 'btn btn-danger w-100';
-            novoBotaoCancelar.onclick = () => cancelarParticipacao(eventId);
-            novoBotaoCancelar.textContent = 'Cancelar Participação';
-            botao.parentNode.appendChild(novoBotaoCancelar);
-        } else {
-            cancelarBotao.style.display = 'block';
-        }
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-        mostrarMensagemFlash('Vagas esgotadas.', 'danger');
-    });
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
 }
 
 function cancelarParticipacao(eventId) {

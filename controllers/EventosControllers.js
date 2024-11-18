@@ -52,6 +52,7 @@ module.exports = class EventosControllers {
                         month: '2-digit', 
                         year: 'numeric' 
                     });
+                    evento.horaFormatada = evento.horaInicio;
                     evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', { 
                         weekday: 'long', 
                         day: '2-digit', 
@@ -82,7 +83,8 @@ module.exports = class EventosControllers {
                     eventos, 
                     messages, 
                     userName,
-                    layout,
+                    session: req.session,
+                    layout: 'main-users',
                     search,
                     hasSearch: !!search,
                     user: req.session.user
@@ -118,6 +120,7 @@ module.exports = class EventosControllers {
                         month: '2-digit', 
                         year: 'numeric' 
                     }),
+                    horaFormatada: evento.horaInicio,
                     dataLimiteFormatada: dataLimite.toLocaleDateString('pt-BR', { 
                         weekday: 'long', 
                         day: '2-digit', 
@@ -182,8 +185,9 @@ module.exports = class EventosControllers {
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
             data: req.body.data,
-            datalimite: req.body.datalimite, 
-            palestrantes: req.body.palestrantes, 
+            horaInicio: req.body.horaInicio,
+            datalimite: req.body.datalimite,
+            palestrantes: req.body.palestrantes,
             duracao: parseInt(req.body.duracao, 10),
             curso: req.body.curso,
             descricao: req.body.descricao,
@@ -192,7 +196,9 @@ module.exports = class EventosControllers {
         };
 
         // Validações
-        if (!evento.title || !evento.local || !evento.participantes || !evento.data || !evento.datalimite || !evento.duracao || !evento.curso) {
+        if (!evento.title || !evento.local || !evento.participantes || 
+            !evento.data || !evento.horaInicio || !evento.datalimite || 
+            !evento.duracao || !evento.curso) {
             req.flash('message', 'Por favor, preencha todos os campos obrigatórios.');
             return res.redirect('/eventos/create');
         }
@@ -332,9 +338,19 @@ module.exports = class EventosControllers {
                 { where: { id: id } }
             );
     
-            res.status(200).json({
-                message: 'Você se inscreveu com sucesso!',
-                participantesAtuais: evento.participantesAtuais + 1
+            // Formatar a data para exibição
+            const data = new Date(evento.data);
+            evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+    
+            // Renderizar a página de confirmação
+            res.render('eventos/confirmacao', {
+                evento,
+                layout: 'main-users'
             });
         } catch (error) {
             console.error('Erro ao participar:', error);
@@ -405,6 +421,7 @@ static async cancelarParticipacao(req, res) {
                     month: '2-digit',
                     year: 'numeric'
                 });
+                evento.horaFormatada = evento.horaInicio;
                 evento.isParticipating = true;
                 return evento;
             });
@@ -487,6 +504,7 @@ static async cancelarParticipacao(req, res) {
                     month: '2-digit',
                     year: 'numeric'
                 });
+                evento.horaFormatada = evento.horaInicio;
                 evento.isParticipating = true;
                 return evento;
             });

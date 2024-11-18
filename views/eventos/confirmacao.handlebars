@@ -1,0 +1,107 @@
+<div class="text-center mb-5">
+    <div class="confirmation-animation mb-4">
+        <i class="bi bi-check-circle-fill text-success"></i>
+    </div>
+    <h1 class="display-4 fw-bold text-success mb-3">FEITOOOOOOOO</h1>
+    <h2 class="text-primary mb-4">PRESENÇA CONFIRMADA</h2>
+</div>
+
+<div class="card shadow-lg mb-5">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Informações do Evento</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong><i class="bi bi-calendar-event me-2"></i>Evento:</strong> {{evento.title}}</p>
+                <p>
+                    <strong><i class="bi bi-geo-alt me-2"></i>Local:</strong> 
+                    {{evento.local}}
+                </p>
+                <p><strong><i class="bi bi-people me-2"></i>Palestrantes:</strong> {{evento.palestrantes}}</p>
+                <p><strong><i class="bi bi-calendar-date me-2"></i>Data:</strong> {{evento.dataFormatada}}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong><i class="bi bi-clock me-2"></i>Duração:</strong> {{evento.duracao}} dias</p>
+                <p><strong><i class="bi bi-mortarboard me-2"></i>Curso:</strong> {{evento.curso}}</p>
+                <p><strong><i class="bi bi-card-text me-2"></i>Descrição:</strong> {{evento.descricao}}</p>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-light rounded">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <a href="https://wa.me/5551999252788" target="_blank" class="btn btn-success btn-lg">
+                        <i class="bi bi-whatsapp me-2"></i>Dúvidas via WhatsApp
+                    </a>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <a href="https://maps.app.goo.gl/7xGcpTRACGJAbh5w7" target="_blank" class="btn btn-info btn-lg text-white">
+                        <i class="bi bi-map me-2"></i>Como Chegar
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <a href="/eventos/sugestoes" class="btn btn-warning btn-lg">
+                        <i class="bi bi-question-circle me-2"></i>Sugestões para o evento?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="/" class="btn btn-outline-primary btn-lg">
+        <i class="bi bi-arrow-left me-2"></i>Voltar para Eventos
+    </a>
+</div>
+
+<style>
+.confirmation-animation {
+    font-size: 5rem;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.bi {
+    vertical-align: middle;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+</style> 
