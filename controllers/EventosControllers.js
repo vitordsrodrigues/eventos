@@ -52,7 +52,6 @@ module.exports = class EventosControllers {
                         month: '2-digit', 
                         year: 'numeric' 
                     });
-                    evento.horaFormatada = evento.horaInicio;
                     evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', { 
                         weekday: 'long', 
                         day: '2-digit', 
@@ -83,8 +82,7 @@ module.exports = class EventosControllers {
                     eventos, 
                     messages, 
                     userName,
-                    session: req.session,
-                    layout: 'main-users',
+                    layout,
                     search,
                     hasSearch: !!search,
                     user: req.session.user
@@ -120,7 +118,6 @@ module.exports = class EventosControllers {
                         month: '2-digit', 
                         year: 'numeric' 
                     }),
-                    horaFormatada: evento.horaInicio,
                     dataLimiteFormatada: dataLimite.toLocaleDateString('pt-BR', { 
                         weekday: 'long', 
                         day: '2-digit', 
@@ -185,9 +182,8 @@ module.exports = class EventosControllers {
             local: req.body.local,
             participantes: parseInt(req.body.participantes, 10),
             data: req.body.data,
-            horaInicio: req.body.horaInicio,
-            datalimite: req.body.datalimite,
-            palestrantes: req.body.palestrantes,
+            datalimite: req.body.datalimite, 
+            palestrantes: req.body.palestrantes, 
             duracao: parseInt(req.body.duracao, 10),
             curso: req.body.curso,
             descricao: req.body.descricao,
@@ -196,9 +192,7 @@ module.exports = class EventosControllers {
         };
 
         // Validações
-        if (!evento.title || !evento.local || !evento.participantes || 
-            !evento.data || !evento.horaInicio || !evento.datalimite || 
-            !evento.duracao || !evento.curso) {
+        if (!evento.title || !evento.local || !evento.participantes || !evento.data || !evento.datalimite || !evento.duracao || !evento.curso) {
             req.flash('message', 'Por favor, preencha todos os campos obrigatórios.');
             return res.redirect('/eventos/create');
         }
@@ -299,98 +293,106 @@ module.exports = class EventosControllers {
   
 
     static async participarEvento(req, res) {
-        const { id } = req.body; 
-        const userId = req.session.userid;  
-    
         try {
-            const evento = await Evento.findOne({ where: { id: id } });
-    
-            if (!evento) {
-                return res.status(404).json({ message: 'Evento não encontrado.' });
+            const { id } = req.body;
+            const userId = req.session.userid;
+
+            if (!id || !userId) {
+                return res.status(400).json({ error: 'Dados inválidos' });
             }
-    
+
+            const evento = await Evento.findByPk(id);
             
-            if (evento.participantesAtuais >= evento.participantes) {
-                return res.status(400).json({ message: 'O evento já atingiu o número máximo de participantes.' });
+            if (!evento) {
+                return res.status(404).json({ error: 'Evento não encontrado' });
             }
-    
-           
+
+            if (evento.participantesAtuais >= evento.participantes) {
+                return res.status(400).json({ error: 'Evento lotado' });
+            }
+
             const participacaoExistente = await Participacao.findOne({
                 where: {
-                    UserId: userId,
-                    EventoId: id
+                    EventoId: id,
+                    UserId: userId
                 }
             });
-    
+
             if (participacaoExistente) {
-                return res.status(400).json({ message: 'Você já está inscrito neste evento.' });
+                return res.status(400).json({ error: 'Você já está participando deste evento' });
             }
-    
-            
-            await Participacao.create({ 
-                UserId: userId, 
-                EventoId: id 
+
+            await Participacao.create({
+                EventoId: id,
+                UserId: userId
             });
-            console.log('Participação criada para usuário:', userId, 'evento:', id); // Debug
-    
-            await Evento.update(
-                { participantesAtuais: evento.participantesAtuais + 1 }, 
-                { where: { id: id } }
-            );
-    
-            // Formatar a data para exibição
-            const data = new Date(evento.data);
-            evento.dataFormatada = data.toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
+
+            evento.participantesAtuais += 1;
+            await evento.save();
+
+            return res.json({
+                success: true,
+                participantesAtuais: evento.participantesAtuais
             });
-    
-            // Renderizar a página de confirmação
-            res.render('eventos/confirmacao', {
-                evento,
-                layout: 'main-users'
-            });
+
         } catch (error) {
-            console.error('Erro ao participar:', error);
-            res.status(500).json({ message: 'Erro ao participar do evento.' });
+            console.error('Erro ao participar do evento:', error);
+            return res.status(500).json({ error: 'Erro interno ao participar do evento' });
         }
     }
     
 
 
 static async cancelarParticipacao(req, res) {
-    const { id } = req.body;
-    const userId = req.session.userid;
-
     try {
-       
+        const { id } = req.body;
+        const userId = req.session.userid;
+
+        if (!id || !userId) {
+            return res.status(400).json({ 
+                error: 'Dados inválidos para cancelar participação' 
+            });
+        }
+
+        // Encontrar a participação
         const participacao = await Participacao.findOne({
             where: {
-                UserId: userId,
-                EventoId: id
+                EventoId: id,
+                UserId: userId
             }
         });
 
         if (!participacao) {
-            return res.status(404).json({ message: 'Participação não encontrada.' });
+            return res.status(404).json({ 
+                error: 'Participação não encontrada' 
+            });
         }
 
-       
-        const evento = await Evento.findOne({ where: { id: id } });
-        await Evento.update({ participantesAtuais: evento.participantesAtuais - 1 }, { where: { id: id } });
+        // Encontrar o evento
+        const evento = await Evento.findByPk(id);
+        if (!evento) {
+            return res.status(404).json({ 
+                error: 'Evento não encontrado' 
+            });
+        }
 
-        
+        // Deletar a participação
         await participacao.destroy();
 
-        res.status(200).json({
-            message: 'Participação cancelada com sucesso!',
-            participantesAtuais: evento.participantesAtuais - 1
+        // Atualizar o número de participantes
+        evento.participantesAtuais = Math.max(0, evento.participantesAtuais - 1);
+        await evento.save();
+
+        return res.json({ 
+            success: true, 
+            participantesAtuais: evento.participantesAtuais 
         });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erro ao cancelar a participação.' });
+        console.error('Erro ao cancelar participação:', error);
+        return res.status(500).json({ 
+            error: 'Erro interno ao cancelar participação' 
+        });
     }
 }
 
@@ -421,7 +423,6 @@ static async cancelarParticipacao(req, res) {
                     month: '2-digit',
                     year: 'numeric'
                 });
-                evento.horaFormatada = evento.horaInicio;
                 evento.isParticipating = true;
                 return evento;
             });
@@ -504,7 +505,6 @@ static async cancelarParticipacao(req, res) {
                     month: '2-digit',
                     year: 'numeric'
                 });
-                evento.horaFormatada = evento.horaInicio;
                 evento.isParticipating = true;
                 return evento;
             });
@@ -615,7 +615,27 @@ static async cancelarParticipacao(req, res) {
             res.status(500).json({ message: 'Erro ao excluir sugestão' });
         }
     }
-}
 
+    static async showConfirmacao(req, res) {
+        try {
+            const id = req.params.id;
+            const evento = await Evento.findByPk(id);
+            
+            if (!evento) {
+                req.flash('message', 'Evento não encontrado');
+                return res.redirect('/');
+            }
+
+            // Formatar a data
+            evento.dataFormatada = evento.data.toLocaleDateString('pt-BR');
+            
+            res.render('eventos/confirmacao', { evento });
+        } catch (error) {
+            console.error('Erro ao mostrar confirmação:', error);
+            req.flash('message', 'Erro ao carregar página de confirmação');
+            res.redirect('/');
+        }
+    }
+}
 
 

@@ -52,20 +52,35 @@ function mostrarMensagemFlash(mensagem, tipo = 'success') {
 
 
 function participarEvento(eventId) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/eventos/participar';
-    form.target = '_blank';
+    const botao = document.getElementById(`participarBtn_${eventId}`);
+    const cancelarBotao = document.getElementById(`cancelarBtn_${eventId}`);
+    
+    botao.classList.add('shake-animation');
+    
+    setTimeout(() => {
+        botao.classList.remove('shake-animation');
+    }, 500);
 
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'id';
-    input.value = eventId;
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+    fetch(`/eventos/participar`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: eventId }),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Erro ao participar do evento.');
+    })
+    .then(data => {
+        window.location.href = `/eventos/confirmacao/${eventId}`;
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        mostrarMensagemFlash('Vagas esgotadas.', 'danger');
+    });
 }
 
 function cancelarParticipacao(eventId) {

@@ -49,6 +49,7 @@ router.get('/sugestoes', checkAuth, EventosControllers.showSugestoes);
 router.post('/sugestoes', checkAuth, EventosControllers.enviarSugestao);
 router.put('/sugestoes/:id/marcar-lida', checkAuth, EventosControllers.marcarSugestaoComoLida);
 router.delete('/sugestoes/:id', checkAuth, EventosControllers.excluirSugestao);
+router.get('/confirmacao/:id', checkAuth, EventosControllers.showConfirmacao);
 
 
 
