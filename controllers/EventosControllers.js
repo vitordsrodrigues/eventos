@@ -189,6 +189,7 @@ module.exports = class EventosControllers {
             descricao: req.body.descricao,
             UserId: req.session.userid,
             imagem: req.file ? req.file.filename : null,
+            requerMatricula: req.body.requerMatricula === 'on',
         };
 
         // Validações
@@ -302,9 +303,19 @@ module.exports = class EventosControllers {
             }
 
             const evento = await Evento.findByPk(id);
-            
             if (!evento) {
                 return res.status(404).json({ error: 'Evento não encontrado' });
+            }
+
+            // Verificar se o evento requer matrícula
+            if (evento.requerMatricula) {
+                const user = await User.findByPk(userId);
+                if (!user.matricula) {
+                    return res.status(403).json({ 
+                        error: 'Este evento requer matrícula cadastrada',
+                        requiresRegistration: true 
+                    });
+                }
             }
 
             if (evento.participantesAtuais >= evento.participantes) {

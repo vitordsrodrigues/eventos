@@ -81,6 +81,12 @@ const Evento = db.define('Evento', {
         allowNull: true
     },
 
+    requerMatricula: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    }
+
 }, {
     timestamps: true,
 });

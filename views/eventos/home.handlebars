@@ -68,7 +68,13 @@
   {{/if}}
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
-                <div class="card h-100 shadow-lg d-flex flex-column">
+                <div class="card h-100 shadow-lg d-flex flex-column position-relative">
+                    {{#if this.requerMatricula}}
+                        <div class="exclusive-ribbon">
+                            <span>EXCLUSIVO ALUNOS</span>
+                        </div>
+                    {{/if}}
+                    
                     <li class="list-group-item"></li>
                     {{#if this.imagem}}
                         <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
@@ -106,6 +112,41 @@
                 </div>
             </div>
         {{/each}}
+    </div>
+
+    <!-- Modal moved outside of the event cards loop -->
+    <div class="modal fade" id="matriculaModal" tabindex="-1" aria-labelledby="matriculaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="matriculaModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Matrícula Necessária
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <div class="mb-4">
+                        <i class="bi bi-mortarboard-fill text-warning" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4 class="mb-3">Evento Exclusivo para Alunos</h4>
+                    <p class="mb-4">
+                        Para participar deste evento, é necessário ter uma matrícula cadastrada. 
+                        Deseja atualizar seu perfil agora?
+                    </p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg me-2"></i>
+                        Cancelar
+                    </button>
+                    <a href="/profile" class="btn btn-primary">
+                        <i class="bi bi-person-fill-gear me-2"></i>
+                        Atualizar Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -225,17 +266,56 @@
     }
 }
 
+.exclusive-ribbon {
+    position: absolute;
+    top: 25px;
+    right: -50px;
+    z-index: 2;
+    background: linear-gradient(45deg, #198754, #157347);
+    padding: 8px 50px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: rotate(45deg);
+    width: 200px;
+    text-align: center;
+}
+
+.exclusive-ribbon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid #146c43;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #146c43;
+}
+
+.exclusive-ribbon::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #146c43;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #146c43;
+}
+
+.exclusive-ribbon span {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.card {
+    overflow: hidden;
+}
 </style>
-
-
-
-
-
-
-
-
-
-
 
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
 {{else}}

@@ -53,7 +53,6 @@ function mostrarMensagemFlash(mensagem, tipo = 'success') {
 
 function participarEvento(eventId) {
     const botao = document.getElementById(`participarBtn_${eventId}`);
-    const cancelarBotao = document.getElementById(`cancelarBtn_${eventId}`);
     
     botao.classList.add('shake-animation');
     
@@ -68,18 +67,22 @@ function participarEvento(eventId) {
         },
         body: JSON.stringify({ id: eventId }),
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Erro ao participar do evento.');
-    })
+    .then(response => response.json())
     .then(data => {
+        if (data.error) {
+            if (data.requiresRegistration) {
+                const matriculaModal = new bootstrap.Modal(document.getElementById('matriculaModal'));
+                matriculaModal.show();
+            } else {
+                mostrarMensagemFlash(data.error, 'danger');
+            }
+            return;
+        }
         window.location.href = `/eventos/confirmacao/${eventId}`;
     })
     .catch(error => {
         console.error('Erro:', error);
-        mostrarMensagemFlash('Vagas esgotadas.', 'danger');
+        mostrarMensagemFlash('Erro ao participar do evento.', 'danger');
     });
 }
 
