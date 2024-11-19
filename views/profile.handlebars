@@ -1,127 +1,204 @@
-<div class="container py-5">
-    <div class="text-start mb-4">
-        <a href="javascript:history.back()" class="btn">
-            <i class="bi bi-arrow-left"></i>
-        </a>
-    </div>
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-           
-            <div class="card shadow-lg rounded-3">
-               
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <div class="position-relative d-inline-block mb-3">
-                        {{#if user.avatar}}
-                            <img src="{{user.avatar}}" class="rounded-circle" width="120" height="120" alt="{{user.name}}">
-                        {{else}}
-                            <i class="bi bi-person-circle display-1"></i>
-                        {{/if}}
-                    </div>
-                    <h2 class="mb-1">{{user.name}}</h2>
-                    <p class="text-white-50 mb-0">Membro</p>
+<div class="container mt-4">
+   
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+                <div class="avatar-placeholder rounded-circle bg-primary d-flex align-items-center justify-content-center me-4" style="width: 80px; height: 80px;">
+                    <i class="fas fa-user fa-2x text-white"></i>
                 </div>
-
-                <div class="card-body p-4">
-                    
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-calendar-check text-primary display-6 mb-2"></i>
-                                    <h3 class="h2 mb-2">{{participationCount}}</h3>
-                                    <p class="text-muted mb-0">Eventos Participados</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 bg-light">
-                                <div class="card-body text-center">
-                                    <i class="bi bi-trophy text-primary display-6 mb-2"></i>
-                                    <h3 class="h2 mb-2">Bronze</h3>
-                                    <p class="text-muted mb-0">Conquistas</p>
-                                    <small class="text-muted">
-                                        Bronze: 0-14 eventos<br>
-                                        Prata: 15-24 eventos<br>
-                                        Ouro: 25-49 eventos<br>
-                                        Elite: 50+ eventos
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 bg-light">
-                                <div class="card-body">
-                                    <h5 class="card-title d-flex align-items-center">
-                                        <i class="bi bi-person-vcard text-primary me-2"></i>
-                                        Informações Pessoais
-                                    </h5>
-                                    <form action="/profile/update-password" method="POST">
-                                        <ul class="list-unstyled mb-0">
-                                            <li class="mb-3">
-                                                <strong>Email:</strong> {{user.email}}
-                                            </li>
-                                            <li class="mb-3">
-                                                <strong>Matrícula:</strong> {{user.matricula}}
-                                            </li>
-                                            <li class="mb-3">
-                                                <div class="form-group">
-                                                    <label for="currentPassword"><strong>Senha Atual:</strong></label>
-                                                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
-                                                </div>
-                                            </li>
-                                            <li class="mb-3">
-                                                <div class="form-group">
-                                                    <label for="newPassword"><strong>Nova Senha:</strong></label>
-                                                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
-                                                </div>
-                                            </li>
-                                            <li class="mb-3">
-                                                <div class="form-group">
-                                                    <label for="confirmPassword"><strong>Confirmar Senha:</strong></label>
-                                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                                                </div>
-                                            </li>
-                                            <li class="text-center">
-                                                <button type="submit" class="btn btn-primary">
-                                                    <i class="bi bi-key me-2"></i>Trocar Senha
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card h-100 border-0 bg-light">
-                                <div class="card-body">
-                                    <h5 class="card-title d-flex align-items-center">
-                                        <i class="bi bi-gear text-primary me-2"></i>
-                                        Preferências
-                                    </h5>
-                                    <ul class="list-unstyled mb-0">
-                                        {{#each user.interests}}
-                                            <li class="mb-2">
-                                                <span class="badge bg-primary">{{this}}</span>
-                                            </li>
-                                        {{/each}}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                    {{#if messages.message}}
-                        <div class="alert alert-info mt-4">
-                            {{messages.message}}
-                        </div>
-                    {{/if}}
+                <div>
+                    <h2 class="mb-1">{{user.name}}</h2>
+                    <p class="text-muted mb-0"><i class="fas fa-envelope me-2"></i>{{user.email}}</p>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-id-card me-2"></i>
+                        {{#if user.matricula}}{{user.matricula}}{{else}}Matrícula não cadastrada{{/if}}
+                    </p>
+                    <span class="badge bg-primary">
+                        <i class="fas fa-calendar-check me-1"></i>
+                        {{participationCount}} Eventos
+                    </span>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+
+    <div class="row">
+       
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-id-badge me-2"></i>Atualizar Matrícula</h4>
+                    <div id="matriculaMessage"></div>
+                    <form id="matriculaForm">
+                        <div class="form-group">
+                            <label for="matricula" class="form-label">Número de Matrícula:</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="matricula" 
+                                   name="matricula" 
+                                   value="{{user.matricula}}" 
+                                   placeholder="{{#if user.matricula}}{{user.matricula}}{{else}}Digite sua matrícula{{/if}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">
+                            {{#if user.matricula}}Atualizar{{else}}Cadastrar{{/if}} Matrícula
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="col-md-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-4"><i class="fas fa-lock me-2"></i>Alterar Senha</h4>
+                    <div id="senhaMessage"></div>
+                    <form id="senhaForm">
+                        <div class="form-group mb-3">
+                            <label for="currentPassword" class="form-label">Senha Atual:</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="currentPassword" 
+                                   name="currentPassword" 
+                                   required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="newPassword" class="form-label">Nova Senha:</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="newPassword" 
+                                   name="newPassword" 
+                                   required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmar Nova Senha:</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="confirmPassword" 
+                                   name="confirmPassword" 
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Alterar Senha
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.form-control {
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.btn-primary {
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+.badge {
+    padding: 0.5em 1em;
+    font-weight: 500;
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const matriculaForm = document.getElementById('matriculaForm');
+    matriculaForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch('/profile/update-matricula', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    matricula: document.getElementById('matricula').value
+                })
+            });
+
+            const data = await response.json();
+            showMessage('matriculaMessage', data.message, data.error);
+        } catch (error) {
+            showMessage('matriculaMessage', 'Erro ao atualizar matrícula', true);
+        }
+    });
+
+    
+    const senhaForm = document.getElementById('senhaForm');
+    senhaForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch('/profile/update-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    currentPassword: document.getElementById('currentPassword').value,
+                    newPassword: document.getElementById('newPassword').value,
+                    confirmPassword: document.getElementById('confirmPassword').value
+                })
+            });
+
+            const data = await response.json();
+            showMessage('senhaMessage', data.message, data.error);
+            
+            if (!data.error) {
+                this.reset(); 
+            }
+        } catch (error) {
+            showMessage('senhaMessage', 'Erro ao atualizar senha', true);
+        }
+    });
+
+    
+    function showMessage(elementId, message, isError = false) {
+        const messageDiv = document.getElementById(elementId);
+        messageDiv.innerHTML = `
+            <div class="alert alert-${isError ? 'danger' : 'success'} alert-dismissible fade show mb-3">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+    }
+});
+</script> 

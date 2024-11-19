@@ -4,6 +4,7 @@ const path = require('path')
 const Participacao = require('../models/Participacao');
 const {Op} = require('sequelize')
 const Sugestao = require('../models/Sugestao');
+const bcrypt = require('bcrypt');
 
 module.exports = class EventosControllers {
     
@@ -466,7 +467,7 @@ static async cancelarParticipacao(req, res) {
            
             const user = await User.findOne({ 
                 where: { id: userId },
-                attributes: ['id', 'name', 'email'] 
+                attributes: ['id', 'name', 'email', 'matricula'] // Incluindo matrícula
             });
 
             
@@ -645,6 +646,96 @@ static async cancelarParticipacao(req, res) {
             console.error('Erro ao mostrar confirmação:', error);
             req.flash('message', 'Erro ao carregar página de confirmação');
             res.redirect('/');
+        }
+    }
+
+    static async updateMatricula(req, res) {
+        try {
+            const userId = req.session.userid;
+            const { matricula } = req.body;
+
+            if (!matricula) {
+                return res.json({
+                    error: true,
+                    message: 'Por favor, forneça uma matrícula válida'
+                });
+            }
+
+           
+            await User.update(
+                { matricula: matricula },
+                { where: { id: userId } }
+            );
+
+            
+            res.json({
+                error: false,
+                message: 'Matrícula atualizada com sucesso!',
+                matricula: matricula
+            });
+        } catch (error) {
+            console.error('Erro ao atualizar matrícula:', error);
+            res.json({
+                error: true,
+                message: 'Erro ao atualizar matrícula'
+            });
+        }
+    }
+
+    static async updatePassword(req, res) {
+        try {
+            const userId = req.session.userid;
+            const { currentPassword, newPassword, confirmPassword } = req.body;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                return res.json({
+                    error: true,
+                    message: 'Por favor, preencha todos os campos de senha'
+                });
+            }
+
+            if (newPassword !== confirmPassword) {
+                return res.json({
+                    error: true,
+                    message: 'A nova senha e a confirmação não correspondem'
+                });
+            }
+
+            const user = await User.findByPk(userId);
+            const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+            
+            if (!isPasswordValid) {
+                return res.json({
+                    error: true,
+                    message: 'Senha atual incorreta'
+                });
+            }
+
+            if (await bcrypt.compare(newPassword, user.password)) {
+                return res.json({
+                    error: true,
+                    message: 'A nova senha não pode ser igual à senha atual'
+                });
+            }
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+            await User.update(
+                { password: hashedPassword },
+                { where: { id: userId } }
+            );
+
+            res.json({
+                error: false,
+                message: 'Senha atualizada com sucesso!'
+            });
+        } catch (error) {
+            console.error('Erro ao atualizar senha:', error);
+            res.json({
+                error: true,
+                message: 'Erro ao atualizar senha'
+            });
         }
     }
 }
