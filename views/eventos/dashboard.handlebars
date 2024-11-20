@@ -71,19 +71,31 @@
                             </form>
 
                             <div class="modal fade" id="confirmRemoveModal{{this.id}}" tabindex="-1" aria-labelledby="confirmRemoveModalLabel{{this.id}}" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="confirmRemoveModalLabel{{this.id}}">Confirma Removendo Evento</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title" id="confirmRemoveModalLabel{{this.id}}">
+                                                <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Exclusão
+                                            </h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>Tem certeza que deseja remover o evento "<strong>{{this.title}}</strong>"?</p>
+                                        <div class="modal-body p-4">
+                                            <div class="text-center mb-4">
+                                                <i class="bi bi-trash-fill text-danger" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <p class="text-center mb-1">Você está prestes a remover o evento:</p>
+                                            <h4 class="text-center text-danger mb-3">"{{this.title}}"</h4>
+                                            <p class="text-center text-muted">Esta ação não pode ser desfeita.</p>
                                         </div>
-                                        <div class="modal-footer">
+                                        <div class="modal-footer justify-content-center border-0 pb-4">
+                                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                                                <i class="bi bi-x-lg me-2"></i>Cancelar
+                                            </button>
                                             <form action="/eventos/remove" method="POST" style="display:inline;">
                                                 <input type="hidden" name="id" value="{{this.id}}">
-                                                <button type="submit" class="btn btn-danger">Remover</button>
+                                                <button type="submit" class="btn btn-danger px-4">
+                                                    <i class="bi bi-trash me-2"></i>Remover
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
