@@ -19,5 +19,9 @@ const User = db.define('User',{
         type: DataTypes.STRING,
         require:false,
     },
+    imagem: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 })
 module.exports = User

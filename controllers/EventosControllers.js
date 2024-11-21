@@ -29,9 +29,15 @@ module.exports = class EventosControllers {
 
         
             if (userId) {
-                const user = await User.findOne({ where: { id: userId } });
+                const user = await User.findOne({ 
+                    where: { id: userId },
+                    attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir todos os campos necessários
+                });
                 userName = user ? user.name : null;
                 layout = 'main-users';
+                
+                // Passar o objeto user completo
+                req.session.user = user;
             }
 
             let eventos;
@@ -86,7 +92,7 @@ module.exports = class EventosControllers {
                     layout,
                     search,
                     hasSearch: !!search,
-                    user: req.session.user
+                    user: req.session.user // Passar o objeto user completo
                 });
             });
         } catch (error) {
@@ -464,13 +470,13 @@ static async cancelarParticipacao(req, res) {
         try {
             const userId = req.session.userid;
             
-           
+            // Buscar usuário com todos os campos necessários
             const user = await User.findOne({ 
                 where: { id: userId },
-                attributes: ['id', 'name', 'email', 'matricula'] // Incluindo matrícula
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluindo imagem
             });
 
-            
+            // Contar participações
             const participationCount = await Participacao.count({
                 where: { UserId: userId }
             });
@@ -661,13 +667,11 @@ static async cancelarParticipacao(req, res) {
                 });
             }
 
-           
             await User.update(
                 { matricula: matricula },
                 { where: { id: userId } }
             );
 
-            
             res.json({
                 error: false,
                 message: 'Matrícula atualizada com sucesso!',
@@ -735,6 +739,43 @@ static async cancelarParticipacao(req, res) {
             res.json({
                 error: true,
                 message: 'Erro ao atualizar senha'
+            });
+        }
+    }
+
+    static async updateProfileImage(req, res) {
+        try {
+            const userId = req.session.userid;
+            console.log('Iniciando upload de imagem para usuário:', userId);
+            console.log('Arquivo recebido:', req.file);
+            
+            if (!req.file) {
+                console.log('Nenhum arquivo recebido');
+                return res.json({
+                    error: true,
+                    message: 'Nenhuma imagem foi enviada'
+                });
+            }
+
+            console.log('Atualizando usuário com nova imagem:', req.file.filename);
+            
+            await User.update(
+                { imagem: req.file.filename },
+                { where: { id: userId } }
+            );
+
+            console.log('Imagem atualizada com sucesso');
+
+            res.json({
+                error: false,
+                message: 'Imagem atualizada com sucesso!',
+                imagePath: `/uploads/${req.file.filename}`
+            });
+        } catch (error) {
+            console.error('Erro completo ao atualizar imagem:', error);
+            res.json({
+                error: true,
+                message: 'Erro ao atualizar imagem: ' + error.message
             });
         }
     }

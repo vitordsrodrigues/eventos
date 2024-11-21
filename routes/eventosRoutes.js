@@ -27,7 +27,7 @@ const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            const error = new Error('Apenas arquivos de imagem (JPG, JPEG, PNG, GIF, WebP, TIFF, BMP e SVG) são permitidos!');
+            const error = new Error('Apenas arquivos de imagem são permitidos!');
             error.code = 'INVALID_FILE_TYPE';
             return cb(error, false);
         }
@@ -50,6 +50,12 @@ router.post('/sugestoes', checkAuth, EventosControllers.enviarSugestao);
 router.put('/sugestoes/:id/marcar-lida', checkAuth, EventosControllers.marcarSugestaoComoLida);
 router.delete('/sugestoes/:id', checkAuth, EventosControllers.excluirSugestao);
 router.get('/confirmacao/:id', checkAuth, EventosControllers.showConfirmacao);
+router.post('/profile/update-image', 
+    checkAuth, 
+    upload.single('profileImage'), 
+    EventosControllers.updateProfileImage
+);
+router.get('/profile', checkAuth, EventosControllers.showProfile);
 
 
 
