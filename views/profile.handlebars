@@ -189,6 +189,17 @@
 </style>
 
 <script>
+// Mover a função showMessage para fora do DOMContentLoaded
+function showMessage(elementId, message, isError = false) {
+    const messageDiv = document.getElementById(elementId);
+    messageDiv.innerHTML = `
+        <div class="alert alert-${isError ? 'danger' : 'success'} alert-dismissible fade show mb-3">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
     const matriculaForm = document.getElementById('matriculaForm');
@@ -241,17 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showMessage('senhaMessage', 'Erro ao atualizar senha', true);
         }
     });
-
-    
-    function showMessage(elementId, message, isError = false) {
-        const messageDiv = document.getElementById(elementId);
-        messageDiv.innerHTML = `
-            <div class="alert alert-${isError ? 'danger' : 'success'} alert-dismissible fade show mb-3">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `;
-    }
 });
 
 async function uploadImage(input) {
@@ -260,6 +260,7 @@ async function uploadImage(input) {
         formData.append('profileImage', input.files[0]);
 
         try {
+            // Corrigir o caminho para incluir /eventos
             const response = await fetch('/eventos/profile/update-image', {
                 method: 'POST',
                 body: formData
@@ -282,6 +283,11 @@ async function uploadImage(input) {
             avatarContainer.innerHTML = `<img src="${data.imagePath}" alt="Profile" class="w-100 h-100 object-fit-cover">`;
             
             showMessage('imageMessage', data.message, false);
+
+            // Adicionar um reload da página após sucesso
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } catch (error) {
             console.error('Erro ao fazer upload:', error);
             showMessage('imageMessage', 'Erro ao atualizar imagem: ' + error.message, true);

@@ -417,9 +417,13 @@ static async cancelarParticipacao(req, res) {
     static async eventosParticipando(req, res) {
         try {
             const userId = req.session.userid;
-            console.log('UserID:', userId); // Debug
+            
+            // Buscar usuário com todos os atributos necessários
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir imagem
+            });
 
-           
             const participacoes = await Participacao.findAll({
                 where: { UserId: userId },
                 include: [{
@@ -447,16 +451,10 @@ static async cancelarParticipacao(req, res) {
 
             console.log('Eventos processados:', eventos); // Debug
 
-           
-            const user = await User.findOne({ 
-                where: { id: userId },
-                raw: true 
-            });
-            const userName = user ? user.name : null;
-
             res.render('eventos/eventos-participando', {
                 eventos,
-                userName,
+                userName: user.name,
+                user, // Passar o objeto user completo
                 layout: 'main-users'
             });
 
@@ -503,6 +501,12 @@ static async cancelarParticipacao(req, res) {
         try {
             const userId = req.session.userid;
 
+            // Buscar usuário com todos os atributos necessários
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir imagem
+            });
+
             const participacoes = await Participacao.findAll({
                 where: { UserId: userId },
                 include: [{
@@ -527,15 +531,10 @@ static async cancelarParticipacao(req, res) {
                 return evento;
             });
 
-            const user = await User.findOne({ 
-                where: { id: userId },
-                raw: true 
-            });
-            const userName = user ? user.name : null;
-
             res.render('eventos/meus-eventos', {
                 eventos,
-                userName,
+                userName: user.name,
+                user, // Passar o objeto user completo
                 layout: 'main-users'
             });
 
@@ -549,13 +548,15 @@ static async cancelarParticipacao(req, res) {
     static async showSugestoes(req, res) {
         try {
             const userId = req.session.userid;
-            const user = await User.findOne({ where: { id: userId } });
-            const userName = user ? user.name : null;
-            const userEmail = user ? user.email : null;
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir imagem
+            });
 
             res.render('eventos/sugestoes', {
-                userName,
-                userEmail,
+                userName: user.name,
+                userEmail: user.email,
+                user, // Passar o objeto user completo
                 success: req.flash('success'),
                 error: req.flash('error'),
                 layout: 'main-users'
