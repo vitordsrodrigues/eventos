@@ -56,6 +56,7 @@ router.post('/profile/update-image',
     EventosControllers.updateProfileImage
 );
 router.get('/profile', checkAuth, EventosControllers.showProfile);
+router.get('/ranking', checkAuth, EventosControllers.showRanking);
 
 
 

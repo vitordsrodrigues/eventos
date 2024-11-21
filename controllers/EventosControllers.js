@@ -5,6 +5,7 @@ const Participacao = require('../models/Participacao');
 const {Op} = require('sequelize')
 const Sugestao = require('../models/Sugestao');
 const bcrypt = require('bcrypt');
+const sequelize = require('sequelize');
 
 module.exports = class EventosControllers {
     
@@ -778,6 +779,42 @@ static async cancelarParticipacao(req, res) {
                 error: true,
                 message: 'Erro ao atualizar imagem: ' + error.message
             });
+        }
+    }
+
+    static async showRanking(req, res) {
+        try {
+            const userId = req.session.userid;
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem']
+            });
+
+            const ranking = await User.findAll({
+                attributes: [
+                    'id',
+                    'name',
+                    'imagem',
+                    [sequelize.literal('(SELECT COUNT(*) FROM Participacaos WHERE Participacaos.UserId = User.id)'), 'participationCount']
+                ],
+                order: [[sequelize.literal('participationCount'), 'DESC']],
+                limit: 10
+            });
+
+            res.render('eventos/ranking', {
+                ranking: ranking.map(user => ({
+                    ...user.dataValues,
+                    participationCount: parseInt(user.dataValues.participationCount)
+                })),
+                userName: user.name,
+                user,
+                layout: 'main-users'
+            });
+
+        } catch (error) {
+            console.error('Erro ao carregar ranking:', error);
+            req.flash('message', 'Erro ao carregar ranking');
+            res.redirect('/');
         }
     }
 }

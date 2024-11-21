@@ -22,7 +22,14 @@ const authRoutes = require('./routes/authRoutes')
 
 
 const hbs = exphbs.create({
-    helpers: helpers,
+    helpers: {
+        temPermissaoBusca: function(userId) {
+            return !!userId;
+        },
+        add: function(value, addition) {
+            return value + addition;
+        }
+    },
     defaultLayout: 'main',
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
