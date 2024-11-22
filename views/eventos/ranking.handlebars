@@ -47,10 +47,14 @@
                         
                         {{#if @first}}
                             <i class="bi bi-trophy-fill text-warning fs-3"></i>
-                        {{else if @index 1}}
-                            <i class="bi bi-trophy-fill text-secondary fs-3"></i>
-                        {{else if @index 2}}
-                            <i class="bi bi-trophy-fill text-bronze fs-3"></i>
+                        {{else}}
+                            {{#if (eq @index 1)}}
+                                <i class="bi bi-trophy-fill text-secondary fs-3"></i>
+                            {{else}}
+                                {{#if (eq @index 2)}}
+                                    <i class="bi bi-trophy-fill text-bronze fs-3"></i>
+                                {{/if}}
+                            {{/if}}
                         {{/if}}
                     </div>
                 </div>

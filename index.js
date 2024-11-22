@@ -23,6 +23,7 @@ const authRoutes = require('./routes/authRoutes')
 
 const hbs = exphbs.create({
     helpers: {
+        ...helpers,
         temPermissaoBusca: function(userId) {
             return !!userId;
         },
