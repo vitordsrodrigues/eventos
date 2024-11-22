@@ -3,15 +3,66 @@
 <div class="container my-5">
 
    
-    <div class="card text-center shadow-lg mb-5 border-0">
-        <div class="card-body p-5">
-            <h2 class="card-title mb-3">Bem-vindo, Administrador!</h2>
-            <h5 class="card-subtitle text-muted mb-4">Gerencie e crie eventos do CIMOL aqui.</h5>
-            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#eventoModal">
-                <i class="bi bi-plus-circle"></i> Criar Evento
-            </button>
+ <div class="container mt-5">
+    <!-- Painel de Estatísticas -->
+    <div class="row mb-4 g-4">
+        <div class="col-md-3">
+            <div class="card text-center bg-gradient shadow-lg h-100 border-0 rounded-4 hover-scale">
+                <div class="card-body d-flex flex-column justify-content-center py-4">
+                    <i class="bi bi-calendar-event mb-3" style="font-size: 2rem;"></i>
+                    <h5 class="fw-light">Total de Eventos</h5>
+                    <h2 class="display-5 fw-bold mb-0">{{estatisticas.totalEventos}}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-success bg-gradient shadow-lg h-100 border-0 rounded-4 hover-scale">
+                <div class="card-body d-flex flex-column justify-content-center py-4">
+                    <i class="bi bi-play-circle mb-3" style="font-size: 2rem;"></i>
+                    <h5 class="fw-light">Eventos Ativos</h5>
+                    <h2 class="display-5 fw-bold mb-0">{{estatisticas.eventosAtivos}}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-warning bg-gradient shadow-lg h-100 border-0 rounded-4 hover-scale">
+                <div class="card-body d-flex flex-column justify-content-center py-4">
+                    <i class="bi bi-chat-dots mb-3" style="font-size: 2rem;"></i>
+                    <h5 class="fw-light text-dark">Sugestões</h5>
+                    <h2 class="display-5 fw-bold text-dark mb-0">{{estatisticas.totalSugestoes}}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center bg-danger bg-gradient shadow-lg h-100 border-0 rounded-4 hover-scale">
+                <div class="card-body d-flex flex-column justify-content-center py-4">
+                    <i class="bi bi-people mb-3" style="font-size: 2rem;"></i>
+                    <h5 class="fw-light">Usuários/Alunos</h5>
+                    <h2 class="display-5 fw-bold mb-0">{{estatisticas.totalUsuarios}}</h2>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Ações Principais -->
+    <div class="card text-center shadow-lg mb-5 border-0 rounded-4 bg-light">
+        <div class="card-body p-5">
+            <h2 class="card-title mb-3 display-6">Painel Administrativo</h2>
+            <h5 class="card-subtitle text-muted mb-4 fw-light">Gerencie todos os aspectos do site de eventos.</h5>
+            <div class="d-flex justify-content-center gap-4">
+                <button type="button" class="btn btn-primary btn-lg px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#eventoModal">
+                    <i class="bi bi-plus-circle me-2"></i> Criar Evento
+                </button>
+
+                <button type="button" class="btn btn-info btn-lg px-4 text-white rounded-pill" onclick="scrollToSugestoes()">
+                    <i class="bi bi-chat-dots me-2"></i> Ver Sugestões
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
   
     
     <div class="card mb-5 shadow-sm border-0">
@@ -516,4 +567,25 @@
         setTimeout(() => toastDiv.remove(), 3000);
     }
 });
+
+function scrollToSugestoes() {
+    const sugestoesSection = document.querySelector('section.card');
+    if (sugestoesSection) {
+        sugestoesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
 </script>
+
+<style>
+.hover-scale {
+    transition: transform 0.2s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: scale(1.03);
+}
+
+.bg-gradient {
+    background-image: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+}
+</style>

@@ -32,12 +32,12 @@ module.exports = class EventosControllers {
             if (userId) {
                 const user = await User.findOne({ 
                     where: { id: userId },
-                    attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir todos os campos necessários
+                    attributes: ['id', 'name', 'email', 'matricula', 'imagem'] 
                 });
                 userName = user ? user.name : null;
                 layout = 'main-users';
                 
-                // Passar o objeto user completo
+                
                 req.session.user = user;
             }
 
@@ -93,7 +93,7 @@ module.exports = class EventosControllers {
                     layout,
                     search,
                     hasSearch: !!search,
-                    user: req.session.user // Passar o objeto user completo
+                    user: req.session.user 
                 });
             });
         } catch (error) {
@@ -109,12 +109,25 @@ module.exports = class EventosControllers {
             const user = await User.findOne({ where: { id: userId } });
             const userName = user ? user.name : null;
 
+            // Buscar estatísticas
+            const totalEventos = await Evento.count();
             
+            const eventosAtivos = await Evento.count({
+                where: {
+                    datalimite: {
+                        [Op.gte]: new Date()
+                    }
+                }
+            });
+
+            const totalSugestoes = await Sugestao.count();
+            const totalUsuarios = await User.count();
+
+            // Buscar eventos e sugestões como antes
             const eventosData = await Evento.findAll({
                 order: [['createdAt', 'DESC']]
             });
 
-            
             const eventos = eventosData.map(evento => {
                 const data = new Date(evento.data);
                 const dataLimite = new Date(evento.datalimite);
@@ -135,7 +148,6 @@ module.exports = class EventosControllers {
                 };
             });
 
-           
             const sugestoesRaw = await Sugestao.findAll({
                 include: [{
                     model: User,
@@ -164,7 +176,13 @@ module.exports = class EventosControllers {
                     sugestoes,
                     messages,
                     userName,
-                    layout: 'main-users'
+                    layout: 'main-users',
+                    estatisticas: {
+                        totalEventos,
+                        eventosAtivos,
+                        totalSugestoes,
+                        totalUsuarios
+                    }
                 });
             });
         } catch (error) {
