@@ -1,0 +1,284 @@
+<div class="container mt-5">
+    {{#if message}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/if}}
+
+    <div class="card shadow-lg">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{#if evento.imagem}}/uploads/{{evento.imagem}}{{else}}/img/Semanaeltro.png{{/if}}" 
+                     class="img-fluid rounded-start h-100" 
+                     style="object-fit: cover;" 
+                     alt="{{evento.title}}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title text-primary mb-4">
+                        <i class="bi bi-calendar-event me-2"></i>{{evento.title}}
+                    </h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-geo-alt-fill me-2"></i>Local</h5>
+                            <p>{{evento.local}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-calendar-event me-2"></i>Data Início</h5>
+                            <p>{{evento.dataFormatada}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-calendar-x me-2"></i>Data Final</h5>
+                            <p>{{evento.dataLimiteFormatada}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-clock me-2"></i>Duração</h5>
+                            <p>{{evento.duracao}} dias</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-mortarboard me-2"></i>Curso</h5>
+                            <p>{{evento.curso}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-people me-2"></i>Participantes</h5>
+                            <p>{{evento.participantesAtuais}}/{{evento.participantes}}</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-person-video3 me-2"></i>Palestrantes</h5>
+                        <p>{{evento.palestrantes}}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-info-circle me-2"></i>Descrição</h5>
+                        <p>{{evento.descricao}}</p>
+                    </div>
+
+                    {{#if user}}
+                        {{#if evento.isParticipating}}
+                            <button class="btn btn-danger btn-lg" onclick="cancelarParticipacao({{evento.id}})">
+                                <i class="bi bi-x-circle me-2"></i>Cancelar Participação
+                            </button>
+                        {{else}}
+                            <button class="btn btn-primary btn-lg" onclick="participarEventoLogado({{evento.id}})" {{#if (isEventoEsgotado evento)}}disabled{{/if}}>
+                                <i class="bi bi-check-circle me-2"></i>Participar
+                            </button>
+                            {{#if (isEventoEsgotado evento)}}
+                                <div class="alert alert-danger mt-3">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    Este evento está com vagas esgotadas!
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                        {{#if evento.requerMatricula}}
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Este evento é exclusivo para alunos registrados.
+                                <a href="/login" class="alert-link">Faça login</a> para participar.
+                            </div>
+                        {{else}}
+                            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#participacaoModal">
+                                <i class="bi bi-check-circle me-2"></i>Participar como Visitante
+                            </button>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Participação -->
+<div class="modal fade" id="participacaoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-plus-fill me-2"></i>
+                    Participar do Evento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="participacaoForm">
+                    <input type="hidden" name="eventoId" value="{{evento.id}}">
+                    <div class="mb-3">
+                        <label class="form-label">Nome completo</label>
+                        <input type="text" class="form-control" name="nome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-mail</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">CPF</label>
+                        <input type="text" class="form-control" name="cpf" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>Confirmar Participação
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast de Sucesso -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span id="toastMessage"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+async function participarEventoLogado(eventoId) {
+    try {
+        const response = await fetch('/eventos/participar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: eventoId })
+        });
+
+        if (response.ok) {
+            showToast('Participação confirmada com sucesso!', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            const data = await response.json();
+            showToast(data.message || 'Erro ao participar do evento', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao participar do evento', 'error');
+    }
+}
+
+async function cancelarParticipacao(eventoId) {
+    if (!confirm('Tem certeza que deseja cancelar sua participação?')) return;
+    
+    try {
+        const response = await fetch('/eventos/cancelar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: eventoId })
+        });
+
+        if (response.ok) {
+            showToast('Participação cancelada com sucesso!', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            showToast('Erro ao cancelar participação', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao cancelar participação', 'error');
+    }
+}
+
+document.getElementById('participacaoForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    try {
+        const response = await fetch('/eventos/participar-sem-registro', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            if (result.error) {
+                showToast(result.message, 'error');
+            } else {
+                // Fecha o modal
+                const participacaoModal = bootstrap.Modal.getInstance(document.getElementById('participacaoModal'));
+                participacaoModal.hide();
+                
+                // Limpa o formulário
+                e.target.reset();
+                
+                // Mostra mensagem de sucesso
+                showToast('Participação registrada com sucesso!', 'success');
+                
+                // Redireciona para a página inicial após 1.5 segundos
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            }
+        } else {
+            showToast('Erro ao registrar participação', 'error');
+        }
+    } catch (error) {
+        console.error(error);
+        showToast('Erro ao registrar participação', 'error');
+    }
+});
+
+function showToast(message, type = 'success') {
+    const toast = new bootstrap.Toast(document.getElementById('successToast'));
+    document.getElementById('toastMessage').textContent = message;
+    document.getElementById('successToast').classList.remove('bg-success', 'bg-danger');
+    document.getElementById('successToast').classList.add(type === 'success' ? 'bg-success' : 'bg-danger');
+    toast.show();
+}
+</script>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+}
+
+.toast {
+    border-radius: 10px;
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.alert {
+    border-radius: 10px;
+}
+</style> 

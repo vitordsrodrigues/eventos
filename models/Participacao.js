@@ -11,7 +11,7 @@ const Participacao = db.define('Participacao', {
     },
     UserId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: 'Users',
             key: 'id'
@@ -24,6 +24,18 @@ const Participacao = db.define('Participacao', {
             model: 'Eventos',
             key: 'id'
         }
+    },
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    cpf: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });
 

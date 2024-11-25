@@ -321,60 +321,42 @@ module.exports = class EventosControllers {
 
     static async participarEvento(req, res) {
         try {
-            const { id } = req.body;
+            const eventoId = req.body.id;
             const userId = req.session.userid;
 
-            if (!id || !userId) {
-                return res.status(400).json({ error: 'Dados inválidos' });
-            }
-
-            const evento = await Evento.findByPk(id);
+            const evento = await Evento.findByPk(eventoId);
             if (!evento) {
-                return res.status(404).json({ error: 'Evento não encontrado' });
+                return res.status(404).json({ message: 'Evento não encontrado' });
             }
 
-            // Verificar se o evento requer matrícula
-            if (evento.requerMatricula) {
-                const user = await User.findByPk(userId);
-                if (!user.matricula) {
-                    return res.status(403).json({ 
-                        error: 'Este evento requer matrícula cadastrada',
-                        requiresRegistration: true 
-                    });
-                }
-            }
-
-            if (evento.participantesAtuais >= evento.participantes) {
-                return res.status(400).json({ error: 'Evento lotado' });
-            }
-
+            // Verificar se já está participando
             const participacaoExistente = await Participacao.findOne({
-                where: {
-                    EventoId: id,
-                    UserId: userId
-                }
+                where: { UserId: userId, EventoId: eventoId }
             });
 
             if (participacaoExistente) {
-                return res.status(400).json({ error: 'Você já está participando deste evento' });
+                return res.status(400).json({ message: 'Você já está participando deste evento' });
             }
 
+            // Verificar limite de participantes
+            if (evento.participantesAtuais >= evento.participantes) {
+                return res.status(400).json({ message: 'Evento lotado' });
+            }
+
+            // Criar participação
             await Participacao.create({
-                EventoId: id,
-                UserId: userId
+                UserId: userId,
+                EventoId: eventoId
             });
 
+            // Atualizar contador de participantes
             evento.participantesAtuais += 1;
             await evento.save();
 
-            return res.json({
-                success: true,
-                participantesAtuais: evento.participantesAtuais
-            });
-
+            return res.status(200).json({ message: 'Participação confirmada com sucesso' });
         } catch (error) {
-            console.error('Erro ao participar do evento:', error);
-            return res.status(500).json({ error: 'Erro interno ao participar do evento' });
+            console.error(error);
+            return res.status(500).json({ message: 'Erro ao registrar participação' });
         }
     }
     
@@ -656,22 +638,34 @@ static async cancelarParticipacao(req, res) {
 
     static async showConfirmacao(req, res) {
         try {
-            const id = req.params.id;
-            const evento = await Evento.findByPk(id);
-            
+            const eventoId = req.params.id;
+            const userId = req.session.userid;
+
+            const evento = await Evento.findByPk(eventoId);
             if (!evento) {
                 req.flash('message', 'Evento não encontrado');
-                return res.redirect('/');
+                return res.redirect('/eventos');
             }
 
-            // Formatar a data
-            evento.dataFormatada = evento.data.toLocaleDateString('pt-BR');
-            
-            res.render('eventos/confirmacao', { evento });
+            const data = new Date(evento.data);
+            evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                weekday: 'long', 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+
+            const user = await User.findByPk(userId);
+
+            res.render('eventos/confirmacao', {
+                evento,
+                user,
+                layout: 'main-users'
+            });
         } catch (error) {
-            console.error('Erro ao mostrar confirmação:', error);
+            console.error(error);
             req.flash('message', 'Erro ao carregar página de confirmação');
-            res.redirect('/');
+            res.redirect('/eventos');
         }
     }
 
@@ -833,6 +827,103 @@ static async cancelarParticipacao(req, res) {
             console.error('Erro ao carregar ranking:', error);
             req.flash('message', 'Erro ao carregar ranking');
             res.redirect('/');
+        }
+    }
+
+    static async showEventoDetalhes(req, res) {
+        try {
+            const id = req.params.id;
+            const evento = await Evento.findByPk(id);
+            
+            if (!evento) {
+                req.flash('message', 'Evento não encontrado');
+                return res.redirect('/eventos');
+            }
+
+            const data = new Date(evento.data);
+            evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                weekday: 'long', 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+
+            const userId = req.session.userid;
+            let user = null;
+            if (userId) {
+                user = await User.findByPk(userId);
+            }
+
+            res.render('eventos/evento-detalhes', {
+                evento,
+                user,
+                layout: userId ? 'main-users' : 'main'
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Erro ao carregar detalhes do evento');
+        }
+    }
+
+    static async participarSemRegistro(req, res) {
+        try {
+            const { eventoId, nome, email, cpf } = req.body;
+            
+            // Validações básicas
+            if (!nome || !email || !cpf) {
+                return res.status(400).json({ 
+                    error: true, 
+                    message: 'Todos os campos são obrigatórios' 
+                });
+            }
+
+            const evento = await Evento.findByPk(eventoId);
+            if (!evento) {
+                return res.status(404).json({ 
+                    error: true, 
+                    message: 'Evento não encontrado' 
+                });
+            }
+
+            // Verificar se o evento é exclusivo para alunos
+            if (evento.requerMatricula) {
+                return res.status(403).json({ 
+                    error: true, 
+                    message: 'Este evento é exclusivo para alunos registrados' 
+                });
+            }
+
+            // Verificar limite de participantes
+            if (evento.participantesAtuais >= evento.participantes) {
+                return res.status(400).json({ 
+                    error: true, 
+                    message: 'Evento lotado' 
+                });
+            }
+
+            // Criar participação
+            await Participacao.create({
+                EventoId: eventoId,
+                nome,
+                email,
+                cpf
+            });
+
+            // Atualizar contador de participantes
+            evento.participantesAtuais += 1;
+            await evento.save();
+
+            return res.json({
+                error: false,
+                message: 'Participação registrada com sucesso',
+                participantesAtuais: evento.participantesAtuais
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ 
+                error: true, 
+                message: 'Erro ao registrar participação' 
+            });
         }
     }
 }

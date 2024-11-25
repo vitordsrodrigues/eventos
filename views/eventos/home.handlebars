@@ -68,76 +68,68 @@
   {{/if}}
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
-                <div class="card h-100 shadow-lg">
-                    {{#if this.requerMatricula}}
-                        <div class="exclusive-ribbon">
-                            <i class="bi bi-star-fill me-2"></i>
-                            <span>EXCLUSIVO ALUNOS</span>
-                        </div>
-                    {{/if}}
-                    
-                    <img src="{{#if this.imagem}}/uploads/{{this.imagem}}{{else}}/img/Semanaeltro.png{{/if}}" 
-                         alt="{{#if this.imagem}}Imagem do evento{{else}}Imagem padrão do evento{{/if}}" 
-                         class="card-img-top">
-
-                    <div class="card-body">
-                        <h3 class="card-title text-primary">
-                            <i class="bi bi-calendar-event me-2"></i>{{this.title}}
-                        </h3>
-                        <p class="card-text">
-                            <i class=" me-2"></i>{{this.descricao}}
-                        </p>
-                    </div>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <i class="bi bi-person-video3 me-2"></i>
-                            <strong>Palestrantes:</strong> {{this.palestrantes}}
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-geo-alt me-2"></i>
-                            <strong>Local:</strong> {{this.local}}
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-mortarboard me-2"></i>
-                            <strong>Curso:</strong> {{this.curso}}
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-calendar-check me-2"></i>
-                            <strong>Data Início:</strong> {{this.dataFormatada}}
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-calendar-x me-2"></i>
-                            <strong>Data Final:</strong> {{this.dataLimiteFormatada}}
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-clock me-2"></i>
-                            <strong>Duração:</strong> {{this.duracao}} dias
-                        </li>
-                        <li class="list-group-item">
-                            <i class="bi bi-people me-2"></i>
-                            <strong>Participantes:</strong> 
-                            <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span>
-                        </li>
-                    </ul>
-
-                    <div class="card-footer">
-                        {{#if this.isParticipating}}
-                            <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">
-                                <i class="bi bi-x-circle me-2"></i>Cancelar Participação
-                            </button>
-                        {{else}}
-                            {{#if (isEventoEsgotado this)}}
-                                <h6 class="text-danger text-center mb-0">
-                                    <i class="bi bi-exclamation-triangle me-2"></i>VAGAS ESGOTADAS
-                                </h6>
-                            {{else}}
-                                <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">
-                                    <i class="bi bi-check-circle me-2"></i>Participar
-                                </button>
-                            {{/if}}
+                <a href="/eventos/evento/{{this.id}}" class="text-decoration-none">
+                    <div class="card h-100 shadow-lg">
+                        {{#if this.requerMatricula}}
+                            <div class="exclusive-ribbon">
+                                <i class="bi bi-star-fill me-2"></i>
+                                <span>EXCLUSIVO ALUNOS</span>
+                            </div>
                         {{/if}}
+                        
+                        <img src="{{#if this.imagem}}/uploads/{{this.imagem}}{{else}}/img/Semanaeltro.png{{/if}}" 
+                             alt="{{#if this.imagem}}Imagem do evento{{else}}Imagem padrão do evento{{/if}}" 
+                             class="card-img-top">
+
+                        <div class="card-body">
+                            <h3 class="card-title text-primary">
+                                <i class=""></i>{{this.title}}
+                            </h3>
+                            <p class="card-text text-dark">
+                                <i class=""></i>{{this.descricao}}
+                            </p>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-dark">
+                                <i class="bi bi-mortarboard me-2"></i>
+                                <strong>Curso:</strong> {{this.curso}}
+                            </li>
+                            <li class="list-group-item text-dark">
+                                <i class="bi bi-calendar-check me-2"></i>
+                                <strong>Data Início:</strong> {{this.dataFormatada}}
+                            </li>
+                            <li class="list-group-item text-dark">
+                                <i class="bi bi-people me-2"></i>
+                                <strong>Participantes:</strong> 
+                                <span id="participantesContagem_{{this.id}}">{{this.participantesAtuais}}/{{this.participantes}}</span>
+                            </li>
+                        </ul>
+
+                        <div class="card-footer bg-light text-center py-2">
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Clique para mais informações
+                            </small>
+                        </div>
                     </div>
+                </a>
+                <div class="card-footer">
+                    {{#if this.isParticipating}}
+                        <button class="btn btn-danger w-100" id="cancelarBtn_{{this.id}}" onclick="cancelarParticipacao({{this.id}})">
+                            <i class="bi bi-x-circle me-2"></i>Cancelar Participação
+                        </button>
+                    {{else}}
+                        {{#if (isEventoEsgotado this)}}
+                            <h6 class="text-danger text-center mb-0">
+                                <i class="bi bi-exclamation-triangle me-2"></i>VAGAS ESGOTADAS
+                            </h6>
+                        {{else}}
+                            <button class="btn btn-primary w-100" id="participarBtn_{{this.id}}" onclick="participarEvento({{this.id}})">
+                                <i class="bi bi-check-circle me-2"></i>Participar
+                            </button>
+                        {{/if}}
+                    {{/if}}
                 </div>
             </div>
         {{/each}}
@@ -344,10 +336,48 @@
 .card {
     overflow: hidden;
 }
+
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.text-decoration-none:hover {
+    text-decoration: none !important;
+}
+
+.text-decoration-none:hover .card {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.text-decoration-none:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.text-decoration-none .card-title,
+.text-decoration-none .card-text,
+.text-decoration-none .list-group-item {
+    color: inherit !important;
+}
+
+/* Mantém os botões fora do link clicável */
+.card-footer {
+    position: relative;
+    z-index: 2;
+}
 </style>
 
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
 {{else}}
+
 
 <div class="container mt-5">
     <div class="text-center mb-5">
@@ -368,30 +398,28 @@
     <div class="row" id="eventos-container">
         {{#each eventos}}
             <div class="col-12 col-md-6 col-lg-4 mb-4 evento-card" data-curso="{{this.curso}}">
-                <div class="card h-100 shadow-lg">
-                    {{#if this.imagem}}
-                        <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                    {{else}}
-                        <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
-                    {{/if}}
+                <a href="/eventos/evento/{{this.id}}" class="text-decoration-none">
+                    <div class="card h-100 shadow-lg">
+                        {{#if this.imagem}}
+                            <img src="/uploads/{{this.imagem}}" alt="Imagem do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                        {{else}}
+                            <img src="/img/Semanaeltro.png" alt="Imagem padrão do evento" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                        {{/if}}
 
-                    <div class="card-body">
-                        <h3 class="card-title text-primary">{{this.title}}</h3>
-                        <p class="card-text">{{this.descricao}}</p>
+                        <div class="card-body">
+                            <h3 class="card-title text-primary">{{this.title}}</h3>
+                            <p class="card-text text-dark">{{this.descricao}}</p>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-dark"><strong>Data:</strong> {{this.dataFormatada}}</li>
+                        </ul>
+
+                        <div class="card-footer text-center">
+                            <p class="text-muted mb-0">Clique para mais detalhes</p>
+                        </div>
                     </div>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Palestrantes:</strong> {{this.palestrantes}}</li>
-                        <li class="list-group-item"><strong>Local:</strong> {{this.local}}</li>
-                        <li class="list-group-item"><strong>Curso:</strong> {{this.curso}}</li>
-                        <li class="list-group-item"><strong>Data:</strong> {{this.dataFormatada}}</li>
-                        <li class="list-group-item"><strong>Duração:</strong> {{this.duracao}} dias</li>
-                    </ul>
-
-                    <div class="card-footer text-center">
-                        <p class="text-muted mb-0">Faça login para participar deste evento</p>
-                    </div>
-                </div>
+                </a>
             </div>
         {{/each}}
     </div>

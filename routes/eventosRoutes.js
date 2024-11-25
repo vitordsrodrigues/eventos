@@ -57,6 +57,8 @@ router.post('/profile/update-image',
 );
 router.get('/profile', checkAuth, EventosControllers.showProfile);
 router.get('/ranking', checkAuth, EventosControllers.showRanking);
+router.get('/evento/:id', EventosControllers.showEventoDetalhes);
+router.post('/participar-sem-registro', EventosControllers.participarSemRegistro);
 
 
 
