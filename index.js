@@ -24,8 +24,13 @@ const authRoutes = require('./routes/authRoutes')
 const hbs = exphbs.create({
     helpers: {
         ...helpers,
-        temPermissaoBusca: function(userId) {
-            return !!userId;
+        temPermissaoBusca: function(userid) {
+             // Se for admin, retorna falso (sem permissão)
+             if (userid === 'admin') return false;
+
+             // Outros usuários têm permissão
+             return !!userid; // Verifica se o userid existe
+         
         },
         add: function(value, addition) {
             return value + addition;
