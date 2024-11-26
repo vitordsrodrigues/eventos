@@ -840,8 +840,18 @@ static async cancelarParticipacao(req, res) {
                 return res.redirect('/eventos');
             }
 
+            
             const data = new Date(evento.data);
             evento.dataFormatada = data.toLocaleDateString('pt-BR', { 
+                weekday: 'long', 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+
+            
+            const dataLimite = new Date(evento.datalimite);
+            evento.dataLimiteFormatada = dataLimite.toLocaleDateString('pt-BR', { 
                 weekday: 'long', 
                 day: '2-digit', 
                 month: '2-digit', 

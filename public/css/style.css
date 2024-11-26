@@ -136,3 +136,7 @@
         border-bottom-right-radius: .3rem;
     }
 }
+/* Adicionar ao seu arquivo CSS */
+:root {
+    transition: color-scheme 0.3s ease, background-color 0.3s ease;
+}

@@ -21,6 +21,9 @@
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Adicionar antes dos outros links CSS -->
+   
 </head>
 
 <body>
@@ -42,11 +45,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/eventos/ranking" class="nav-link text-white hover-opacity">
-                            <i class="bi bi-trophy"></i> Ranking
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="/eventos/eventos-participando" class="nav-link text-white hover-opacity">
                             <i class="bi bi-calendar-check"></i> Eventos Participando
                         </a>
@@ -56,7 +54,6 @@
                             <i class="bi bi-chat-right-text"></i> Sugestões
                         </a>
                     </li>
-                  
                     <li class="nav-item dropdown d-none d-lg-block">
                         <a href="#" class="nav-link text-white dropdown-toggle hover-opacity" id="filterDropdown" data-bs-toggle="dropdown">
                             <i class="bi bi-funnel"></i> Filtrar
@@ -75,16 +72,20 @@
                     </li>
                 </ul>
 
-                
                 {{#if (temPermissaoBusca session.userid)}}
-                <form action="/" method="GET" class="d-none d-lg-flex me-3">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
-                        <button class="btn btn-light" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>
+                <div class="d-none d-lg-flex align-items-center me-3">
+                    <form action="/" method="GET" class="d-flex me-2">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
+                            <button class="btn btn-light search-button" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <button class="btn btn-light ms-2" id="themeToggle">
+                        <i class="bi bi-circle-half" id="themeIcon"></i>
+                    </button>
+                </div>
                 {{/if}}
 
                 <ul class="navbar-nav">
@@ -156,7 +157,7 @@
                     <form action="/" method="GET">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Buscar eventos..." aria-label="Buscar eventos">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-light search-button" type="submit">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -219,5 +220,48 @@
     </footer>
 
     
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const searchButtons = document.querySelectorAll('.search-button');
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-moon-stars-fill';
+                themeToggle.classList.remove('btn-light');
+                themeToggle.classList.add('btn-dark');
+                
+                
+                searchButtons.forEach(button => {
+                    button.classList.remove('btn-light');
+                    button.classList.add('btn-dark');
+                });
+            } else {
+                themeIcon.className = 'bi bi-sun-fill';
+                themeToggle.classList.remove('btn-dark');
+                themeToggle.classList.add('btn-light');
+                
+                
+                searchButtons.forEach(button => {
+                    button.classList.remove('btn-dark');
+                    button.classList.add('btn-light');
+                });
+            }
+        }
+
+        updateThemeIcon(document.documentElement.getAttribute('data-bs-theme'));
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+         
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+    </script>
 </body>
 </html> 
