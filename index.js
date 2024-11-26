@@ -34,6 +34,15 @@ const hbs = exphbs.create({
         },
         add: function(value, addition) {
             return value + addition;
+        },
+        multiply: function(a, b) {
+            return a * b;
+        },
+        divide: function(a, b) {
+            return a / b;
+        },
+        porcentagemOcupacao: function(evento) {
+            return (evento.participantesAtuais / evento.participantes) * 100;
         }
     },
     defaultLayout: 'main',

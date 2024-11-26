@@ -14,12 +14,17 @@
     
     <div class="text-center mb-5">
         <div class="position-relative d-inline-block">
-            <h2 class="display-4 fw-bold text-primary mb-3">Eventos Cimol</h2>
-            <div class="accent-line"></div>
+            <span class="badge bg-primary-subtle text-primary mb-3 welcome-badge">
+                <i class="bi bi-calendar-event me-1"></i>Portal de Eventos
+            </span>
+            <h2 class="display-4 fw-bold mb-3">
+                <span class="gradient-text">Eventos</span>
+                <span class="text-primary">CIMOL</span>
+            </h2>
+            <div class="accent-line animated"></div>
         </div>
-        <p class="lead text-muted mx-auto" style="max-width: 600px;">
-            Eventos públicos estão disponíveis para todos os visitantes.<br>
-            Para eventos exclusivos de alunos, é <strong class="text-primary">necessário login com matrícula</strong>.
+        <p class="lead text-muted mx-auto mt-3" style="max-width: 600px;">
+            Confira todos os eventos disponíveis e participe das atividades do CIMOL
         </p>
         <hr class="my-4 w-50 mx-auto">
     </div>
@@ -379,6 +384,8 @@
     padding: 0.5rem 1rem;
     border-radius: 50px;
     animation: slideDown 0.5s ease-out;
+    background: rgba(13, 110, 253, 0.1);
+    border: none;
 }
 
 .gradient-text {
@@ -412,6 +419,36 @@
         font-size: 2.2rem;
     }
 }
+
+.evento-card {
+    transition: transform 0.3s ease;
+}
+
+.evento-card:hover {
+    transform: translateY(-15px);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.evento-card:hover .card {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.evento-card:hover .card-img-top {
+    transform: scale(1.05);
+}
 </style>
 
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
@@ -422,17 +459,16 @@
     <div class="text-center mb-5">
         <div class="position-relative d-inline-block">
             <span class="badge bg-primary-subtle text-primary mb-3 welcome-badge">
-                <i class="bi bi-stars me-1"></i>Eventos Cimol
+                <i class="bi bi-calendar-event me-1"></i>Portal de Eventos
             </span>
             <h2 class="display-4 fw-bold mb-3">
-                <span class="gradient-text">Bem-vindo ao Portal</span>
-                <span class="text-primary">de Eventos</span>
+                <span class="gradient-text">Eventos</span>
+                <span class="text-primary">CIMOL</span>
             </h2>
             <div class="accent-line animated"></div>
         </div>
-        <p class="lead text-muted mx-auto" style="max-width: 600px;">
-            Eventos públicos estão disponíveis para todos os visitantes.<br>
-            Para eventos exclusivos de alunos, é <strong class="t">necessário se registrar ou logar com matrícula</strong>.
+        <p class="lead text-muted mx-auto mt-3" style="max-width: 600px;">
+            Confira todos os eventos disponíveis e participe das atividades do CIMOL
         </p>
         <hr class="my-4 w-50 mx-auto">
     </div>
@@ -468,6 +504,35 @@
 </div>
 
 <style>
+    .evento-card {
+    transition: transform 0.3s ease;
+}
+
+.evento-card:hover {
+    transform: translateY(-15px);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.evento-card:hover .card {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.evento-card:hover .card-img-top {
+    transform: scale(1.05);
+}
     .btn-lg {
         padding: 0.75rem 2rem;
         font-size: 1.1rem;

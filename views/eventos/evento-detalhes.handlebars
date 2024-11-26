@@ -1,4 +1,11 @@
 <div class="container mt-5">
+    <!-- Botão Voltar -->
+    <div class="mb-4">
+        <a href="/" class="btn btn-outline-primary btn-voltar">
+            <i class="bi bi-arrow-left me-2"></i>Voltar para Eventos
+        </a>
+    </div>
+
     {{#if message}}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="bi bi-check-circle-fill me-2"></i>
@@ -8,93 +15,125 @@
     {{/if}}
 
     <div class="card shadow-lg">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{#if evento.imagem}}/uploads/{{evento.imagem}}{{else}}/img/Semanaeltro.png{{/if}}" 
-                     class="img-fluid rounded-start h-100" 
-                     style="object-fit: cover;" 
-                     alt="{{evento.title}}">
+        {{#unless (isEventoEsgotado evento)}}
+        <div class="vagas-badge">
+            <span class="pulse"></span>
+            VAGAS ABERTAS
+        </div>
+        {{/unless}}
+
+        <img src="{{#if evento.imagem}}/uploads/{{evento.imagem}}{{else}}/img/Semanaeltro.png{{/if}}" 
+             class="card-img-top"
+             style="height: 300px; object-fit: cover;" 
+             alt="{{evento.title}}">
+        
+        <div class="card-body">
+            <h2 class="card-title text-primary mb-4">
+                <i class=""></i>{{evento.title}}
+            </h2>
+            
+            <div class="palestrantes-card mb-4">
+                <div class="palestrantes-header">
+                    <i class=""></i>
+                    <h5 class="mb-0">Palestrante</h5>
+                </div>
+                <div class="palestrantes-text"><strong>{{evento.palestrantes}}</strong></div>
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h2 class="card-title text-primary mb-4">
-                        <i class="bi bi-calendar-event me-2"></i>{{evento.title}}
-                    </h2>
-                    
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-geo-alt-fill me-2"></i>Local</h5>
-                            <p>{{evento.local}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-calendar-event me-2"></i>Data Início</h5>
-                            <p>{{evento.dataFormatada}}</p>
-                        </div>
-                    </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-calendar-x me-2"></i>Data Final</h5>
-                            <p>{{evento.dataLimiteFormatada}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-clock me-2"></i>Duração</h5>
-                            <p>{{evento.duracao}} dias</p>
-                        </div>
-                    </div>
+            <hr class="simple-divider">
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-mortarboard me-2"></i>Curso</h5>
-                            <p>{{evento.curso}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5><i class="bi bi-people me-2"></i>Participantes</h5>
-                            <p>{{evento.participantesAtuais}}/{{evento.participantes}}</p>
-                        </div>
-                    </div>
+            <div class="mb-4">
+                <h5><i class="bi bi-geo-alt-fill me-2"></i>Local</h5>
+                <p>{{evento.local}}</p>
+            </div>
 
-                    <div class="mb-4">
-                        <h5><i class="bi bi-person-video3 me-2"></i>Palestrantes</h5>
-                        <p>{{evento.palestrantes}}</p>
-                    </div>
+            <hr class="simple-divider">
 
-                    <div class="mb-4">
-                        <h5><i class="bi bi-info-circle me-2"></i>Descrição</h5>
-                        <p>{{evento.descricao}}</p>
-                    </div>
+            <div class="mb-4">
+                <h5><i class="bi bi-calendar-event me-2"></i>Data Início</h5>
+                <p>{{evento.dataFormatada}}</p>
+            </div>
 
-                    {{#if user}}
-                        {{#if evento.isParticipating}}
-                            <button class="btn btn-danger btn-lg" onclick="cancelarParticipacao({{evento.id}})">
-                                <i class="bi bi-x-circle me-2"></i>Cancelar Participação
-                            </button>
-                        {{else}}
-                            <button class="btn btn-primary btn-lg" onclick="participarEventoLogado({{evento.id}})" {{#if (isEventoEsgotado evento)}}disabled{{/if}}>
-                                <i class="bi bi-check-circle me-2"></i>Participar
-                            </button>
-                            {{#if (isEventoEsgotado evento)}}
-                                <div class="alert alert-danger mt-3">
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                    Este evento está com vagas esgotadas!
-                                </div>
-                            {{/if}}
-                        {{/if}}
-                    {{else}}
-                        {{#if evento.requerMatricula}}
-                            <div class="alert alert-warning">
-                                <i class="bi bi-exclamation-triangle me-2"></i>
-                                Este evento é exclusivo para alunos registrados.
-                                <a href="/login" class="alert-link">Faça login</a> para participar.
-                            </div>
-                        {{else}}
-                            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#participacaoModal">
-                                <i class="bi bi-check-circle me-2"></i>Participar como Visitante
-                            </button>
-                        {{/if}}
-                    {{/if}}
+            <hr class="simple-divider">
+
+            <div class="mb-4">
+                <h5><i class="bi bi-calendar-x me-2"></i>Data Final</h5>
+                <p>{{evento.dataLimiteFormatada}}</p>
+            </div>
+
+            <hr class="simple-divider">
+
+            <div class="mb-4">
+                <h5><i class="bi bi-clock me-2"></i>Duração</h5>
+                <p>{{evento.duracao}} dias</p>
+            </div>
+
+            <hr class="simple-divider">
+
+            <div class="mb-4">
+                <h5><i class="bi bi-mortarboard me-2"></i>Curso</h5>
+                <p>{{evento.curso}}</p>
+            </div>
+
+            <hr class="simple-divider">
+
+            <div class="mb-4">
+                <h5><i class="bi bi-info-circle me-2"></i>Descrição</h5>
+                <p>{{evento.descricao}}</p>
+            </div>
+
+            <hr class="simple-divider">
+
+            <div class="participantes-card mb-4">
+                <div class="participantes-header">
+                    <i class="bi bi-people-fill"></i>
+                    <h5 class="mb-0">Participantes</h5>
+                </div>
+                <div class="participantes-count">
+                    <span class="current">{{evento.participantesAtuais}}</span>
+                    <span class="separator">/</span>
+                    <span class="total">{{evento.participantes}}</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" 
+                         role="progressbar" 
+                         style="width: {{porcentagemOcupacao evento}}%" 
+                         aria-valuenow="{{evento.participantesAtuais}}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="{{evento.participantes}}">
+                    </div>
                 </div>
             </div>
+
+            {{#if user}}
+                {{#if evento.isParticipating}}
+                    <button class="btn btn-danger btn-lg" onclick="cancelarParticipacao({{evento.id}})">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar Participação
+                    </button>
+                {{else}}
+                    <button class="btn btn-primary btn-lg" onclick="participarEventoLogado({{evento.id}})" {{#if (isEventoEsgotado evento)}}disabled{{/if}}>
+                        <i class="bi bi-check-circle me-2"></i>Participar
+                    </button>
+                    {{#if (isEventoEsgotado evento)}}
+                        <div class="alert alert-danger mt-3">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Este evento está com vagas esgotadas!
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{else}}
+                {{#if evento.requerMatricula}}
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Este evento é exclusivo para alunos registrados.
+                        <a href="/login" class="alert-link">Faça login</a> para participar.
+                    </div>
+                {{else}}
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#participacaoModal">
+                        <i class="bi bi-check-circle me-2"></i>Participar como Visitante
+                    </button>
+                {{/if}}
+            {{/if}}
         </div>
     </div>
 </div>
@@ -280,5 +319,52 @@ function showToast(message, type = 'success') {
 
 .alert {
     border-radius: 10px;
+}
+
+.vagas-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    z-index: 1
+}
+
+.pulse {
+    display: inline-block;
+}
+
+.simple-divider {
+    border: 0;
+    border-top: 1px solid #dee2e6;
+    margin: 2rem 0;
+}
+
+.btn-voltar {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-voltar:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-voltar i {
+    transition: transform 0.3s ease;
+}
+
+.btn-voltar:hover i {
+    transform: translateX(-3px);
 }
 </style> 
