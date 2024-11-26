@@ -18,8 +18,8 @@
             <div class="accent-line"></div>
         </div>
         <p class="lead text-muted mx-auto" style="max-width: 600px;">
-            Explore os melhores eventos disponíveis no momento para enriquecer 
-            seu conhecimento e desenvolver suas habilidades.
+            Eventos públicos estão disponíveis para todos os visitantes.<br>
+            Para eventos exclusivos de alunos, é <strong class="text-primary">necessário login com matrícula</strong>.
         </p>
         <hr class="my-4 w-50 mx-auto">
     </div>
@@ -373,6 +373,45 @@
     position: relative;
     z-index: 2;
 }
+
+.welcome-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    animation: slideDown 0.5s ease-out;
+}
+
+.gradient-text {
+    background: linear-gradient(120deg, #2b4c7e, #1a237e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.accent-line.animated {
+    height: 4px;
+    width: 60px;
+    background: linear-gradient(90deg, #007bff, #6610f2);
+    margin: 0 auto;
+    border-radius: 2px;
+    animation: expandWidth 0.8s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes expandWidth {
+    from { width: 0; }
+    to { width: 60px; }
+}
+
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.2rem;
+    }
+}
 </style>
 
 {{!-- aqui é pra quem ainda nao se logou / carrolse de incio --}}
@@ -382,13 +421,19 @@
 <div class="container mt-5">
     <div class="text-center mb-5">
         <div class="position-relative d-inline-block">
-            <h2 class="display-4 fw-bold text-primary mb-3">Bem-vindo ao Eventos Cimol</h2>
-            <div class="accent-line"></div>
+            <span class="badge bg-primary-subtle text-primary mb-3 welcome-badge">
+                <i class="bi bi-stars me-1"></i>Eventos Cimol
+            </span>
+            <h2 class="display-4 fw-bold mb-3">
+                <span class="gradient-text">Bem-vindo ao Portal</span>
+                <span class="text-primary">de Eventos</span>
+            </h2>
+            <div class="accent-line animated"></div>
         </div>
         <p class="lead text-muted mx-auto" style="max-width: 600px;">
-            Faça login ou registre-se para participar dos melhores eventos disponíveis no momento.
+            Eventos públicos estão disponíveis para todos os visitantes.<br>
+            Para eventos exclusivos de alunos, é <strong class="t">necessário se registrar ou logar com matrícula</strong>.
         </p>
-       
         <hr class="my-4 w-50 mx-auto">
     </div>
 
