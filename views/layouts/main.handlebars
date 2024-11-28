@@ -35,6 +35,11 @@
         </a>
         <ul>
             <li>
+                 <button class="btn btn-light ms-2" id="themeToggle">
+                        <i class="bi bi-circle-half" id="themeIcon"></i>
+                    </button>
+            </li>
+            <li>
                 <a href="/login">
                     <i class="bi bi-box-arrow-in-right me-1"></i>
                     Login
@@ -61,7 +66,7 @@
         {{{body}}}
     </div>
 
-    <footer class="bg-primary text-white mt-5">
+    <footer class="bg-primary text-white" style="margin-top: 11rem;">
         <div class="container py-4">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col text-center text-md-start">
@@ -102,7 +107,49 @@
         </div>
     </footer>
 
-    
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const searchButtons = document.querySelectorAll('.search-button');
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-moon-stars-fill';
+                themeToggle.classList.remove('btn-light');
+                themeToggle.classList.add('btn-dark');
+                
+                
+                searchButtons.forEach(button => {
+                    button.classList.remove('btn-light');
+                    button.classList.add('btn-dark');
+                });
+            } else {
+                themeIcon.className = 'bi bi-sun-fill';
+                themeToggle.classList.remove('btn-dark');
+                themeToggle.classList.add('btn-light');
+                
+                
+                searchButtons.forEach(button => {
+                    button.classList.remove('btn-dark');
+                    button.classList.add('btn-light');
+                });
+            }
+        }
+
+        updateThemeIcon(document.documentElement.getAttribute('data-bs-theme'));
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+         
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+    </script>
     
     
 </body>

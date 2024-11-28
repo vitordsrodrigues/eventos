@@ -1,44 +1,51 @@
-<section class="h-100 gradient-form">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="card rounded-3 text-black position-relative"> 
-          <div class="row g-0">
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2 order-lg-1 order-1">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4"> 
-                <strong>
-                  <h4 class="mb-4">Bem-vindo de volta!</h4>
-                  <p class="small mb-0">Por favor, entre na sua conta para continuar acessando nossos serviços.</p>
-                </strong>
-              </div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="col-xl-10">
+    <div class="card rounded-4 border-0 shadow-lg"> 
+      <div class="row g-0">
+       
+        <div class="col-lg-6 d-flex align-items-center gradient-custom order-lg-1 order-1">
+          <div class="text-white px-4 py-5 p-md-5 mx-md-4 text-center"> 
+            <i class="fas fa-user-circle fa-4x mb-4"></i>
+            <h3 class="mb-4 fw-bold">Bem-vindo de volta!</h3>
+            <p class="mb-0 opacity-75">Por favor, entre na sua conta para continuar acessando nossos serviços.</p>
+          </div>
+        </div>
+
+        
+        <div class="col-lg-6 order-lg-2 order-2">
+          <div class="card-body p-md-5 mx-md-4">
+            <div class="text-center mb-5"> 
+              <h4 class="fw-bold">Login</h4>
+              <p class="text-muted">Acesse sua conta</p>
             </div>
 
-            <div class="col-lg-6 order-lg-2 order-2 blur-overlay">
-              <div class="card-body p-md-5 mx-md-4">
-                <div class="text-start"> 
-                  <h2 class="mt-1 mb-5 pb-1">Login</h2>
-                </div>
-                <form action="/login" method="POST">
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="email">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Digite seu email" required />
-                  </div>
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="password">Senha</label>
-                    <input type="password" class="form-control" name="password" placeholder="Digite sua senha" required />
-                  </div>
-                  <div class="text-center pt-1 mb-5 pb-1">
-                    <input type="submit" class="btn btn-primary btn-block mb-3" value="Entrar" style="background-color: #007bff; border-color: #007bff;">
-                  </div>
-                  <div class="form-footer mt-3 text-center">
-                    <p>Não tem uma conta? <a href="/register" style="color: #007bff;">Clique aqui</a></p>
-                  </div>
-                </form>
+            <form action="/login" method="POST">
+              <div class="form-floating mb-4">
+                <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="Digite seu email" required />
+                <label for="email">Email</label>
               </div>
-            </div>
+
+              <div class="form-floating mb-4">
+                <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="Digite sua senha" required />
+                <label for="password">Senha</label>
+              </div>
+
+              <div class="d-grid gap-2 mb-4">
+                <button type="submit" class="btn btn-primary btn-lg rounded-3 text-white">
+                  Entrar
+                </button>
+              </div>
+
+              <div class="text-center">
+                <p class="mb-0 text-muted">
+                  Não tem uma conta? 
+                  <a href="/register" class="text-primary text-decoration-none fw-bold">Registre-se</a>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>

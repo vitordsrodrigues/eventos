@@ -42,8 +42,8 @@
 }
 
 .gradient-custom-2 {
-    background: rgb(41, 9, 121);
-    background: linear-gradient(90deg, rgba(41, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 61%);
+    background: linear-gradient(45deg, var(--bs-primary), #0dcaf0);
+    position: relative;
 }
 #navbar{
     padding: 1.2em 1.4em;
@@ -139,4 +139,98 @@
 /* Adicionar ao seu arquivo CSS */
 :root {
     transition: color-scheme 0.3s ease, background-color 0.3s ease;
+}
+
+
+.login-section {
+    background: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.gradient-custom {
+    background: linear-gradient(45deg, var(--bs-primary), #0dcaf0);
+    border-radius: 1rem 0 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-custom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+}
+
+.card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--bs-primary), #0dcaf0);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* Melhorias na responsividade */
+@media (max-width: 768px) {
+    .gradient-custom {
+        border-radius: 1rem 1rem 0 0;
+    }
+    
+    .login-section {
+        padding: 2rem 0;
+    }
+}
+
+/* Estilos para o tema escuro */
+[data-bs-theme="dark"] .card-title {
+    color: var(--bs-primary) !important;
+}
+
+[data-bs-theme="dark"] .card-text,
+[data-bs-theme="dark"] .list-group-item {
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .list-group-item strong {
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .card-footer .text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+[data-bs-theme="dark"] .list-group-item {
+    background-color: transparent !important;
+}
+
+[data-bs-theme="dark"] .card-footer {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
