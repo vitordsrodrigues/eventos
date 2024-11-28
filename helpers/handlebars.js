@@ -3,10 +3,6 @@ module.exports = {
         return v1 === v2;
     },
     
-    hasError: function(invalidField, fieldName) {
-        return invalidField === fieldName;
-    },
-    
     formatDate: function(date) {
         return date.toLocaleDateString('pt-BR');
     },

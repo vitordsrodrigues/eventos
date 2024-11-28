@@ -176,7 +176,8 @@ module.exports = class EventosControllers {
                     sugestoes,
                     messages,
                     userName,
-                    layout: 'main-users',
+                    user,
+                    layout: 'main-admin',
                     estatisticas: {
                         totalEventos,
                         eventosAtivos,
