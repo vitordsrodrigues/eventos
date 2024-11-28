@@ -288,8 +288,14 @@ module.exports = class EventosControllers {
             duracao: parseInt(req.body.duracao, 10),
             curso: req.body.curso,
             descricao: req.body.descricao,
+            requerMatricula: req.body.requerMatricula === 'on',
         };
     
+        // Se houver uma nova imagem
+        if (req.file) {
+            eventoAtualizado.imagem = req.file.filename;
+        }
+
         console.log('Dados recebidos:', eventoAtualizado);
     
         

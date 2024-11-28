@@ -39,7 +39,7 @@ router.post('/add', checkAuth, upload.single('imagem'), EventosControllers.creat
 router.get('/dashboard', checkAuth, EventosControllers.dashboard);
 router.post('/remove', checkAuth, EventosControllers.removeEvento);
 router.get('/edit/:id', checkAuth, EventosControllers.editEvento);
-router.post('/edit', checkAuth, EventosControllers.editEventoSave); 
+router.post('/edit', upload.single('imagem'), EventosControllers.editEventoSave); 
 router.get('/', EventosControllers.showEventos);
 router.post('/participar', checkAuth, EventosControllers.participarEvento);
 router.post('/cancelar', checkAuth, EventosControllers.cancelarParticipacao);
