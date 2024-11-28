@@ -21,27 +21,87 @@
 
             <form action="/register" method="POST">
               <div class="form-floating mb-4">
-                <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="Digite seu nome" required />
+                <input 
+                    type="text" 
+                    class="form-control rounded-3" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Digite seu nome"
+                    value="{{name}}"
+                    required 
+                />
                 <label for="name">Nome completo</label>
               </div>
 
               <div class="form-floating mb-4">
-                <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="Digite seu email" required />
+                <input 
+                    type="email" 
+                    class="form-control rounded-3 {{#if invalidField}}{{#if (eq invalidField 'email')}}is-invalid{{/if}}{{/if}}" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Digite seu email"
+                    value="{{email}}"
+                    required 
+                />
                 <label for="email">Email</label>
+                {{#if invalidField}}
+                    {{#if (eq invalidField 'email')}}
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> {{error}}
+                    </div>
+                    {{/if}}
+                {{/if}}
               </div>
 
               <div class="form-floating mb-4">
-                <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="Digite sua senha" required minlength="6" />
+                <input 
+                    type="password" 
+                    class="form-control rounded-3 {{#if invalidField}}{{#if (eq invalidField 'password')}}is-invalid{{/if}}{{/if}}" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Digite sua senha"
+                    required 
+                    minlength="6" 
+                />
                 <label for="password">Senha</label>
+                {{#if invalidField}}
+                    {{#if (eq invalidField 'password')}}
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> {{error}}
+                    </div>
+                    {{/if}}
+                {{/if}}
               </div>
 
               <div class="form-floating mb-4">
-                <input type="password" class="form-control rounded-3" id="confirmpassword" name="confirmpassword" placeholder="Confirme sua senha" required minlength="6" />
+                <input 
+                    type="password" 
+                    class="form-control rounded-3 {{#if invalidField}}{{#if (eq invalidField 'confirmpassword')}}is-invalid{{/if}}{{/if}}" 
+                    id="confirmpassword" 
+                    name="confirmpassword" 
+                    placeholder="Confirme sua senha"
+                    required 
+                    minlength="6" 
+                />
                 <label for="confirmpassword">Confirme sua senha</label>
+                {{#if invalidField}}
+                    {{#if (eq invalidField 'confirmpassword')}}
+                    <div class="invalid-feedback">
+                        <i class="fas fa-exclamation-circle"></i> {{error}}
+                    </div>
+                    {{/if}}
+                {{/if}}
               </div>
 
               <div class="form-floating mb-4">
-                <input type="text" class="form-control rounded-3" id="matricula" name="matricula" placeholder="Digite sua matrícula" />
+                <input 
+                    type="text" 
+                    class="form-control rounded-3" 
+                    id="matricula" 
+                    name="matricula" 
+                    placeholder="Digite sua matrícula"
+                    value="{{matricula}}"
+                />
                 <label for="matricula">Matrícula (opcional)</label>
               </div>
 

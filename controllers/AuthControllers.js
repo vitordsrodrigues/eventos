@@ -15,31 +15,35 @@ module.exports = class AuthControllers {
             req.session.userid = 'admin'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
             return req.session.save(() => {
-                res.redirect('eventos/dashboard',); 
+                res.redirect('eventos/dashboard'); 
             });
         }
 
         const user = await User.findOne({ where: { email: email } })
 
         if (!user) {
-            req.flash('message', 'Usuário não encontrado')
-            res.render('auth/login')
-            return
+            return res.render('auth/login', {
+                error: 'Usuário não encontrado',
+                email,
+                invalidField: 'email'
+            });
         }
 
         const passwordMatch = bcrypt.compareSync(password, user.password)
 
         if (!passwordMatch) {
-            req.flash('message', 'Senha incorreta')
-            res.render('auth/login')
-            return
+            return res.render('auth/login', {
+                error: 'Senha incorreta',
+                email,
+                invalidField: 'password'
+            });
         }
 
         req.session.userid = user.id
 
         req.flash('message', 'Login realizado com sucesso')
         req.session.save(() => {
-            res.redirect('/',)
+            res.redirect('/')
         })
     }
 
@@ -51,16 +55,23 @@ module.exports = class AuthControllers {
         const { name, email, password, confirmpassword, matricula } = req.body
 
         if (password != confirmpassword) {
-            req.flash('message', 'As senhas não conferem, tente novamente')
-            res.render('auth/register')
-            return
+            return res.render('auth/register', {
+                error: 'As senhas não conferem',
+                name,
+                email,
+                matricula,
+                invalidField: 'confirmpassword'
+            });
         }
 
         const checkifUserExist = await User.findOne({ where: { email: email } })
         if (checkifUserExist) {
-            req.flash('message', 'O email já está em uso')
-            res.render('auth/register')
-            return
+            return res.render('auth/register', {
+                error: 'O email já está em uso',
+                name,
+                matricula,
+                invalidField: 'email'
+            });
         }
 
         const salt = bcrypt.genSaltSync(10)
